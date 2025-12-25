@@ -16,6 +16,8 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use UnitEnum;
+use Filament\Actions\ImportAction;
+use App\Filament\Imports\ComputerImporter;
 
 class ComputerResource extends Resource
 {
@@ -49,8 +51,15 @@ class ComputerResource extends Resource
 
     public static function table(Table $table): Table
     {
-        return ComputersTable::configure($table);
+        return ComputersTable::configure($table)->headerActions([
+            ImportAction::make()
+                ->label('Import CSV')
+                ->importer(ComputerImporter::class),
+        ]);
     }
+
+
+
 
     public static function getRelations(): array
     {

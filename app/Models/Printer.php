@@ -11,6 +11,8 @@ class Printer extends Model
         'tag',
         'status',
         'value',
+        'quantity',
+        'unit',
         // 'owner_id',
         //  'owner_type',
     ];

@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Branches\Tables;
 
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
@@ -35,6 +36,11 @@ class BranchesTable
                     ->searchable()
                     ->sortable(),
 
+
+                TextColumn::make('tag')
+                    ->searchable()
+                    ->sortable(),
+
                 TextColumn::make('district.name')  // use the relation name and column
                     ->label('District')            // label shown in the table header
                     ->sortable(),
@@ -56,11 +62,12 @@ class BranchesTable
             ->recordActions([
                 ViewAction::make(), //->button()->outlined(),
                 EditAction::make(), //->button()->outlined(),
+                DeleteAction::make()
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])->defaultSort('id', 'desc');
     }
 }

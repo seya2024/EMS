@@ -27,6 +27,7 @@ class Branch extends Model
         'district_id',
         'created_at',
         'updated_at',
+        'tag',
 
     ];
 
@@ -42,6 +43,16 @@ class Branch extends Model
     public function getFilamentName(): string
     {
         return "{$this->name}";
+    }
+
+    public function atms()
+    {
+        return $this->hasMany(ATM::class);
+    }
+
+    public function fixedLines()
+    {
+        return $this->hasMany(FixedLine::class, 'branch_id');
     }
 
     public function computers()

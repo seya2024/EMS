@@ -26,7 +26,7 @@ class UserResource extends Resource
 
     protected static ?string $navigationLabel = 'User Management';
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    //protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static ?string $recordTitleAttribute = 'User';
 
@@ -49,24 +49,26 @@ class UserResource extends Resource
 
     public static function table(Table $table): Table
     {
-        return UsersTable::configure($table)->filters([
-            Filter::make('created_at')
-                ->form([
-                    DatePicker::make('created_from'),
-                    DatePicker::make('created_until'),
-                ])
-                ->query(function (Builder $query, array $data): Builder {
-                    return $query
-                        ->when(
-                            $data['created_from'] ?? null,
-                            fn(Builder $query, $date) => $query->whereDate('created_at', '>=', $date)
-                        )
-                        ->when(
-                            $data['created_until'] ?? null,
-                            fn(Builder $query, $date) => $query->whereDate('created_at', '<=', $date)
-                        );
-                }),
-        ]);
+        return UsersTable::configure($table)
+
+            ->filters([
+                Filter::make('created_at')
+                    ->form([
+                        DatePicker::make('created_from'),
+                        DatePicker::make('created_until'),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['created_from'] ?? null,
+                                fn(Builder $query, $date) => $query->whereDate('created_at', '>=', $date)
+                            )
+                            ->when(
+                                $data['created_until'] ?? null,
+                                fn(Builder $query, $date) => $query->whereDate('created_at', '<=', $date)
+                            );
+                    }),
+            ]);
     }
 
     public static function getRelations(): array

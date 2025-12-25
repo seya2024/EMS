@@ -30,12 +30,19 @@ class ComputersTable
                 TextColumn::make('ramSize')->label('RAM Size'),
                 TextColumn::make('speed')->label('Processor Speed'),
                 TextColumn::make('os')->label('Operating System')->searchable()->sortable(),
-                TextColumn::make('isActivated')
-                    ->label('Activated')
-                    ->formatStateUsing(fn($state) => $state ? 'Yes' : 'No'),
+
+                TextColumn::make('quantity')->label('Quantity'),
+                TextColumn::make('unit')->label('Unit'),
+                TextColumn::make('price')->label('Asset Price')->money('ETB', true),
+
+                // TextColumn::make('isActivated')
+                //     ->label('Activated')
+                //     ->formatStateUsing(fn($state) => $state ? 'Yes' : 'No'),
+
                 TextColumn::make('IpAddress')->label('IP Address'),
+
                 TextColumn::make('hostName')->label('Host Name'),
-                TextColumn::make('owner')->label('Working Unit')->searchable()->sortable(),
+                // TextColumn::make('owner')->label('Working Unit')->searchable()->sortable(),
                 TextColumn::make('status')->label('Status')->searchable()->sortable(),
                 // TextColumn::make('created_at')->label('Created At')->dateTime(),
                 // TextColumn::make('updated_at')->label('Updated At')->dateTime(),
@@ -66,6 +73,6 @@ class ComputersTable
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])->defaultSort('id', 'desc');
     }
 }

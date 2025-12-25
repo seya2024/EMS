@@ -21,13 +21,18 @@ return new class extends Migration
             $table->string('harddiskSize');
             $table->string('ramSize');
             $table->string('speed');
+            $table->string('quantity')->default('0');
+            $table->string('unit')->default('pcs');  //pcs, meter, kg
+            $table->decimal('price', 10, 2)->nullable();
             $table->string('os');
             $table->boolean('isActivated')->default(false);
             $table->string('IpAddress')->nullable();
             $table->string('hostName')->nullable();
-            //$table->string('workingUnit')->nullable();
-            $table->morphs('owner');  // Polymorphic relation
             $table->string('status')->default('Active');
+
+            // $table->morphs('owner');  // Polymorphic relation
+            // $table->string('owner_type')->default('Unknown')->change();
+
 
             $table->timestamps();
         });

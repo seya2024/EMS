@@ -16,6 +16,8 @@ class DOB extends Model
         'network_type',
         'iccid',
         'value',
+        'quantity',
+        'unit',
         'status'
     ];
 }

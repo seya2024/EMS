@@ -15,6 +15,8 @@ class Dongle extends Model
         'network_type',
         'value',
         'status',
+        'quantity',
+        'unit',
         // 'owner_id',
         // 'owner_type',
     ];

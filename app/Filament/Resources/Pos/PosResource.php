@@ -25,7 +25,9 @@ class PosResource extends Resource
     protected static ?string $recordTitleAttribute = 'Pos Machine';
 
     protected static ?string $navigationLabel = 'List of Pos Machines';
-    protected static string | UnitEnum | null $navigationGroup = 'Fixed Assets';
+
+    // protected static string | UnitEnum | null $navigationGroup = 'Fixed Assets';
+    protected static string | UnitEnum | null $navigationGroup = 'Channel Bankings';
 
     public static function form(Schema $schema): Schema
     {

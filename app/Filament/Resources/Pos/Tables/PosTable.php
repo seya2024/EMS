@@ -23,6 +23,8 @@ class PosTable
                 TextColumn::make('type')->label('Type')->sortable(),
                 TextColumn::make('merchant')->label('Merchant')->sortable(),
                 TextColumn::make('value')->label('Value')->sortable()->searchable(),
+                TextColumn::make('quantity')->label('Quantity'),
+                TextColumn::make('unit')->label('Measurement Unit'),
             ])
             ->filters([
                 //
@@ -36,6 +38,6 @@ class PosTable
                 BulkActionGroup::make([
                     DeleteBulkAction::make(), // Bulk delete
                 ]),
-            ]);
+            ])->defaultSort('id', 'desc');
     }
 }

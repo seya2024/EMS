@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('code')->unique();
             $table->string('name');
             $table->string('grade');
+            $table->string('tag')->unique()->nullable();
 
             // Foreign key for district
             $table->unsignedBigInteger('district_id');

@@ -20,7 +20,8 @@ class ComputerForm
                     ->label('Hardware Type')
                     ->options([
                         'Desktop' => 'Desktop',
-                        'Hardware' => 'Hardware',
+                        'Laptop' => 'Laptop',
+                        'Server' => 'Server',
                     ])
                     ->required(),
 
@@ -30,6 +31,25 @@ class ComputerForm
 
                 TextInput::make('tagNo')
                     ->label('Tag Number')
+                    ->required(),
+
+                TextInput::make('quantity')
+                    ->label('Quantity')
+                    ->numeric()           // ensures only numbers
+                    ->required(),
+
+                Select::make('unit')
+                    ->label('Measurement Unit')
+                    ->options([
+                        'pcs' => 'PCS',
+                        'meter' => 'Meter',
+                        'kg' => 'KG',
+                        'liter' => 'Liter',
+                        'box' => 'Box',
+                        'roll' => 'Roll',
+                        'set' => 'Set',
+                        // add more as needed
+                    ])
                     ->required(),
 
                 TextInput::make('serialNo')
@@ -74,6 +94,12 @@ class ComputerForm
                     ->label('Host Name')
                     ->required(),
 
+                TextInput::make('price')
+                    ->label('Price')
+                    ->numeric()
+                    ->rule('decimal:0,2')
+                    ->prefix('ETB') // or remove if not needed
+                    ->required(),
 
                 // TextInput::make('value')
                 //     ->label('Value')
@@ -81,43 +107,47 @@ class ComputerForm
                 //     ->numeric(),
 
 
-                Select::make('owner_id')
-                    ->label('Owner')
-                    ->options(function () {
-                        $options = [];
+                // Select::make('owner_select')
+                //     ->label('Owner')
+                //     ->options(function () {
+                //         $options = [];
 
-                        // HQs
-                        foreach (HQ::all() as $hq) {
-                            $options["HQ:{$hq->id}"] = "HQ - {$hq->name}";
-                        }
-                        // Districts
-                        foreach (District::all() as $district) {
-                            $options["District:{$district->id}"] = "District - {$district->name}";
-                        }
-                        // Branches
-                        foreach (Branch::all() as $branch) {
-                            $options["Branch:{$branch->id}"] = "Branch - {$branch->name}";
-                        }
-                        return $options;
-                    })
-                    ->required()
-                    ->reactive()
-                    ->afterStateUpdated(function ($state, $set) {
-                        // Split the selected option into owner_type and owner_id
-                        [$type, $id] = explode(':', $state);
-                        $set('owner_type', "App\\Models\\$type");
-                        $set('owner_id', $id);
-                    }),
+                //         // HQs
+                //         foreach (HQ::all() as $hq) {
+                //             $options["HQ:{$hq->id}"] = "HQ - {$hq->name}";
+                //         }
+                //         // Districts
+                //         foreach (District::all() as $district) {
+                //             $options["District:{$district->id}"] = "District - {$district->name}";
+                //         }
+                //         // Branches
+                //         foreach (Branch::all() as $branch) {
+                //             $options["Branch:{$branch->id}"] = "Branch - {$branch->name}";
+                //         }
+
+                //         return $options;
+                //     })
+                //     ->required()
+                //     ->reactive()
+                //     ->afterStateUpdated(function ($state, $set) {
+                //         [$type, $id] = explode(':', $state);
+                //         $set('owner_type', "App\\Models\\$type");
+                //         $set('owner_id', $id);
+                //     }),
+
+                // Hidden::make('owner_type'),
+                // Hidden::make('owner_id'),
+
 
                 Select::make('status')
                     ->label('Status')
                     ->options([
-                        'Active' => 'Active',
-                        'Inactive' => 'Inactive',
-                        'Repair' => 'Repair',
-                        'Decommissioned' => 'Decommissioned',
+                        'Functional' => 'Functional',
+                        'Non-Functional' => 'Non-Functional',
+                        'Decommissioned' => 'Decommissioned', // retired
                     ])
-                    ->required(),
+                    ->required()
+                    ->default('Functional'), // optional: sets default value
             ]);
     }
 }

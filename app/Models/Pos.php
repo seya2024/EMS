@@ -15,6 +15,8 @@ class Pos extends Model
         'merchant',
         'status',
         'value',
+        'quantity',
+        'unit',
         // 'owner_id',
         //   'owner_type',
     ];

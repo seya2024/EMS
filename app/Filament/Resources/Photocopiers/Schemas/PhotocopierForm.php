@@ -22,6 +22,27 @@ class PhotocopierForm
                     ->required()
                     ->maxLength(100),
 
+
+
+                TextInput::make('quantity')
+                    ->label('Quantity')
+                    ->numeric()           // ensures only numbers
+                    ->required(),
+
+                Select::make('unit')
+                    ->label('Measurement Unit')
+                    ->options([
+                        'pcs' => 'PCS',
+                        'meter' => 'Meter',
+                        'kg' => 'KG',
+                        'liter' => 'Liter',
+                        'box' => 'Box',
+                        'roll' => 'Roll',
+                        'set' => 'Set',
+                        // add more as needed
+                    ])
+                    ->required(),
+
                 TextInput::make('value')
                     ->label('Value')
                     ->required()

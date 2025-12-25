@@ -19,6 +19,8 @@ class Computer extends Model
         'ramSize',
         'speed',
         'os',
+        'quantity',
+        'unit',
         'isActivated',
         'IpAddress',
         'hostName',
@@ -26,8 +28,11 @@ class Computer extends Model
         'status',
         'created_at',
         'updated_at',
+        'price',
+        // 'owner_type',
 
     ];
+
 
     // Optional: Cast isActivated to boolean
     protected $casts = [

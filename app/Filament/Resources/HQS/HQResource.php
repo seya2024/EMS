@@ -29,6 +29,8 @@ class HQResource extends Resource
 
     // protected static ?string $navigationParentItem = 'Working Units'; // parent item in sidebar
 
+    protected static ?int $navigationSort = 100; // position in sidebar
+
     public static function form(Schema $schema): Schema
     {
         return HQForm::configure($schema);
