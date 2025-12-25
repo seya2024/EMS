@@ -61,9 +61,9 @@ class PosForm
                 Select::make('type')
                     ->label('Type')
                     ->options([
-                        'classic' => 'Classic',
-                        'smart' => 'Smart',
-                        'mobile' => 'Mobile',
+                        'NewLand' => 'NewLand',
+                        'Verifone' => 'Verifone',
+                        'Smart' => 'Smart',
                     ])
                     ->required(),
 

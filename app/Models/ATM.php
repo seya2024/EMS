@@ -24,4 +24,9 @@ class ATM extends Model
     {
         return $this->belongsTo(Branch::class, 'custodian');
     }
+    // ATM has many ATMReports
+    public function reports()
+    {
+        return $this->hasMany(ATMReport::class, 'atm_id');
+    }
 }

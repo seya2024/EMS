@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('account');
             $table->foreignId('branch_id')->constrained('branches')->onDelete('cascade');
             $table->string('media')->nullable();
+            $table->string('bandwidth')->nullable();
             $table->string('linkType')->nullable();
             $table->string('vlan')->nullable();
             $table->text('remark')->nullable();

@@ -32,6 +32,9 @@ class DataVPNForm
                     ->label('WAN IP')
                     ->maxLength(255),
 
+                TextInput::make('bandwidth')
+                    ->label('Network Bandwidth')
+                    ->maxLength(255),
 
                 Select::make('account')
                     ->label('Account')
@@ -44,7 +47,7 @@ class DataVPNForm
                     ->required(),
 
 
-                Select::make('branch')
+                Select::make('branch_id')
                     ->label('Branch')
                     ->options(Branch::all()->pluck('name', 'id')) // assumes Branch has 'id' and 'name'
                     ->searchable() // allows filtering/search in dropdown

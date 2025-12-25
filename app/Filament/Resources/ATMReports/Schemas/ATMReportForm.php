@@ -1,0 +1,88 @@
+<?php
+
+namespace App\Filament\Resources\ATMReports\Schemas;
+
+use App\Models\ATM;
+use Filament\Forms;
+use App\Models\User;
+use App\Models\Branch;
+use Filament\Schemas\Schema;
+use Illuminate\Support\Facades\Auth;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\DatePicker;
+
+class ATMReportForm
+{
+    public static function configure(Schema $schema): Schema
+    {
+        return $schema
+            ->components([
+                // Custodian / Branch
+                Select::make('custodian')
+                    ->label('Custodian / Branch')
+                    ->options(Branch::all()->pluck('name', 'id'))
+                    ->searchable()
+                    ->required(),
+
+
+                Select::make('atm_id')
+                    ->label('Terminal ID')
+                    ->options(ATM::all()->pluck('terminal', 'id'))
+                    ->searchable()
+                    ->required(),
+
+                Select::make('downtime_reason_id')
+                    ->label('Downtime Reason')
+                    ->relationship('downtimeReason', 'name') // model relationship + display column
+                    ->required(),
+
+
+
+                Select::make('action_taken')
+                    ->label('Action Taken')
+                    ->options([
+                        'Under follow-up with the branch' => 'Under follow-up with the branch',
+                        'Communicated with the Branch' => 'Communicated with the Branch',
+                        'Under follow-up with the vendor' => 'Under follow-up with vendor',
+                        'Under follow-up with Ethiotelecom' => 'Under follow-up with Ethiotelecom'
+
+                    ])
+                    ->required(),
+
+                // Down time in days
+                TextInput::make('down_time_in_days')
+                    ->label('Down Time (Days)')
+                    ->numeric()
+                    ->nullable(),
+
+                // Open and Close Dates
+                DatePicker::make('open_date')
+                    ->label('Open Date')
+                    ->nullable(),
+
+                DatePicker::make('close_date')
+                    ->label('Close Date')
+                    ->nullable(),
+
+                // Call ID
+                TextInput::make('call_ID')
+                    ->label('Call ID')
+                    ->maxLength(255)
+                    ->nullable(),
+
+                // TT
+                TextInput::make('TT')
+                    ->label('TT')
+                    ->maxLength(255)
+                    ->nullable(),
+
+                // Optional: Display creator (read-only)
+                Select::make('created_by')
+                    ->label('Created By')
+                    ->options(User::all()->pluck('name', 'id'))
+                    ->default(Auth::id())
+                    ->disabled(), // read-only
+            ]);
+    }
+}

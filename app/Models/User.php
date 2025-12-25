@@ -62,6 +62,24 @@ class User extends Authenticatable
     ];
 
 
+    // User can create many ATMReports
+    public function atmReports()
+    {
+        return $this->hasMany(ATMReport::class, 'created_by');
+    }
+
+    // Similarly, for DataVPN
+    public function dataVpns()
+    {
+        return $this->hasMany(DataVPN::class, 'created_by');
+    }
+
+    // And for FixedLine
+    public function fixedLines()
+    {
+        return $this->hasMany(FixedLine::class, 'created_by');
+    }
+
 
     // public function getFilamentName(): string
     // {
@@ -78,10 +96,6 @@ class User extends Authenticatable
         return "{$this->fname} {$this->mname}";
     }
 
-    // public function getFilamentName(): string
-    // {
-    //     return $this->fname;
-    // }
 
     public function canAccessFilament(): bool
     {
@@ -101,11 +115,13 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-
-
-    //     public function getFilamentName(): string
-    // {
-    //     return "{$this->fname} {$this->lname}";
-    // }
-
 }
+
+
+// $user = User::find(1);
+
+// // All ATMReports created by this user
+// $reports = $user->atmReports;
+// // Access creator from a report
+// $report = ATMReport::find(5);
+// $creatorName = $report->creator->name;

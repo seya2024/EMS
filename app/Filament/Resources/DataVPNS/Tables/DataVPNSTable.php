@@ -43,7 +43,7 @@ class DataVPNSTable
                     ->sortable()
                     ->searchable(),
 
-                TextColumn::make('branch')
+                TextColumn::make('branch_id')
                     ->label('Branch')
                     ->sortable()
                     ->searchable(),
@@ -60,6 +60,11 @@ class DataVPNSTable
 
                 TextColumn::make('vlan')
                     ->label('VLAN')
+                    ->sortable()
+                    ->searchable(),
+
+                TextColumn::make('bandwidth')
+                    ->label('Bandwidth')
                     ->sortable()
                     ->searchable(),
 

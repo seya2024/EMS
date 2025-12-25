@@ -14,10 +14,11 @@ class DataVPN extends Model
         'lANIp',
         'wanIp',
         'account',
-        'branch',
+        'branch_id',
         'media',
         'linkType',
         'vlan',
+        'bandwidth',
         'remark',
     ];
 }

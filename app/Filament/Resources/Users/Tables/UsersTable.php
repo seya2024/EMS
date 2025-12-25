@@ -14,6 +14,9 @@ use Filament\Actions\ActionGroup;
 use Filament\Support\Enums\Size;
 use Filament\Support\Colors\Color;
 use Filament\Support\Facades\FilamentColor;
+use Filament\Tables\Columns\Layout\Split;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Support\Enums\FontWeight;
 
 class UsersTable
 {
@@ -24,22 +27,27 @@ class UsersTable
             ->columns([
 
 
-                TextColumn::make('serial')
-                    ->label('#')
-                    ->getStateUsing(fn($record, $column) => $column->getTable()->getRecords()->search($record) + 1)
-                    ->sortable(false),
+                ImageColumn::make('avatar')->label('Photo')
+                    ->circular()->grow(false)->getStateUsing(fn($record) => $record && $record->close_date
+                        ? asset('images/photo.webp') : asset('images/photo.webp')),
+
+                // TextColumn::make('serial')
+                //     ->label('#')
+                //     ->getStateUsing(fn($record, $column) => $column->getTable()->getRecords()->search($record) + 1)
+                //     ->sortable(false),
 
                 TextColumn::make('full_name')->label('Full Name')
                     ->getStateUsing(fn($record) => trim("{$record->fname} {$record->mname} {$record->lname}"))
-                    ->searchable(),
+                    ->searchable()->weight(FontWeight::Bold),
+
                 TextColumn::make('name')->label('Domain')->searchable(),
 
                 // TextColumn::make('fname')->label('First Name')->searchable(),
                 // TextColumn::make('mname')->label('Father Name')->searchable(),
                 // TextColumn::make('lname')->label('Last Name')->searchable(),
 
-                TextColumn::make('email')->label('Email address')->searchable(),
-                TextColumn::make('phone')->label('Phone'),
+                TextColumn::make('email')->label('Email address')->searchable()->icon('heroicon-m-envelope'),
+                TextColumn::make('phone')->label('Phone')->icon('heroicon-m-phone'),
                 TextColumn::make('working_unit')->label('Working Unit'),
                 TextColumn::make('role')->label('Role'),
                 TextColumn::make('email_verified_at')->dateTime()->sortable(),

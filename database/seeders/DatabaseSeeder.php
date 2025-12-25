@@ -29,6 +29,8 @@ class DatabaseSeeder extends Seeder
             BranchSeeder::class,  // 4th order
             OutletSeeder::class,  // 5th order
             ComputerSeeder::class, // 6th order
+            DowntimeReasonsSeeder::class,
+            ATMsSeeder::class,
         ]);
     }
 }

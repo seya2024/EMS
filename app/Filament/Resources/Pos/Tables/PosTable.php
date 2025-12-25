@@ -24,7 +24,7 @@ class PosTable
                 TextColumn::make('merchant')->label('Merchant')->sortable(),
                 TextColumn::make('value')->label('Value')->sortable()->searchable(),
                 TextColumn::make('quantity')->label('Quantity'),
-                TextColumn::make('unit')->label('Measurement Unit'),
+                TextColumn::make('unit')->label('Unit'),
             ])
             ->filters([
                 //
