@@ -1,0 +1,51 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+
+class Branch extends Model
+{
+    //
+    /** @use HasFactory<\Database\Factories\UserFactory> */
+    use HasFactory, Notifiable;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
+
+
+    protected $fillable = [
+        'code',
+        'name',
+        'grade',
+        'district_id',
+        'created_at',
+        'updated_at',
+
+    ];
+
+    public function district()
+    {
+        return $this->belongsTo(District::class);
+    }
+
+    public function outlets()
+    {
+        return $this->hasMany(Outlet::class);
+    }
+    public function getFilamentName(): string
+    {
+        return "{$this->name}";
+    }
+
+    public function computers()
+    {
+        return $this->morphMany(Computer::class, 'owner');
+    }
+}
