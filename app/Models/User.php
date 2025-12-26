@@ -3,13 +3,16 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use id;
+use Filament\Panel;
+use App\Models\DataVPN;
+use App\Models\FixedLine;
+use Filament\Models\Contracts\HasName;
+use Filament\Models\Contracts\HasAvatar;
 use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\FilamentUser;
-use Filament\Panel;
-use Filament\Models\Contracts\HasAvatar;
-use Filament\Models\Contracts\HasName;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 //class User extends Authenticatable implements FilamentUser, HasAvatar, HasName
 class User extends Authenticatable
@@ -63,10 +66,22 @@ class User extends Authenticatable
 
 
     // User can create many ATMReports
-    public function atmReports()
+    public function CreatedAtmReports()
     {
         return $this->hasMany(ATMReport::class, 'created_by');
     }
+
+    public function closedAtmReports()
+    {
+        return $this->hasMany(ATMReport::class, 'closed_by');
+
+        // return $this->hasMany(ATMReport::class, 'closed_by')
+        //     ->whereNotNull('close_date')        // only closed reports
+        //     ->where('closed_by', auth()->id()); // only current user
+    }
+
+
+
 
     // Similarly, for DataVPN
     public function dataVpns()

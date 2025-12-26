@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
+use App\Models\ATM;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 
 class ATMReport extends Model
 {
@@ -22,6 +23,7 @@ class ATMReport extends Model
         'atm_id',
         'downtime_reason_id',
         'created_by', // include in fillable if needed
+        'closed_by'
     ];
 
 
@@ -60,5 +62,10 @@ class ATMReport extends Model
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function closer()
+    {
+        return $this->belongsTo(User::class, 'closed_by');
     }
 }

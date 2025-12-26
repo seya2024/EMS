@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('TT')->nullable();
 
             $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('closed_by')->nullable()->constrained('users')->nullOnDelete();
             $table->date('close_date')->nullable();
             $table->timestamps();
         });

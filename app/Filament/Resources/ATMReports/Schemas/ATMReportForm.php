@@ -38,6 +38,13 @@ class ATMReportForm
                     ->required(),
 
 
+                Select::make('closed_by')
+                    ->label('Closed By')
+                    ->options(fn() => User::all()->pluck('name', 'id')) // load all users
+                    ->default(fn() => Auth::id())                     // current user
+                    ->disabled()                                      // read-only
+                    ->visible(fn($record) => $record !== null),     // only on edit
+
 
                 Select::make('action_taken')
                     ->label('Action Taken')

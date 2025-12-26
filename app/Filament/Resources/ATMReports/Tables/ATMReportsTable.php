@@ -41,7 +41,7 @@ class ATMReportsTable
                     ->limit(50),
 
                 TextColumn::make('down_time_in_days')
-                    ->label('Down Time (Days)'),
+                    ->label('Down Time (in Days)'),
 
 
                 // TextColumn::make('close_date')

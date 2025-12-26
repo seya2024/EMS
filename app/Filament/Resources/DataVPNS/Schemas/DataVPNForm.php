@@ -70,6 +70,7 @@ class DataVPNForm
                         'Toilored'  => 'Toilored',
                         'VSAT'      => 'VSAT',
                         '4G'        => '4G',
+                        'SDWAN'        => 'SDWAN',
                     ])
                     ->required(),
 

@@ -31,10 +31,7 @@ class Branch extends Model
 
     ];
 
-    public function district()
-    {
-        return $this->belongsTo(District::class);
-    }
+
 
     public function outlets()
     {
@@ -58,5 +55,11 @@ class Branch extends Model
     public function computers()
     {
         return $this->morphMany(Computer::class, 'owner');
+    }
+
+    // Branch.php
+    public function district()
+    {
+        return $this->belongsTo(District::class);
     }
 }

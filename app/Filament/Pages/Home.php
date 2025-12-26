@@ -6,9 +6,9 @@ use Filament\Pages\Page;
 use Filament\Support\Icons\Heroicon;
 use BackedEnum;
 
-class Dashboard extends Page
+class Home extends Page
 {
-    protected  string $view = 'filament.pages.dashboard';
+    protected  string $view = 'filament.pages.home';
 
 
     // Sidebar label

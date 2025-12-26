@@ -29,7 +29,7 @@ class Computer extends Model
         'created_at',
         'updated_at',
         'price',
-        // 'owner_type',
+        'branch_id',
 
     ];
 
@@ -55,10 +55,11 @@ class Computer extends Model
 
     // Optional: relationships
     // e.g., if workingUnit links to Branch
-    // public function workingUnit()
-    // {
-    //     return $this->belongsTo(WorkingUnit::class, 'workingUnit');
-    // }
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class);
+    }
+
 
 
     // $computer->owner; // returns HeadOffice OR DistrictOffice OR BranchOffice

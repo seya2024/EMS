@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\OrganizationUnit;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -31,6 +32,7 @@ class DatabaseSeeder extends Seeder
             ComputerSeeder::class, // 6th order
             DowntimeReasonsSeeder::class,
             ATMsSeeder::class,
+            OUSeeder::class,
         ]);
     }
 }

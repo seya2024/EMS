@@ -30,6 +30,7 @@ return new class extends Migration
             $table->string('hostName')->nullable();
             $table->string('status')->default('Active');
 
+            $table->foreignId('branch_id')->constrained('branches')->onDelete('cascade')->nullable();
             // $table->morphs('owner');  // Polymorphic relation
             // $table->string('owner_type')->default('Unknown')->change();
 

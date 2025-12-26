@@ -2,19 +2,20 @@
 
 namespace App\Filament\Resources\Computers\Tables;
 
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\DeleteBulkAction;
+use App\Models\Computer;
+use Filament\Tables\Table;
+use Filament\Actions\Action;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
-use Filament\Tables\Table;
+use Filament\Actions\ActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Support\Icons\Heroicon;
+use Filament\Notifications\Notification;
 use Filament\Tables\Filters\SelectFilter;
 use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
-use Filament\Notifications\Notification;
-
-use Filament\Actions\Action;
-use Filament\Actions\ActionGroup;
 
 class ComputersTable
 {
@@ -31,28 +32,30 @@ class ComputersTable
                 TextColumn::make('speed')->label('Processor Speed'),
                 TextColumn::make('os')->label('Operating System')->searchable()->sortable(),
 
-                TextColumn::make('quantity')->label('Quantity'),
-                TextColumn::make('unit')->label('Unit'),
-                TextColumn::make('price')->label('Asset Price')->money('ETB', true),
+                //  TextColumn::make('quantity')->label('Quantity'),
+                //  TextColumn::make('unit')->label('Unit'),
+                //  TextColumn::make('price')->label('Asset Price')->money('ETB', true),
 
                 // TextColumn::make('isActivated')
                 //     ->label('Activated')
                 //     ->formatStateUsing(fn($state) => $state ? 'Yes' : 'No'),
-
-                TextColumn::make('IpAddress')->label('IP Address'),
+                TextColumn::make('branch')
+                    ->label('Ownership')  //District - Branch
+                    ->getStateUsing(
+                        fn($record) =>
+                        "{$record->branch?->name} - {$record->branch?->district?->name}"
+                    ),
 
                 TextColumn::make('hostName')->label('Host Name'),
                 // TextColumn::make('owner')->label('Working Unit')->searchable()->sortable(),
                 TextColumn::make('status')->label('Status')->searchable()->sortable(),
                 // TextColumn::make('created_at')->label('Created At')->dateTime(),
                 // TextColumn::make('updated_at')->label('Updated At')->dateTime(),
-            ])->defaultSort('pcModel', 'desc')
+            ])->defaultSort('id', 'desc')
 
             //->sortable()->searchable(isIndividual: true, isGlobal: false),
-            ->filters([
-                // SelectFilter::make('district_id')->relationship('district','name'),
-                // SelectFilter::make('branch_id')->relationship('branch','name')
-            ])
+            ->filters([]) //->icon(Heroicon::Funnel)
+
             ->recordActions([
 
                 ActionGroup::make([
