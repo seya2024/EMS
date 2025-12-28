@@ -21,6 +21,7 @@ class OUResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static ?string $recordTitleAttribute = 'Organizational Unit';
+    protected static ?string $navigationLabel = 'Orgabization Unit';
 
     public static function form(Schema $schema): Schema
     {

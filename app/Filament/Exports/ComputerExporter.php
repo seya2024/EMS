@@ -16,8 +16,7 @@ class ComputerExporter extends Exporter
     public static function getColumns(): array
     {
         return [
-            ExportColumn::make('id')
-                ->label('ID'),
+            ExportColumn::make('id')->label('ID'),
             ExportColumn::make('hardwareType'),
             ExportColumn::make('pcModel'),
             ExportColumn::make('tagNo'),
@@ -27,16 +26,18 @@ class ComputerExporter extends Exporter
             ExportColumn::make('speed'),
             ExportColumn::make('quantity'),
             ExportColumn::make('unit'),
-            ExportColumn::make('price')->state(function (Computer $record): float {
-                return $record->amount * (1 + $record->vat_rate);
-            }),
+            ExportColumn::make('price'),
+
+            // ->state(function (Computer $record): float {
+            //     return $record->amount * (1 + $record->vat_rate);
+            // }),
             ExportColumn::make('os'),
             ExportColumn::make('isActivated'),
-            ExportColumn::make('branch.name'),
+            ExportColumn::make('branch.district.name'),
             ExportColumn::make('IpAddress'),
-            ExportColumn::make('hostName')->listAsJson(), // list multiple value in a cell
-            ExportColumn::make('status')->words(10), // the no of words
-            ExportColumn::make('created_at')->limit(50), //omit the the lingth of trxt
+            ExportColumn::make('hostName'), //->listAsJson(), // list multiple value in a cell
+            ExportColumn::make('status'), //->words(10), // the no of words
+            ExportColumn::make('created_at'), //->limit(50), //omit the the lingth of trxt
             ExportColumn::make('updated_at')->enabledByDefault(false),
 
             //ExportColumn::make('author.name') display data from relationship
@@ -51,7 +52,7 @@ class ComputerExporter extends Exporter
 
         ];
     }
-
+    //->query(fn($query) => $query->limit(500)); // export only first 500 rows
     public static function getCompletedNotificationBody(Export $export): string
     {
         $body = 'Your computer export has completed and ' . Number::format($export->successful_rows) . ' ' . str('row')->plural($export->successful_rows) . ' exported.';

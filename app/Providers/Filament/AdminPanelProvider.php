@@ -4,29 +4,32 @@ namespace App\Providers\Filament;
 
 use Filament\Panel;
 use Filament\PanelProvider;
+use App\Filament\Pages\Home;
+use Filament\Actions\Action;
+use Filament\Pages\Settings;
 use Filament\Pages\Dashboard;
 use Filament\Support\Colors\Color;
 use Filament\Widgets\AccountWidget;
 use Filament\Support\Icons\Heroicon;
+use App\Filament\Widgets\ComputerChart;
+use App\Filament\Widgets\StatsOverview;
 use Filament\Navigation\NavigationItem;
 use Filament\Navigation\NavigationGroup;
 use Filament\Widgets\FilamentInfoWidget;
 use Filament\Http\Middleware\Authenticate;
+use Filament\Pages\Enums\SubNavigationPosition;
 use function Filament\Support\original_request;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Filament\Http\Middleware\AuthenticateSession;
+
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
-
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Filament\Navigation\Concerns\HasExtraSidebarAttributes;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
-use Filament\Pages\Enums\SubNavigationPosition;
-use Filament\Actions\Action;
-use Filament\Pages\Settings;
 
 
 class AdminPanelProvider extends PanelProvider
@@ -38,7 +41,7 @@ class AdminPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
-            ->topNavigation()
+            // ->topNavigation()
             ->id('admin')
             ->path('admin')
             ->passwordReset()
@@ -82,7 +85,7 @@ class AdminPanelProvider extends PanelProvider
             )
             // ->collapsibleNavigationGroups(false)
 
-            ->sidebarCollapsibleOnDesktop()
+            //  ->sidebarCollapsibleOnDesktop()
             ->sidebarFullyCollapsibleOnDesktop()
             ->sidebarWidth('16rem')
             ->brandLogo(asset('images/logo.jpg'))
@@ -93,14 +96,20 @@ class AdminPanelProvider extends PanelProvider
                 'primary' => Color::Blue,
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
+
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
-            ->pages([
-                Dashboard::class,
-            ])
+            ->pages([Dashboard::class,])
+
+            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
+            ->pages([Dashboard::class,])
+
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([
-                AccountWidget::class,
-                FilamentInfoWidget::class,
+                // AccountWidget::class,
+                // FilamentInfoWidget::class,
+
+                // StatsOverview::class,
+                // ComputerChart::class,
             ])
 
 
@@ -119,5 +128,12 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ]);
+    }
+
+    public function pages(): array
+    {
+        return [
+            Home::class,
+        ];
     }
 }

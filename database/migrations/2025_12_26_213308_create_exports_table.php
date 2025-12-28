@@ -13,8 +13,10 @@ return new class extends Migration {
             $table->foreignId('user_id')->nullable();
             $table->string('exporter')->nullable();
             $table->integer('total_rows')->nullable();
+            $table->integer('processed_rows')->default(0);   // track rows processed
+            $table->integer('successful_rows')->default(0);  // track successful rows
             $table->string('file_disk')->nullable();
-            $table->string('file_name')->default(''); // remove `after()`
+            $table->string('file_name')->default('');
             $table->timestamps();
         });
     }

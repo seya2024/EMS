@@ -3,30 +3,31 @@
 namespace App\Filament\Pages;
 
 use Filament\Pages\Page;
+use UnitEnum;
 use Filament\Support\Icons\Heroicon;
 use BackedEnum;
+use Illuminate\Support\Facades\Auth;
 
 class Home extends Page
 {
-    protected  string $view = 'filament.pages.home';
+    protected string $view = 'filament.pages.home';
 
-
-    // Sidebar label
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
     protected static ?string $navigationLabel = 'Home';
+    protected static ?string $slug = 'home';
 
-    // Sidebar icon
-
-
-    //protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedHomeModern;
-    // protected static string|Heroicon|null $navigationIcon = Heroicon::Outline('home');
-
-    // Position in the sidebar (lower = top)
-    protected static ?int $navigationSort = 100;
-
-
-    // Optional: default data for view
-    // public function mount(): void
-    // {
-    //     $this->defaultValue = 'Welcome to your home';
-    // }
+    // Pass dynamic data to Blade
+    protected function getViewData(): array
+    {
+        return [
+            'userName' => Auth::user()?->name ?? 'Guest',
+            'today' => now()->format('l, F j, Y'),
+        ];
+    }
+    public function pages(): array
+    {
+        return [
+            Home::class,
+        ];
+    }
 }

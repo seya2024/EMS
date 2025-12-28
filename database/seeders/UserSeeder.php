@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
                 'fname' => 'Seid',
                 'mname' => 'Mohammed',
                 'lname' => 'Seid',
-                'email' => 'seidm2031@gmail.com',
+                'email' => 'seid.mohammedseid@dashenbanksc.com',
                 'phone' => '0985192541',
                 'address' => 'Jimma',
                 'working_unit' => 'Jimma district',
