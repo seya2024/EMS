@@ -20,8 +20,11 @@ class Home extends Page
     protected function getViewData(): array
     {
         return [
+            'welcomeMessage' => config('app.homepage_welcome'),
             'userName' => Auth::user()?->name ?? 'Guest',
             'today' => now()->format('l, F j, Y'),
+
+
         ];
     }
     public function pages(): array

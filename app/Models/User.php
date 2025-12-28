@@ -11,11 +11,17 @@ use Filament\Models\Contracts\HasName;
 use Filament\Models\Contracts\HasAvatar;
 use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\FilamentUser;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Filament\Auth\MultiFactor\Email\Contracts\HasEmailAuthentication;
+
 
 //class User extends Authenticatable implements FilamentUser, HasAvatar, HasName
-class User extends Authenticatable
+
+
+
+class User extends Authenticatable implements FilamentUser, HasEmailAuthentication, MustVerifyEmail
 {
 
     //implements FilamentUser
@@ -40,6 +46,25 @@ class User extends Authenticatable
         'role',
         'password',
     ];
+
+
+
+    // ...
+
+    public function hasEmailAuthentication(): bool
+    {
+        // This method should return true if the user has enabled email authentication.
+
+        return $this->has_email_authentication;
+    }
+
+    public function toggleEmailAuthentication(bool $condition): void
+    {
+        // This method should save whether or not the user has enabled email authentication.
+
+        $this->has_email_authentication = $condition;
+        $this->save();
+    }
 
 
     // ...
@@ -79,8 +104,6 @@ class User extends Authenticatable
         //     ->whereNotNull('close_date')        // only closed reports
         //     ->where('closed_by', auth()->id()); // only current user
     }
-
-
 
 
     // Similarly, for DataVPN
@@ -128,6 +151,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'has_email_authentication' => 'boolean',
         ];
     }
 }

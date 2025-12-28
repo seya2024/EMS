@@ -22,13 +22,14 @@ class FilamentServiceProvider extends ServiceProvider
      * Bootstrap services.
      */
 
-
     public function pages(): array
     {
         return [
-            Home::class,
+            Home::class, // <-- register your page here
         ];
     }
+
+
     public function boot(): void
     {
         // Filament::serving(function () {

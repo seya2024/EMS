@@ -1,6 +1,25 @@
 <?php
 
+use App\Providers\AuthServiceProvider;
+use App\Providers\EventServiceProvider;
+use App\Providers\RouteServiceProvider;
+
 return [
+
+
+
+    // ... existing config ...
+
+    /*
+    |--------------------------------------------------------------------------
+    | Custom Homepage Welcome Message
+    |--------------------------------------------------------------------------
+    |
+    | This value can be used in your Filament homepage to show a
+    | personalized welcome message.
+    |
+    */
+    'homepage_welcome' => env('HOMEPAGE_WELCOME', 'Welcome to the EMS Dashboard!'),
 
     /*
     |--------------------------------------------------------------------------

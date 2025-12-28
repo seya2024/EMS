@@ -35,7 +35,7 @@ return new class extends Migration
 
             // Authorization
             $table->string('role');
-
+            $table->boolean('has_email_authentication')->default(false);
 
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
