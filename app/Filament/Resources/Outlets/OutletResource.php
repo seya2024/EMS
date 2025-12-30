@@ -22,7 +22,7 @@ class OutletResource extends Resource
     protected static ?string $model = Outlet::class;
 
     protected static ?string $navigationLabel = 'List of Outlets';
-    protected static string | UnitEnum | null $navigationGroup = 'Working Units';
+    protected static string | UnitEnum | null $navigationGroup = 'Organizational Units';
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedChevronRight;
 

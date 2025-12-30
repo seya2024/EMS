@@ -19,14 +19,18 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
 
+use UnitEnum;
 
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationLabel = 'User Management';
+    protected static ?string $navigationLabel = 'List of users';
 
     //protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedChevronRight;
+
+    protected static string|UnitEnum|null $navigationGroup = 'User Account';
 
     protected static ?string $recordTitleAttribute = 'User';
 

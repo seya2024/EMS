@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "537efd3dffd5120695b9ce4250c07504",
+    "content-hash": "a36e8853f2009e3c3feed6f6667c9b3d",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -509,6 +509,55 @@
                 }
             ],
             "time": "2024-07-16T11:13:48+00:00"
+        },
+        {
+            "name": "codewithkyrian/filament-date-range",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/CodeWithKyrian/filament-date-range.git",
+                "reference": "f68e79d57cf2ee7bede0d8cfe0cd3addf802e28c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/CodeWithKyrian/filament-date-range/zipball/f68e79d57cf2ee7bede0d8cfe0cd3addf802e28c",
+                "reference": "f68e79d57cf2ee7bede0d8cfe0cd3addf802e28c",
+                "shasum": ""
+            },
+            "require": {
+                "filament/forms": "^4.0",
+                "filament/tables": "^4.0",
+                "php": "^8.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "CodeWithKyrian\\FilamentDateRange\\DateRangeServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "CodeWithKyrian\\FilamentDateRange\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kyrian Obikwelu",
+                    "email": "kyrianobikwelu@gmail.com"
+                }
+            ],
+            "description": "A date range field and filter for Filament v3.",
+            "support": {
+                "issues": "https://github.com/CodeWithKyrian/filament-date-range/issues",
+                "source": "https://github.com/CodeWithKyrian/filament-date-range/tree/2.0.0"
+            },
+            "time": "2025-12-02T22:48:37+00:00"
         },
         {
             "name": "danharrin/date-format-converter",
@@ -5267,6 +5316,89 @@
                 }
             ],
             "time": "2025-07-17T15:46:43+00:00"
+        },
+        {
+            "name": "spatie/laravel-permission",
+            "version": "6.24.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-permission.git",
+                "reference": "76adb1fc8d07c16a0721c35c4cc330b7a12598d7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/76adb1fc8d07c16a0721c35c4cc330b7a12598d7",
+                "reference": "76adb1fc8d07c16a0721c35c4cc330b7a12598d7",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/auth": "^8.12|^9.0|^10.0|^11.0|^12.0",
+                "illuminate/container": "^8.12|^9.0|^10.0|^11.0|^12.0",
+                "illuminate/contracts": "^8.12|^9.0|^10.0|^11.0|^12.0",
+                "illuminate/database": "^8.12|^9.0|^10.0|^11.0|^12.0",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "laravel/passport": "^11.0|^12.0",
+                "laravel/pint": "^1.0",
+                "orchestra/testbench": "^6.23|^7.0|^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^9.4|^10.1|^11.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\Permission\\PermissionServiceProvider"
+                    ]
+                },
+                "branch-alias": {
+                    "dev-main": "6.x-dev",
+                    "dev-master": "6.x-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Spatie\\Permission\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Permission handling for Laravel 8.0 and up",
+            "homepage": "https://github.com/spatie/laravel-permission",
+            "keywords": [
+                "acl",
+                "laravel",
+                "permission",
+                "permissions",
+                "rbac",
+                "roles",
+                "security",
+                "spatie"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/laravel-permission/issues",
+                "source": "https://github.com/spatie/laravel-permission/tree/6.24.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-12-13T21:45:21+00:00"
         },
         {
             "name": "spatie/shiki-php",

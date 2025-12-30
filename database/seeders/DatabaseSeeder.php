@@ -33,6 +33,8 @@ class DatabaseSeeder extends Seeder
             DowntimeReasonsSeeder::class,
             ATMsSeeder::class,
             OUSeeder::class,
+            TaskCategorySeeder::class,
+            TaskSeeder::class,
         ]);
     }
 }

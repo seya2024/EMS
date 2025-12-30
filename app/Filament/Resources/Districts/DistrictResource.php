@@ -21,7 +21,7 @@ class DistrictResource extends Resource
     protected static ?string $navigationLabel = 'List of Districts';
 
 
-    protected static string | UnitEnum | null $navigationGroup = 'Working Units';
+    protected static string | UnitEnum | null $navigationGroup = 'Organizational Units';
 
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedChevronRight;

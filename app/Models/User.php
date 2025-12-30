@@ -6,8 +6,11 @@ namespace App\Models;
 use id;
 use Filament\Panel;
 use App\Models\DataVPN;
+use App\Models\ATMReport;
 use App\Models\FixedLine;
+use App\Models\UserGroup;
 use Filament\Models\Contracts\HasName;
+use Spatie\Permission\Traits\HasRoles;
 use Filament\Models\Contracts\HasAvatar;
 use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\FilamentUser;
@@ -17,17 +20,19 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Filament\Auth\MultiFactor\Email\Contracts\HasEmailAuthentication;
 
 
-//class User extends Authenticatable implements FilamentUser, HasAvatar, HasName
+
+//class User extends Authenticatable implements FilamentUser
+
+class User extends Authenticatable
 
 
-
-class User extends Authenticatable implements FilamentUser, HasEmailAuthentication, MustVerifyEmail
+//class User extends Authenticatable implements FilamentUser, HasEmailAuthentication, MustVerifyEmail
 {
 
     //implements FilamentUser
 
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -51,20 +56,20 @@ class User extends Authenticatable implements FilamentUser, HasEmailAuthenticati
 
     // ...
 
-    public function hasEmailAuthentication(): bool
-    {
-        // This method should return true if the user has enabled email authentication.
+    // public function hasEmailAuthentication(): bool
+    // {
+    //     // This method should return true if the user has enabled email authentication.
 
-        return $this->has_email_authentication;
-    }
+    //     return $this->has_email_authentication;
+    // }
 
-    public function toggleEmailAuthentication(bool $condition): void
-    {
-        // This method should save whether or not the user has enabled email authentication.
+    // public function toggleEmailAuthentication(bool $condition): void
+    // {
+    //     // This method should save whether or not the user has enabled email authentication.
 
-        $this->has_email_authentication = $condition;
-        $this->save();
-    }
+    //     $this->has_email_authentication = $condition;
+    //     $this->save();
+    // }
 
 
     // ...
@@ -88,6 +93,7 @@ class User extends Authenticatable implements FilamentUser, HasEmailAuthenticati
         'password',
         'remember_token',
     ];
+
 
 
     // User can create many ATMReports
@@ -153,6 +159,18 @@ class User extends Authenticatable implements FilamentUser, HasEmailAuthenticati
             'password' => 'hashed',
             'has_email_authentication' => 'boolean',
         ];
+    }
+
+
+    //     public function userGroups()
+    //     {
+    //         return $this->belongsToMany(UserGroup::class, 'user_user_group');
+    //     }
+    // }
+
+    public function userGroups()
+    {
+        return $this->belongsToMany(UserGroup::class);
     }
 }
 

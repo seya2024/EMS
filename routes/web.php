@@ -14,11 +14,11 @@ Route::get('/home', [HomeController::class, 'index']);
 //     return view('home');
 // });
 
-Route::get('/test-email', function () {
-    Mail::raw('This is a test email from Laravel.', function ($message) {
-        $message->to('your-email@example.com') // replace with your email
-            ->subject('Test Email');
-    });
+// Route::get('/test-email', function () {
+//     Mail::raw('This is a test email from Laravel.', function ($message) {
+//         $message->to('your-email@example.com') // replace with your email
+//             ->subject('Test Email');
+//     });
 
-    return 'Email sent (check your inbox/spam).';
-});
+//     return 'Email sent (check your inbox/spam).';
+// });

@@ -13,15 +13,19 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class OUResource extends Resource
 {
     protected static ?string $model = OU::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedChevronRight;
 
     protected static ?string $recordTitleAttribute = 'Organizational Unit';
-    protected static ?string $navigationLabel = 'Orgabization Unit';
+
+    protected static ?string $navigationLabel = 'Working unit';
+
+    protected static string | UnitEnum | null $navigationGroup = 'Organizational Units';
 
     public static function form(Schema $schema): Schema
     {

@@ -43,7 +43,7 @@ class AdminPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
-            // ->topNavigation()
+            ->topNavigation()
             ->id('admin')
             ->path('admin')
             ->passwordReset()
@@ -74,16 +74,16 @@ class AdminPanelProvider extends PanelProvider
                 'profile' => fn(Action $action) => $action->label('Edit profile'),
                 // ...
             ])
+            // ->multiFactorAuthentication([
+            //     EmailAuthentication::make()
+            //         ->codeExpiryMinutes(2), // code valid for 2 minutes
+            // ], isRequired: app()->environment('production')) // required only in production
 
-            ->multiFactorAuthentication([
-                EmailAuthentication::make()
-                    ->codeExpiryMinutes(2),
-            ])
 
 
-            ->multiFactorAuthentication([
-                AppAuthentication::make(),
-            ], isRequired: false)
+            // ->multiFactorAuthentication([
+            //     AppAuthentication::make(),
+            // ], isRequired: false)
 
             ->registerErrorNotification(
                 title: 'An error occurred',

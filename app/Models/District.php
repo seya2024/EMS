@@ -50,4 +50,9 @@ class District extends Model
     {
         return $this->belongsTo(HQ::class);
     }
+
+    public function activityReports()
+    {
+        return $this->hasMany(ActivityReport::class);
+    }
 }

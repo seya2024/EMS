@@ -20,4 +20,9 @@ class OU extends Model
     {
         return $this->hasMany(Branch::class);
     }
+
+    public function activityReports()
+    {
+        return $this->hasMany(ActivityReport::class, 'task_giver_id');
+    }
 }

@@ -3,16 +3,21 @@
 namespace App\Filament\Resources\ATMReports\Tables;
 
 use Filament\Tables\Table;
+use Illuminate\Support\Carbon;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Actions\DeleteAction;
 use Filament\Support\Icons\Heroicon;
 use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
 
+use Filament\Actions\DeleteBulkAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
-use Illuminate\Support\Carbon;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\Filter;
+use Filament\Forms\Components\DatePicker;
+use Filament\Tables\Filters\DateFilter;
+use CodeWithKyrian\FilamentDateRange\Tables\Filters\DateRangeFilter;
 
 class ATMReportsTable
 {
@@ -98,8 +103,39 @@ class ATMReportsTable
 
 
             ->filters([
-                //
+                SelectFilter::make('branch_id')->label('Custodian')->relationship('branch', 'name'),
+                SelectFilter::make('atm_id')->label('ATM Terminal')->relationship('atm', 'terminal'),
+                SelectFilter::make('downtime_reason_id')->label('Cause for Failure')->relationship('downtimeReason', 'name'),
+                SelectFilter::make('creator_id')->label('Sys Admin')->relationship('creator', 'name'),
+
+
+                // SelectFilter::make('status')
+                //     ->label('Status')
+                //     ->query(fn($query, $data) => $data === 'open' ? $query->whereNull('close_date') : $query->whereNotNull('close_date'))
+                //     ->options([
+                //         'open' => 'Open',
+                //         'closed' => 'Closed',
+                //     ]),
+
+
+
+                Filter::make('open_date_range')
+                    ->form([
+                        DatePicker::make('open_date_from')->label('Start date'),
+                        DatePicker::make('open_date_to')->label('End date'),
+                    ])
+                    ->query(function ($query, array $data) {
+                        if ($data['open_date_from']) {
+                            $query->whereDate('open_date', '>=', $data['open_date_from']);
+                        }
+                        if ($data['open_date_to']) {
+                            $query->whereDate('open_date', '<=', $data['open_date_to']);
+                        }
+                    })
+                    ->label('Open Date Range'),
+
             ])
+
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make()->visible(fn($record) => is_null($record->close_date)),

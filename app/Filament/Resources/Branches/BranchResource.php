@@ -22,7 +22,8 @@ class BranchResource extends Resource
     protected static ?string $model = Branch::class;
     protected static ?string $navigationLabel = 'List of Braches';
 
-    protected static string | UnitEnum | null $navigationGroup = 'Working Units';
+
+    protected static string | UnitEnum | null $navigationGroup = 'Organizational Units';
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedChevronRight;
 

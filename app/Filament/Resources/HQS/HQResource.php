@@ -24,7 +24,7 @@ class HQResource extends Resource
     protected static ?string $navigationLabel = 'Head Office';
     protected static ?string $recordTitleAttribute = 'HeadQuarter';
 
-    protected static string | UnitEnum | null $navigationGroup = 'Working Units';
+    protected static string | UnitEnum | null $navigationGroup = 'Organizational Units';
 
 
     // protected static ?string $navigationParentItem = 'Working Units'; // parent item in sidebar

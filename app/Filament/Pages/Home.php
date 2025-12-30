@@ -16,6 +16,8 @@ class Home extends Page
     protected static ?string $navigationLabel = 'Home';
     protected static ?string $slug = 'home';
 
+    // Make page accessible to all logged-in users
+    protected static ?string $permission = null;
     // Pass dynamic data to Blade
     protected function getViewData(): array
     {
