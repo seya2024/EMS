@@ -17,10 +17,7 @@ class DistrictForm
                     ->required()
                     ->maxLength(10),
 
-                TextInput::make('director')
-                    ->label('Director Name')
-                    ->required()
-                    ->maxLength(255),
+
 
 
             ]);

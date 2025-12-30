@@ -19,7 +19,7 @@ class Computer extends Model
         'ramSize',
         'speed',
         'os',
-        'quantity',
+        //  'quantity',
         'unit',
         'isActivated',
         'IpAddress',
@@ -28,7 +28,7 @@ class Computer extends Model
         'status',
         'created_at',
         'updated_at',
-        'price',
+        //   'price',
         'branch_id',
 
     ];

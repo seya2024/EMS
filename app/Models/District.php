@@ -46,10 +46,6 @@ class District extends Model
         return $this->morphMany(Computer::class, 'owner');
     }
 
-    public function HQ()
-    {
-        return $this->belongsTo(HQ::class);
-    }
 
     public function activityReports()
     {

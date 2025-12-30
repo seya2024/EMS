@@ -21,9 +21,9 @@ return new class extends Migration
             $table->string('harddiskSize');
             $table->string('ramSize');
             $table->string('speed');
-            $table->string('quantity')->default('0');
+            //   $table->string('quantity')->default('0');
             $table->string('unit')->default('pcs');  //pcs, meter, kg
-            $table->decimal('price', 10, 2)->nullable();
+            //  $table->decimal('price', 10, 2)->nullable();
             $table->string('os');
             $table->boolean('isActivated')->default(false);
             $table->string('IpAddress')->nullable();

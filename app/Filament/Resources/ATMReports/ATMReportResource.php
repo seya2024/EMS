@@ -19,7 +19,7 @@ class ATMReportResource extends Resource
 {
     protected static ?string $model = ATMReport::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedChevronRight;
 
     protected static ?string $recordTitleAttribute = 'ATMReport';
 

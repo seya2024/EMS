@@ -11,20 +11,11 @@ class DistrictSeeder extends Seeder
     {
 
 
-        $hqId = \App\Models\HQ::first()->id;
-        $districts = [
-            ['name' => 'Jimma', 'director' => 'Ato Shimelese', 'HQ_id' => $hqId],
-            ['name' => 'South West', 'director' => 'Ato Selamu', 'HQ_id' => $hqId],
-            ['name' => 'Nekemete', 'director' => 'Asefawu', 'HQ_id' => $hqId],
-            ['name' => 'Hawasa', 'director' => 'Mesay', 'HQ_id' => $hqId],
-        ];
-
-
-        foreach ($districts as $district) {
-            District::updateOrCreate(
-                ['name' => $district['name']],
-                array_merge($district, ['HQ_id' => $hqId])
-            );
-        }
+        District::updateOrCreate(
+            ['id' => 1, 'name' => 'Jimma'],
+            ['i' => 2, 'name' => 'South West'],
+            ['id' => 3, 'name' => 'Nekemete'],
+            ['id' => 4, 'name' => 'Hawasa'],
+        );
     }
 }

@@ -18,7 +18,7 @@ class ListBranches extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            CreateAction::make()->createAnother(false),
+            CreateAction::make(), //->createAnother(false),
         ];
     }
 }

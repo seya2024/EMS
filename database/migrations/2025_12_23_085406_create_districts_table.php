@@ -17,13 +17,6 @@ return new class extends Migration
         Schema::create('districts', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('director');
-
-            $table->unsignedBigInteger('hq_id'); // follow Laravel naming convention
-            $table->foreign('hq_id')
-                ->references('id')
-                ->on('h_q_s')
-                ->onDelete('cascade');
 
             $table->timestamps();
         });

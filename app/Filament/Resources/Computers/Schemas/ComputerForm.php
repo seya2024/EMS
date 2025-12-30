@@ -38,10 +38,10 @@ class ComputerForm
                             ->label('Tag Number')
                             ->required(),
 
-                        TextInput::make('quantity')
-                            ->label('Quantity')
-                            ->numeric()
-                            ->required(),
+                        // TextInput::make('quantity')
+                        //     ->label('Quantity')
+                        //     ->numeric()
+                        //     ->required(),
 
                         Select::make('unit')
                             ->label('Measurement Unit')
@@ -121,12 +121,12 @@ class ComputerForm
                             ->required(),
 
 
-                        TextInput::make('price')
-                            ->label('Price')
-                            ->numeric()
-                            ->rule('decimal:0,2')
-                            ->prefix('ETB')
-                            ->required(),
+                        // TextInput::make('price')
+                        //     ->label('Price')
+                        //     ->numeric()
+                        //     ->rule('decimal:0,2')
+                        //     ->prefix('ETB')
+                        //     ->required(),
 
                         Select::make('status')
                             ->label('Status')

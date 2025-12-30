@@ -52,9 +52,11 @@ class Branch extends Model
         return $this->hasMany(FixedLine::class, 'branch_id');
     }
 
+
+
     public function computers()
     {
-        return $this->morphMany(Computer::class, 'owner');
+        return $this->hasMany(Computer::class);
     }
 
     // Branch.php

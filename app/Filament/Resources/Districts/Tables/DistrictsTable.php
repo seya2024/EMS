@@ -25,7 +25,7 @@ class DistrictsTable
 
 
                 TextColumn::make('name')->label('District Name')->searchable(),
-                TextColumn::make('director')->label('Director'),
+                // TextColumn::make('director')->label('Director'),
                 TextColumn::make('Created_at')->label('Created at'),
                 TextColumn::make('updated_at')->label('Updated at'),
             ])

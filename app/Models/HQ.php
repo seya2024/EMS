@@ -24,8 +24,8 @@ class HQ extends Model
         return $this->morphMany(Computer::class, 'owner');
     }
 
-    public function districts()
-    {
-        return $this->hasMany(District::class);
-    }
+    // public function districts()
+    // {
+    //     return $this->hasMany(District::class);
+    // }
 }

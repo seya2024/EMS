@@ -18,7 +18,7 @@ class ActivityReportForm
                 Select::make('task_id')
                     ->label('Task')
                     ->relationship('task', 'name')
-                    ->required()
+                    ->required() //->searchable()
                     ->reactive(), // needed for dependent deliverable select
 
 
