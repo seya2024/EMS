@@ -17,6 +17,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\BadgeColumn;
 use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Filters\SelectFilter;
+use Illuminate\Support\Facades\Auth;
 
 class ActivityReportsTable
 {
@@ -83,9 +84,9 @@ class ActivityReportsTable
             ])
             ->recordActions([
                 ViewAction::make(),     // view record
-                EditAction::make()->hidden(fn($record) => $record->status === 'Completed' && !User::auth()->hasRole('Admin')),
-                DeleteAction::make()->hidden(fn($record) => $record->status === 'Completed' && !User::auth()->hasRole('Admin')),
-                ReplicateAction::make()->hidden(fn($record) => $record->status === 'Completed' && !User::auth()->hasRole('Admin')),
+                EditAction::make()->hidden(fn($record) => $record->status === 'Completed' && !auth()->user()->hasRole('Admin')),
+                DeleteAction::make()->hidden(fn($record) => $record->status === 'Completed' && !auth()->user()->hasRole('Admin')),
+                ReplicateAction::make()->hidden(fn($record) => $record->status === 'Completed' && !auth()->user()->hasRole('Admin')),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
