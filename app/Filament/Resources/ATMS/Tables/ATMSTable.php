@@ -18,8 +18,14 @@ class ATMSTable
         return $table
             ->columns([
                 TextColumn::make('id')
-                    ->label('ID')
+                    ->label('#')
                     ->sortable(),
+
+                TextColumn::make('custodian.name')
+                    ->label('Custodian')
+                    ->sortable()
+                    ->searchable(),
+
 
                 TextColumn::make('terminal')
                     ->label('Terminal')
@@ -46,24 +52,21 @@ class ATMSTable
                     ->sortable()
                     ->searchable(),
 
-                TextColumn::make('custodian')
-                    ->label('Custodian')
-                    ->sortable()
-                    ->searchable(),
+
 
                 TextColumn::make('remark')
                     ->label('Remark')
                     ->limit(50), // show first 50 chars
 
-                TextColumn::make('created_at')
-                    ->label('Created')
-                    ->dateTime()
-                    ->sortable(),
+                // TextColumn::make('created_at')
+                //     ->label('Created')
+                //     ->dateTime()
+                //     ->sortable(),
 
-                TextColumn::make('updated_at')
-                    ->label('Updated')
-                    ->dateTime()
-                    ->sortable(),
+                // TextColumn::make('updated_at')
+                //     ->label('Updated')
+                //     ->dateTime()
+                //     ->sortable(),
             ])
             ->filters([
                 //

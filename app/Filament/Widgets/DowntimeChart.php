@@ -7,30 +7,38 @@ use Filament\Widgets\ChartWidget;
 class DowntimeChart extends ChartWidget
 {
 
-    protected ?string $heading = 'Number of ATMs Downtime Today';
+    protected ?string $heading = 'Total Computers as dashen Bank';
 
-    protected ?string $description = 'Number of ATMs Downtime Today per district';
+    protected ?string $description = 'Number of Computers per district';
 
 
     protected function getData(): array
     {
         // Example: number of ATMs down per district today
         $data = [
-            'Jimma' => 3,
-            'Hawasa' => 1,
-            'Adama' => 2,
-            'Bahir Dar' => 0,
-            'Mekele' => 1,
-            'South West' => 2,
-            'Nekemete' => 1,
-            'Dessie' => 0,
+            'Jimma (1)' => 300,
+            'Hawasa (2)' => 100,
+            'Adama (3)' => 200,
+            'Bahir Dar (4)' => 120,
+            'Mekele (5)' => 450,
+            'South West (6)' => 350,
+            'Nekemete (7)' => 365,
+            'Dessie(8)' => 50,
+            'North Addis(9)' => 150,
+            'South Addis(10)' => 450,
+            'East Addis(11)' => 165,
+            'West Addis(12)' => 150,
+            'Dire Dawa (13)' => 160,
+            'Wolaita (14)' => 190,
+            'Head Office (15)' => 200,
+
         ];
 
         return [
             'labels' => array_keys($data),
             'datasets' => [
                 [
-                    'label' => 'Number of ATMs Down',
+                    'label' => 'Number of Computers per district',
                     'data' => array_values($data),
                     'backgroundColor' => [
                         '#4F46E5',

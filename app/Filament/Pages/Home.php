@@ -12,7 +12,8 @@ class Home extends Page
 {
     protected string $view = 'filament.pages.home';
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedHome;
+
     protected static ?string $navigationLabel = 'Home';
     protected static ?string $slug = 'home';
 

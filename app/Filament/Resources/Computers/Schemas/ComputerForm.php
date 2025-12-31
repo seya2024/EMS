@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Computers\Schemas;
 
 use App\Models\Branch;
+use App\Models\ComputerModel;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Forms\Components\Select;
@@ -30,12 +31,15 @@ class ComputerForm
                             ])
                             ->required(),
 
-                        TextInput::make('pcModel')
-                            ->label('PC Model')
+
+                        Select::make('computer_model_id')
+                            ->label('Computer  Model')
+                            ->options(ComputerModel::all()->pluck('name', 'id')) // id => name
+                            ->searchable()
                             ->required(),
 
                         TextInput::make('tagNo')
-                            ->label('Tag Number')
+                            ->label('Tag Number')->placeholder('such as DB/JDO/4.1/4546')
                             ->required(),
 
                         // TextInput::make('quantity')
@@ -43,30 +47,43 @@ class ComputerForm
                         //     ->numeric()
                         //     ->required(),
 
-                        Select::make('unit')
-                            ->label('Measurement Unit')
+                        Select::make('isActiveAntivirus')
+                            ->label('Is Antivirus Active ?')
                             ->options([
-                                'pcs' => 'PCS',
-                                'meter' => 'Meter',
-                                'kg' => 'KG',
-                                'liter' => 'Liter',
-                                'box' => 'Box',
-                                'roll' => 'Roll',
-                                'set' => 'Set',
-                            ])
-                            ->required(),
+                                'Active Agent' => 'Yes, Agent is Active',
+                                'DataBase outdated' => 'DataBase outdated',
+                                'Licenced expiered' => 'Licenced expiered',
+                                'Licenced expiered' => 'Licenced expiered',
+
+
+                            ])->required(),
+
 
                         TextInput::make('serialNo')
                             ->label('Serial Number')
                             ->required(),
 
-                        TextInput::make('harddiskSize')
-                            ->label('Hard Disk Size')
-                            ->required(),
 
-                        TextInput::make('ramSize')
-                            ->label('RAM Size')
-                            ->required(),
+
+                        Select::make('harddiskSize')
+                            ->label('Hard drive Size')
+                            ->options([
+                                '500GB' => '500  Giga Byte(GB)',
+                                '1TB' => '1 Tera Byte(TB)',
+
+                            ])->searchable()->required(),
+
+                        Select::make('ramSize')
+                            ->label('RAM Size in GB such as 4GB or 8GB')
+                            ->options([
+                                '2GB' => '2 Giga Byte(GB)',
+                                '4GB' => '4 Giga Byte(GB)',
+                                '6GB' => '6 Giga Byte(GB)',
+                                '8GB' => '8 Giga Byte(GB)',
+                                '16GB' => '16 Giga Byte(GB)',
+
+
+                            ])->searchable()->required(),
                     ])
                     ->columns(2),
 
@@ -90,7 +107,7 @@ class ComputerForm
                             ->required(),
 
                         Select::make('isActivated')
-                            ->label('Activated')
+                            ->label(' OS Activated ?')
                             ->options([
                                 1 => 'Yes',
                                 0 => 'No',

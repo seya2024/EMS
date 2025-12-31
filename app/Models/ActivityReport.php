@@ -30,7 +30,7 @@ class ActivityReport extends Model
 
     public function taskGiver()
     {
-        return $this->belongsTo(Ou::class, 'task_giver_id');
+        return $this->belongsTo(Ou::class);
     }
 
     public function district()

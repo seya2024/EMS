@@ -43,7 +43,7 @@ class ATMReport extends Model
     // ATMReport belongs to an ATM
     public function atm()
     {
-        return $this->belongsTo(ATM::class, 'atm_id');
+        return $this->belongsTo(ATM::class);
     }
 
 
@@ -55,7 +55,7 @@ class ATMReport extends Model
     }
     public function branch()
     {
-        return $this->belongsTo(Branch::class, 'custodian'); // 'custodian' is the foreign key in ATMReport
+        return $this->belongsTo(Branch::class); // 'custodian' is the foreign key in ATMReport
     }
 
     // Relation to the user who created the record

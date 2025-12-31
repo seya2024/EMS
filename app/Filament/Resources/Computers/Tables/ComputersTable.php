@@ -23,8 +23,12 @@ class ComputersTable
     {
         return $table
             ->columns([
-                TextColumn::make('hardwareType')->label('Hardware Type')->searchable()->sortable(),
-                TextColumn::make('pcModel')->label('PC Model')->searchable()->sortable(),
+                TextColumn::make('hardwareType')->label('Type')->searchable()->sortable(),
+                //  TextColumn::make('pcModel')->label('PC Model')->searchable()->sortable(),
+                TextColumn::make('computerModel.name') // use the relation from --ComputerModel-- model
+                    ->label('PC Model')
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('tagNo')->label('Tag Number')->searchable()->sortable(),
                 TextColumn::make('serialNo')->label('Serial Number'),
                 TextColumn::make('harddiskSize')->label('Hard Disk Size'),

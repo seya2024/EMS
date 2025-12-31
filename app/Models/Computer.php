@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\PCModel;
+use App\Models\PCModel as ModelsPCModel;
+use App\Models\PCModel as AppModelsPCModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -11,25 +14,25 @@ class Computer extends Model
 
     // Fillable fields for mass assignment
     protected $fillable = [
+
         'hardwareType',
-        'pcModel',
+        // 'pcModel',
+        'computer_model_id', // foreign key
         'tagNo',
         'serialNo',
         'harddiskSize',
         'ramSize',
         'speed',
+        'isActiveAntivirus',
         'os',
-        //  'quantity',
-        'unit',
         'isActivated',
         'IpAddress',
         'hostName',
-        'workingUnit',
         'status',
+        'branch_id',
         'created_at',
         'updated_at',
-        //   'price',
-        'branch_id',
+
 
     ];
 
@@ -60,7 +63,11 @@ class Computer extends Model
         return $this->belongsTo(Branch::class);
     }
 
+    public function computerModel()
+    {
 
+        return $this->belongsTo(ComputerModel::class);
+    }
 
     // $computer->owner; // returns HeadOffice OR DistrictOffice OR BranchOffice
 }
