@@ -11,8 +11,8 @@ class Photocopy extends Model
         'tag',
         'status',
         'value',
-        'quantity',
-        'unit',
+        // 'quantity',
+        // 'unit',
         // 'owner_id',
         //  'owner_type',
     ];

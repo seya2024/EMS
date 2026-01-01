@@ -22,8 +22,8 @@ class DonglesTable
                 TextColumn::make('iccid')->label('ICCID')->sortable()->searchable(),
                 TextColumn::make('service_no')->label('Service No')->sortable()->searchable(),
                 TextColumn::make('network_type')->label('Network Type')->sortable(),
-                TextColumn::make('status')->label('Status')->sortable(),
-                TextColumn::make('quantity')->label('Quantity'),
+                // TextColumn::make('status')->label('Status')->sortable(),
+                // TextColumn::make('quantity')->label('Quantity'),
                 TextColumn::make('unit')->label('Measurement Unit'),
             ])
             ->filters([

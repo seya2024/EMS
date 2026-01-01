@@ -23,8 +23,8 @@ class DobsTable
                 TextColumn::make('value')->label('Asset Value')->sortable()->searchable(),
                 TextColumn::make('service_no')->label('Service No')->sortable()->searchable(),
                 TextColumn::make('network_type')->label('Network Type')->sortable(),
-                TextColumn::make('status')->label('Status')->sortable(),
-                TextColumn::make('quantity')->label('Quantity'),
+                // TextColumn::make('status')->label('Status')->sortable(),
+                // TextColumn::make('quantity')->label('Quantity'),
                 TextColumn::make('unit')->label('Measurement Unit'),
             ])
             ->filters([

@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('service_no')->unique();
             $table->string('serial')->unique();
             $table->string('iccid')->unique();
-            $table->string('quantity')->default('0');
-            $table->string('unit')->default('pcs');  //pcs, meter, kg
+            // $table->string('quantity')->default('0');
+            // $table->string('unit')->default('pcs');  //pcs, meter, kg
 
             $table->string('network_type');
             $table->string('status');

@@ -7,16 +7,22 @@ use Filament\PanelProvider;
 use App\Filament\Pages\Home;
 use Filament\Actions\Action;
 use Filament\Pages\Settings;
+use Laravel\Fortify\Fortify;
 use Filament\Pages\Dashboard;
 use Filament\Support\Colors\Color;
 use Filament\Widgets\AccountWidget;
+use Filament\Auth\Pages\EditProfile;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Foundation\Auth\User;
+use Illuminate\Support\Facades\Hash;
 use App\Filament\Widgets\ComputerChart;
 use App\Filament\Widgets\StatsOverview;
 use Filament\Navigation\NavigationItem;
 use Filament\Navigation\NavigationGroup;
+//use Dotenv\Exception\ValidationException;
 use Filament\Widgets\FilamentInfoWidget;
 use Filament\Http\Middleware\Authenticate;
+use Illuminate\Validation\ValidationException;
 use Filament\Pages\Enums\SubNavigationPosition;
 use function Filament\Support\original_request;
 use Illuminate\Session\Middleware\StartSession;
@@ -50,6 +56,10 @@ class AdminPanelProvider extends PanelProvider
             ->registration()
 
 
+            ->login()
+
+
+
 
             ->profile(isSimple: false)
             //->authGuard('web')
@@ -57,12 +67,16 @@ class AdminPanelProvider extends PanelProvider
             ->emailVerification()
             ->emailChangeVerification()
             // ->profile()
+            // ->registration()
+            // ->passwordReset()
+            // ->emailVerification()
+            // ->emailChangeVerification()
 
             // ->domain('dashenbank.local')
-
+            ->profile(EditProfile::class)
             ->subNavigationPosition(SubNavigationPosition::Top)
             ->spa()
-            ->spa(hasPrefetching: true)
+            ->spa(hasPrefetching: false)
             ->unsavedChangesAlerts()
             ->databaseTransactions(false)
 
@@ -90,16 +104,13 @@ class AdminPanelProvider extends PanelProvider
                 body: 'Please try again later.',
             )
 
-
-
             ->registerErrorNotification(
                 title: 'Record not found',
                 body: 'A record you are looking for does not exist.',
                 statusCode: 404,
             )
             // ->collapsibleNavigationGroups(false)
-
-            //  ->sidebarCollapsibleOnDesktop()
+            // ->sidebarCollapsibleOnDesktop()
             ->sidebarFullyCollapsibleOnDesktop()
             ->sidebarWidth('16rem')
             ->brandLogo(asset('images/logo.jpg'))
@@ -130,9 +141,6 @@ class AdminPanelProvider extends PanelProvider
                 // StatsOverview::class,
                 // ComputerChart::class,
             ])
-
-
-
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
@@ -143,10 +151,7 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
-            ])
-            ->authMiddleware([
-                Authenticate::class,
-            ]);
+            ])->authMiddleware([Authenticate::class,]);
     }
 
     public function pages(): array
@@ -154,5 +159,21 @@ class AdminPanelProvider extends PanelProvider
         return [
             Home::class,
         ];
+    }
+    public function boot(): void
+    {
+        // // Custom login for Filament
+        // Fortify::authenticateUsing(function ($request) {
+        //     $user = User::where('email', $request->email)->first();
+
+        //     if ($user && Hash::check($request->password, $user->password)) {
+        //         if (!$user->isActive) {
+        //             throw ValidationException::withMessages([
+        //                 'email' => ['Your account is inactive.'], // <-- array here
+        //             ]);
+        //         }
+        //         return $user;
+        //     }
+        // });
     }
 }

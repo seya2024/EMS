@@ -16,6 +16,8 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Notifications\Notification;
 use Filament\Tables\Filters\SelectFilter;
 use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
+use Filament\Actions\ReplicateAction;
+
 
 class ComputersTable
 {
@@ -25,7 +27,7 @@ class ComputersTable
             ->columns([
                 TextColumn::make('hardwareType')->label('Type')->searchable()->sortable(),
                 //  TextColumn::make('pcModel')->label('PC Model')->searchable()->sortable(),
-                TextColumn::make('computerModel.name') // use the relation from --ComputerModel-- model
+                TextColumn::make('computerModel.name')->relationship('computerModel', 'name') // use the relation from --ComputerModel-- model
                     ->label('PC Model')
                     ->searchable()
                     ->sortable(),
@@ -63,14 +65,17 @@ class ComputersTable
             ->recordActions([
 
                 ActionGroup::make([
-                    ViewAction::make(),
-                    EditAction::make(),
+                    ViewAction::make()->successNotificationTitle('Data View'),
+                    EditAction::make(), //->successRedirectUrl(route('computers.list')),
+                    ReplicateAction::make(),
+
                     DeleteAction::make()->rateLimit(5)->rateLimitedNotification(
                         fn(TooManyRequestsException $exception): Notification => Notification::make()
                             ->warning()
                             ->title('Slow down!')
                             ->body("You can try deleting again in {$exception->secondsUntilAvailable} seconds."),
                     )
+
                 ]),
             ])
 

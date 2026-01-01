@@ -2,12 +2,13 @@
 
 namespace App\Filament\Resources\Users\Schemas;
 
-use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Table;
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Table;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\DateTimePicker;
 
 class UserForm
 {
@@ -31,9 +32,15 @@ class UserForm
                 TextInput::make('email')->label('Email address')->email()->required(),
                 TextInput::make('phone')->tel()->required(),
                 TextInput::make('address')->maxLength(255),
-                TextInput::make('working_unit')->label('Working Unit / Department')->required(),
 
+                Select::make('branch_id')
+                    ->label('Working Unit / Department')
+                    ->required() //->searchable(true)
+                    ->relationship('branch', 'name'),
 
+                Toggle::make('isActive')
+                    ->label('Active Account')
+                    ->default(true),
 
 
                 Select::make('role')->options([

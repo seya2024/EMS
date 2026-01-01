@@ -60,6 +60,16 @@ class Branch extends Model
         return $this->hasMany(Computer::class);
     }
 
+    public function otherAssets()
+    {
+        return $this->hasMany(OtherAsset::class);
+    }
+
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
+
     // Branch.php
     public function district()
     {

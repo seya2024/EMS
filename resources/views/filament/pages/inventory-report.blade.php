@@ -28,36 +28,16 @@
 
                             {{-- Branch stats (placeholders) --}}
                             <div x-show="openBranch" x-transition class="pl-4 mt-2 space-y-2">
-                                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm text-gray-600">
-                                    <div class="flex justify-between border p-2 rounded bg-gray-50">
-                                        <span>Windows 7</span>
-                                        <span>5</span>
-                                    </div>
-                                    <div class="flex justify-between border p-2 rounded bg-gray-50">
-                                        <span>Windows 10</span>
-                                        <span>12</span>
-                                    </div>
-                                    <div class="flex justify-between border p-2 rounded bg-gray-50">
-                                        <span>Windows 11</span>
-                                        <span>8</span>
-                                    </div>
-                                    <div class="flex justify-between border p-2 rounded bg-gray-50">
-                                        <span>Inactive OS</span>
-                                        <span>3</span>
-                                    </div>
-                                    <div class="flex justify-between border p-2 rounded bg-gray-50">
-                                        <span>Antivirus Outdated</span>
-                                        <span>4</span>
-                                    </div>
-                                    <div class="flex justify-between border p-2 rounded bg-gray-50">
-                                        <span>Laptops</span>
-                                        <span>10</span>
-                                    </div>
-                                    <div class="flex justify-between border p-2 rounded bg-gray-50">
-                                        <span>Desktops</span>
-                                        <span>15</span>
-                                    </div>
+                               
+                               
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm text-gray-600">
+                            @foreach($computerCounts as $model)
+                                <div class="flex justify-between border p-2 rounded bg-gray-50">
+                                    <span>{{ $model->name }}</span>
+                                    <span>{{ $model->computers_count }}</span>
                                 </div>
+                            @endforeach
+                        </div>
 
                                 {{-- Computers (Inactive list) --}}
                                 <div class="mt-4 space-y-1">

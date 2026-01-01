@@ -90,7 +90,7 @@ class ActivityReportsTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make()->hidden(fn($record) => $record->status === 'Completed'),
+                    DeleteBulkAction::make() //->hidden(fn($record) => $record->status === 'Completed'),
                 ]),
             ]);
     }

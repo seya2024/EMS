@@ -2,21 +2,22 @@
 
 namespace App\Filament\Resources\Users\Tables;
 
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
+use Filament\Tables\Table;
+use Filament\Actions\Action;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Table;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\Action;
-use Filament\Actions\ActionGroup;
 use Filament\Support\Enums\Size;
+use Filament\Actions\ActionGroup;
+use Filament\Actions\DeleteAction;
 use Filament\Support\Colors\Color;
-use Filament\Support\Facades\FilamentColor;
-use Filament\Tables\Columns\Layout\Split;
-use Filament\Tables\Columns\ImageColumn;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
 use Filament\Support\Enums\FontWeight;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\Layout\Split;
+use Filament\Tables\Columns\ToggleColumn;
+use Filament\Support\Facades\FilamentColor;
 
 class UsersTable
 {
@@ -48,8 +49,24 @@ class UsersTable
 
                 TextColumn::make('email')->label('Email address')->searchable()->icon('heroicon-m-envelope'),
                 TextColumn::make('phone')->label('Phone')->icon('heroicon-m-phone'),
-                TextColumn::make('working_unit')->label('Working Unit'),
+                TextColumn::make('branch.name')->label('Working Unit'),
                 TextColumn::make('role')->label('Role'),
+
+                // // Add the isActive column as a toggle
+                // ToggleColumn::make('isActive')
+                //     ->label('Active Account')
+                //     ->trueLabel('Active')
+                //     ->falseLabel('Inactive')
+                //     ->sortable()
+                //     ->toggleable(),
+
+
+
+                ToggleColumn::make('isActive')
+                    ->label('Active Account')
+                    ->sortable()
+                    ->toggleable(), // makes it clickable in the table
+
                 TextColumn::make('email_verified_at')->dateTime()->sortable(),
                 TextColumn::make('created_at')->dateTime()->sortable()->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')->dateTime()->sortable()->toggleable(isToggledHiddenByDefault: true),

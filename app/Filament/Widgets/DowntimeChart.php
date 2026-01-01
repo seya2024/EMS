@@ -3,43 +3,36 @@
 namespace App\Filament\Widgets;
 
 use Filament\Widgets\ChartWidget;
+use App\Models\District;
+use App\Models\Branch;
+use App\Models\Computer;
 
 class DowntimeChart extends ChartWidget
 {
 
     protected ?string $heading = 'Total Computers as dashen Bank';
-
     protected ?string $description = 'Number of Computers per district';
-
-
+    //$data  = District::orderBy('id')->pluck('name')->toArray();
     protected function getData(): array
     {
-        // Example: number of ATMs down per district today
-        $data = [
-            'Jimma (1)' => 300,
-            'Hawasa (2)' => 100,
-            'Adama (3)' => 200,
-            'Bahir Dar (4)' => 120,
-            'Mekele (5)' => 450,
-            'South West (6)' => 350,
-            'Nekemete (7)' => 365,
-            'Dessie(8)' => 50,
-            'North Addis(9)' => 150,
-            'South Addis(10)' => 450,
-            'East Addis(11)' => 165,
-            'West Addis(12)' => 150,
-            'Dire Dawa (13)' => 160,
-            'Wolaita (14)' => 190,
-            'Head Office (15)' => 200,
-
-        ];
+        $districts = \App\Models\District::query()
+            ->leftJoin('branches', 'branches.district_id', '=', 'districts.id')
+            ->leftJoin('computers', 'computers.branch_id', '=', 'branches.id')
+            ->select('districts.id', 'districts.name', \Illuminate\Support\Facades\DB::raw('COUNT(computers.id) as computers_count'))
+            ->groupBy('districts.id', 'districts.name')
+            ->orderBy('districts.id')
+            ->get()
+            ->mapWithKeys(function ($district) {
+                return ["{$district->name} ({$district->id})" => (int) $district->computers_count];
+            })
+            ->toArray();
 
         return [
-            'labels' => array_keys($data),
+            'labels' => array_keys($districts),
             'datasets' => [
                 [
                     'label' => 'Number of Computers per district',
-                    'data' => array_values($data),
+                    'data' => array_values($districts),
                     'backgroundColor' => [
                         '#4F46E5',
                         '#A78BFA',

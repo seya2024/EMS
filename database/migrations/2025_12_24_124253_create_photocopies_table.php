@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('value');
             $table->string('tag')->unique();
             $table->string('status');
-            $table->string('quantity')->default('0');
-            $table->string('unit')->default('pcs');  //pcs, meter, kg
+            // $table->string('quantity')->default('0');
+            // $table->string('unit')->default('pcs');  //pcs, meter, kg
             //$table->morphs('owner');
             $table->timestamps();
         });

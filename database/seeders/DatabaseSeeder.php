@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\OrganizationUnit;
+use App\Models\OtherAsset;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -24,10 +25,11 @@ class DatabaseSeeder extends Seeder
 
         // Call other seeders, order matter for foreign key constraints
         $this->call([
-            UserSeeder::class,   //  1st order
-            HQSeeder::class,     //  2nd order
-            DistrictSeeder::class, // 3rd order
-            BranchSeeder::class,  // 4th order
+
+            DistrictSeeder::class,   // districts first
+            BranchSeeder::class,     // then branches
+            UserSeeder::class,
+            HQSeeder::class,     //  2nd order // 3rd order  // 4th order
             OutletSeeder::class,  // 5th order
             ComputerSeeder::class, // 6th order
             DowntimeReasonsSeeder::class,
@@ -35,6 +37,10 @@ class DatabaseSeeder extends Seeder
             OUSeeder::class,
             TaskCategorySeeder::class,
             TaskSeeder::class,
+            OtherAssetSeeder::class,
         ]);
     }
 }
+
+
+   // finally users

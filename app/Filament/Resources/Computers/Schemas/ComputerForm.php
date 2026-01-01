@@ -99,10 +99,10 @@ class ComputerForm
                         Select::make('os')
                             ->label('Operating System')
                             ->options([
-                                'Windows 7' => 'Windows 7',
-                                'Windows 8' => 'Windows 8',
-                                'Windows 10' => 'Windows 10',
-                                'Windows 11' => 'Windows 11',
+                                'Windows7' => 'Windows 7',
+                                'Windows8' => 'Windows 8',
+                                'Windows10' => 'Windows 10',
+                                'Windows11' => 'Windows 11',
                             ])
                             ->required(),
 

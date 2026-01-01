@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('iccid')->unique();
             $table->string('service_no');
             $table->string('network_type');
-            $table->string('quantity')->default('0');
-            $table->string('unit')->default('pcs');  //pcs, meter, kg
+            // $table->string('quantity')->default('0');
+            // $table->string('unit')->default('pcs');  //pcs, meter, kg
             $table->string('status');
             // $table->morphs('owner')
             $table->timestamps();

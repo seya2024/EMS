@@ -31,8 +31,10 @@ return new class extends Migration
             $table->string('address')->nullable();
 
             // Organization
-            $table->string('working_unit');
+            //  $table->string('working_unit');
 
+            $table->foreignId('branch_id')->constrained()->cascadeOnDelete();
+            $table->boolean('isActive')->default(true); // toggleable account
             // Authorization
             $table->string('role');
             $table->boolean('has_email_authentication')->default(false);

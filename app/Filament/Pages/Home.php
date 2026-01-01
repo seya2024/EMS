@@ -2,10 +2,14 @@
 
 namespace App\Filament\Pages;
 
-use Filament\Pages\Page;
 use UnitEnum;
-use Filament\Support\Icons\Heroicon;
 use BackedEnum;
+use App\Models\User;
+use App\Models\Branch;
+use App\Models\Computer;
+use App\Models\District;
+use Filament\Pages\Page;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\Auth;
 
 class Home extends Page
@@ -26,6 +30,12 @@ class Home extends Page
             'welcomeMessage' => config('app.homepage_welcome'),
             'userName' => Auth::user()?->name ?? 'Guest',
             'today' => now()->format('l, F j, Y'),
+
+
+            'usersCount' => User::count(),
+            'computerCount' => Computer::count(),
+            'branchCount' => Branch::count(),
+            'districtCount' => District::count(),
 
 
         ];

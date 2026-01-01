@@ -24,7 +24,7 @@ class ActivityReportForm
 
 
                 Select::make('deliverable_id')
-                    ->label('Deliverable')
+                    ->label('Deliverable/Outcome')
                     ->required()
                     ->reactive() // <- this makes the select update when task_id changes
                     ->options(function (callable $get) {
@@ -43,7 +43,7 @@ class ActivityReportForm
                     ->required(),
 
                 Select::make('district_id')
-                    ->label('District')
+                    ->label('Where you are working for?')
                     ->relationship('district', 'name')
                     ->required(),
 

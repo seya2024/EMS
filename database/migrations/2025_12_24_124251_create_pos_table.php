@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('service_no');
             $table->string('type');
             $table->string('merchant');
-            $table->string('quantity')->default('0');
-            $table->string('unit')->default('pcs');  //pcs, meter, kg
+            // $table->string('quantity')->default('0');
+            // $table->string('unit')->default('pcs');  //pcs, meter, kg
             //   $table->morphs('owner');
             $table->timestamps();
         });

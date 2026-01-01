@@ -2,8 +2,14 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use Filament\Facades\Filament;
+use Illuminate\Foundation\Auth\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\ServiceProvider;
+use Laravel\Fortify\Fortify;
+
+use Illuminate\Validation\ValidationException;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -18,17 +24,5 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void
-    {
-        //
-    }
-
-    // public function boot(): void
-    // {
-    //     Filament::serving(function () {
-    //         Filament::getUserName(function ($user) {
-    //             return trim("{$user->fname} {$user->mname} {$user->lname}");
-    //         });
-    //     });
-    // }
+    public function boot(): void {}
 }

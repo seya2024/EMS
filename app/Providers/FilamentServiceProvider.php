@@ -7,6 +7,9 @@ use Filament\Facades\Filament;
 use Filament\Navigation\NavigationItem;
 use Illuminate\Support\ServiceProvider;
 use Filament\Navigation\NavigationGroup;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+use Illuminate\Validation\ValidationException;
 
 class FilamentServiceProvider extends ServiceProvider
 {
@@ -30,29 +33,27 @@ class FilamentServiceProvider extends ServiceProvider
     }
 
 
+
     public function boot(): void
     {
-        // Filament::serving(function () {
-        //     Filament::registerNavigationGroups([
-        //         NavigationGroup::make('Working Units')
-        //             ->items([
-        //                 NavigationItem::make('District')
-        //                     ->url(\App\Filament\Resources\Districts\DistrictResource::getUrl('index'))
-        //                     ->icon('heroicon-o-map'),
+        // Filament::authenticateUsing(function ($request) {
+        //     $user = User::where('email', $request->email)->first();
 
-        //                 // NavigationItem::make('HO')
-        //                 //     ->url(\App\Filament\Resources\HO\HOResource::getUrl('index'))
-        //                 //     ->icon('heroicon-o-office-building'),
+        //     if ($user) {
+        //         if (!Hash::check($request->password, $user->password)) {
+        //             return null; // wrong password
+        //         }
 
-        //                 NavigationItem::make('Branch')
-        //                     ->url(\App\Filament\Resources\Branches\BranchResource::getUrl('index'))
-        //                     ->icon('heroicon-o-office-building'),
+        //         if (!$user->isActive) {
+        //             throw ValidationException::withMessages([
+        //                 'email' => 'Your account is inactive. Contact System administrator.',
+        //             ]);
+        //         }
 
-        //                 NavigationItem::make('Outlet')
-        //                     ->url(\App\Filament\Resources\Outlets\OutletResource::getUrl('index'))
-        //                     ->icon('heroicon-o-collection'),
-        //             ]),
-        //     ]);
+        //         return $user;
+        //     }
+
+        //     return null;
         // });
     }
 }

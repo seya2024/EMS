@@ -21,8 +21,8 @@ class PhotocopiersTable
                 TextColumn::make('tag')->label('Tag')->sortable()->searchable(),
                 TextColumn::make('value')->label('Value')->sortable()->searchable(),
                 TextColumn::make('status')->label('Status')->sortable(),
-                TextColumn::make('quantity')->label('Quantity'),
-                TextColumn::make('unit')->label('Measurement Unit'),
+                // TextColumn::make('quantity')->label('Quantity'),
+                // TextColumn::make('unit')->label('Measurement Unit'),
             ])
             ->filters([
                 //
