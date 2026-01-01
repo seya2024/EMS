@@ -57,15 +57,20 @@ class StatsOverview extends StatsOverviewWidget
         return [
 
             Stat::make('Users', $users . '-' . 'Staff')->color('primary')->description('Total Users')->descriptionIcon('heroicon-s-users'),
-            Stat::make('Districts', $districts . '-' . 'Districts')->description('Total District')->descriptionIcon('heroicon-s-map')->color('primary'),
-            Stat::make('Branches', $branches . '-' . 'Branches')->description('Total Branches')->descriptionIcon('heroicon-s-building-office')->color('primary'),
+            Stat::make('Districts + HQ', $districts . '-' . 'Districts')->description('Total District')->descriptionIcon('heroicon-s-map')->color('primary'),
+            Stat::make('Branches + Outlets', $branches . '-' . 'Branches')->description('Total Branches')->descriptionIcon('heroicon-s-building-office')->color('primary'),
             Stat::make('Computers', $computers . '-' . 'Computers')->description('Total Computers')->descriptionIcon('heroicon-s-computer-desktop')->color('primary'),
+            Stat::make('Upgrading', 'Windows 10')->description('Operating System')->descriptionIcon('heroicon-s-computer-desktop')
+
+                ->chart([17, 2, 10, 3, 15, 4, 3])
 
 
-            Stat::make(' Total Window 10 ', 'Windows10')->description('Operating System')->descriptionIcon('heroicon-s-computer-desktop')->color('warning'),
-            Stat::make(' Total Window 11 ', 'Windows11')->description('Operating System')->descriptionIcon('heroicon-s-computer-desktop')->color('success')
+                ->color('warning'),
 
+            Stat::make('Upgraded', 'Windows 11')->description('Operating System')->descriptionIcon('heroicon-s-computer-desktop')      //     ->chart([7, 2, 10, 3, 15, 4, 17])
 
+                ->chart([15, 20, 25, 30, 50, 75, 90])
+                ->color('success'),
 
 
             // Stat::make('Jimma District', '575')->descriptionIcon('heroicon-m-arrow-trending-up')
