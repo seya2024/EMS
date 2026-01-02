@@ -6,6 +6,8 @@ use App\Providers\RouteServiceProvider;
 use App\Providers\FortifyServiceProvider;
 
 
+
+
 return [
 
 
@@ -143,6 +145,8 @@ return [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
+
+
 
 
 

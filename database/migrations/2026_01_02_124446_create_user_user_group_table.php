@@ -8,14 +8,6 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('user_groups', function (Blueprint $table) {
-            $table->id();
-            $table->string('name')->unique();
-            $table->string('description')->nullable();
-            $table->timestamps();
-        });
-
-        // Optional: Pivot table for user_group <-> users
         Schema::create('user_user_group', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
@@ -27,6 +19,5 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('user_user_group');
-        Schema::dropIfExists('user_groups');
     }
 };

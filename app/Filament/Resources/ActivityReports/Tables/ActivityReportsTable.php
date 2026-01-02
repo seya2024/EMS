@@ -84,13 +84,13 @@ class ActivityReportsTable
             ])
             ->recordActions([
                 ViewAction::make(),     // view record
-                EditAction::make()->hidden(fn($record) => $record->status === 'Completed'),
-                DeleteAction::make()->hidden(fn($record) => $record->status === 'Completed'),
-                ReplicateAction::make()->hidden(fn($record) => $record->status === 'Completed'),
+                EditAction::make()->hidden(fn($record) => $record->status === 'Completed')->visible(fn() => Filament::auth()->user()?->role === 'admin'),
+                DeleteAction::make()->hidden(fn($record) => $record->status === 'Completed')->visible(fn() => Filament::auth()->user()?->role === 'admin'),
+                ReplicateAction::make()->hidden(fn($record) => $record->status === 'Completed')->visible(fn() => Filament::auth()->user()?->role === 'admin'),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make() //->hidden(fn($record) => $record->status === 'Completed'),
+                    DeleteBulkAction::make()->visible(fn() => Filament::auth()->user()?->role === 'admin'),
                 ]),
             ]);
     }

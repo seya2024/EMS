@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Deliverables\Tables;
 
 use Filament\Tables\Table;
+use Filament\Facades\Filament;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Actions\DeleteAction;
@@ -25,14 +26,14 @@ class DeliverablesTable
                 //
             ])
             ->recordActions([
-                ViewAction::make(),      // View single deliverable
-                EditAction::make(),      // Edit deliverable
-                DeleteAction::make(),    // Delete deliverable
-                ReplicateAction::make(), // Clone/replicate deliverable
+                ViewAction::make(),
+                EditAction::make()->visible(fn() => Filament::auth()->user()?->role === 'admin'),
+                DeleteAction::make()->visible(fn() => Filament::auth()->user()?->role === 'admin'),
+                ReplicateAction::make()->visible(fn() => Filament::auth()->user()?->role === 'admin'),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),    // Bulk delete
+                    DeleteBulkAction::make()->visible(fn() => Filament::auth()->user()?->role === 'admin'),
 
                 ]),
             ])

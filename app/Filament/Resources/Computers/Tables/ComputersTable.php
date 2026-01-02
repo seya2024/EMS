@@ -5,18 +5,19 @@ namespace App\Filament\Resources\Computers\Tables;
 use App\Models\Computer;
 use Filament\Tables\Table;
 use Filament\Actions\Action;
+use Filament\Facades\Filament;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\DeleteAction;
+use Filament\Support\Icons\Heroicon;
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\ReplicateAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Support\Icons\Heroicon;
 use Filament\Notifications\Notification;
 use Filament\Tables\Filters\SelectFilter;
 use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
-use Filament\Actions\ReplicateAction;
 
 
 class ComputersTable
@@ -27,10 +28,10 @@ class ComputersTable
             ->columns([
                 TextColumn::make('hardwareType')->label('Type')->searchable()->sortable(),
                 //  TextColumn::make('pcModel')->label('PC Model')->searchable()->sortable(),
-                TextColumn::make('computerModel.name')->relationship('computerModel', 'name') // use the relation from --ComputerModel-- model
-                    ->label('PC Model')
-                    ->searchable()
-                    ->sortable(),
+                TextColumn::make('computerModel.name')
+                    ->label('Computer Model')
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('tagNo')->label('Tag Number')->searchable()->sortable(),
                 TextColumn::make('serialNo')->label('Serial Number'),
                 TextColumn::make('harddiskSize')->label('Hard Disk Size'),
@@ -66,15 +67,15 @@ class ComputersTable
 
                 ActionGroup::make([
                     ViewAction::make()->successNotificationTitle('Data View'),
-                    EditAction::make(), //->successRedirectUrl(route('computers.list')),
-                    ReplicateAction::make(),
+                    EditAction::make()->visible(fn() => Filament::auth()->user()?->role === 'admin'),
+                    ReplicateAction::make()->visible(fn() => Filament::auth()->user()?->role === 'admin'),
 
                     DeleteAction::make()->rateLimit(5)->rateLimitedNotification(
                         fn(TooManyRequestsException $exception): Notification => Notification::make()
                             ->warning()
                             ->title('Slow down!')
                             ->body("You can try deleting again in {$exception->secondsUntilAvailable} seconds."),
-                    )
+                    )->visible(fn() => Filament::auth()->user()?->role === 'admin'),
 
                 ]),
             ])
@@ -83,7 +84,7 @@ class ComputersTable
 
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()->visible(fn() => Filament::auth()->user()?->role === 'admin'),
                 ]),
             ])->defaultSort('id', 'desc');
     }

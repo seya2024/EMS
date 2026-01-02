@@ -2,13 +2,14 @@
 
 namespace App\Filament\Resources\ATMS\Tables;
 
+use Filament\Tables;
+use Filament\Tables\Table;
+use Filament\Facades\Filament;
+use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
-use Filament\Tables\Table;
-use Filament\Tables;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 
 class ATMSTable
@@ -72,13 +73,13 @@ class ATMSTable
                 //
             ])
             ->recordActions([
-                ViewAction::make(), //->button()->outlined(),
-                EditAction::make(), //->button()->outlined(),
-                DeleteAction::make()
+                ViewAction::make(),
+                EditAction::make()->visible(fn() => Filament::auth()->user()?->role === 'admin'),
+                DeleteAction::make()->visible(fn() => Filament::auth()->user()?->role === 'admin'),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()->visible(fn() => Filament::auth()->user()?->role === 'admin'),
                 ]),
             ])->defaultSort('id', 'desc');
     }

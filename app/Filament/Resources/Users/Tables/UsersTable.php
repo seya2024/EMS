@@ -18,6 +18,8 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\Layout\Split;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Support\Facades\FilamentColor;
+use Filament\Facades\Filament;
+
 
 class UsersTable
 {
@@ -80,15 +82,15 @@ class UsersTable
             ->recordActions([
 
                 ActionGroup::make([
-                    ViewAction::make(),
-                    EditAction::make(),
+                    ViewAction::make()->visible(fn() => Filament::auth()->user()?->role === 'admin'),
+                    EditAction::make()->visible(fn() => Filament::auth()->user()?->role === 'admin'),
                     DeleteAction::make()->rateLimit(5)->rateLimitedNotificationTitle('Slow down!')
                 ])->label('More actions')->icon('heroicon-m-ellipsis-vertical')->size(Size::Small)->color('info')->button()
             ])
 
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()->visible(fn() => Filament::auth()->user()?->role === 'admin')
                 ]),
             ])->defaultSort('id', 'desc');
     }

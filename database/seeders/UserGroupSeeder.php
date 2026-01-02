@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class RolesSeeder extends Seeder
+class UserGroupSeeder extends Seeder
 {
     public function run(): void
     {
@@ -20,9 +20,9 @@ class RolesSeeder extends Seeder
         ];
 
         foreach ($roles as $role) {
-            DB::table('roles')->updateOrInsert(
+            DB::table('user_groups')->updateOrInsert(
                 ['name' => $role['name']], // unique identifier
-                ['label' => $role['label'], 'created_at' => now(), 'updated_at' => now()]
+                ['description' => $role['description'], 'created_at' => now(), 'updated_at' => now()]
             );
         }
     }

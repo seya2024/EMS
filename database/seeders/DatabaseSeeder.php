@@ -26,6 +26,8 @@ class DatabaseSeeder extends Seeder
         // Call other seeders, order matter for foreign key constraints
         $this->call([
 
+
+            UserGroupSeeder::class,
             DistrictSeeder::class,   // districts first
             BranchSeeder::class,     // then branches
             UserSeeder::class,
@@ -38,6 +40,7 @@ class DatabaseSeeder extends Seeder
             TaskCategorySeeder::class,
             TaskSeeder::class,
             OtherAssetSeeder::class,
+            PermissionSeeder::class,
         ]);
     }
 }

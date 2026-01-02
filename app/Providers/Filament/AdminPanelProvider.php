@@ -54,13 +54,7 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->passwordReset()
             ->registration()
-
-
             ->login()
-
-
-
-
             ->profile(isSimple: false)
             //->authGuard('web')
             //->revealablePasswords(false)
@@ -71,7 +65,6 @@ class AdminPanelProvider extends PanelProvider
             // ->passwordReset()
             // ->emailVerification()
             // ->emailChangeVerification()
-
             // ->domain('dashenbank.local')
             ->profile(EditProfile::class)
             ->subNavigationPosition(SubNavigationPosition::Top)
@@ -79,11 +72,9 @@ class AdminPanelProvider extends PanelProvider
             ->spa(hasPrefetching: false)
             ->unsavedChangesAlerts()
             ->databaseTransactions(false)
-
             //      ->middleware([
             //     // ...
             // ])
-
             ->userMenuItems([
                 'profile' => fn(Action $action) => $action->label('Edit profile'),
                 // ...
@@ -92,8 +83,6 @@ class AdminPanelProvider extends PanelProvider
             //     EmailAuthentication::make()
             //         ->codeExpiryMinutes(2), // code valid for 2 minutes
             // ], isRequired: app()->environment('production')) // required only in production
-
-
 
             // ->multiFactorAuthentication([
             //     AppAuthentication::make(),

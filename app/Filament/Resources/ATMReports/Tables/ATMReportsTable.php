@@ -3,20 +3,21 @@
 namespace App\Filament\Resources\ATMReports\Tables;
 
 use Filament\Tables\Table;
+use Filament\Facades\Filament;
 use Illuminate\Support\Carbon;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Actions\DeleteAction;
+use Filament\Tables\Filters\Filter;
+
 use Filament\Support\Icons\Heroicon;
 use Filament\Actions\BulkActionGroup;
-
 use Filament\Actions\DeleteBulkAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\SelectFilter;
-use Filament\Tables\Filters\Filter;
-use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Filters\DateFilter;
+use Filament\Forms\Components\DatePicker;
+use Filament\Tables\Filters\SelectFilter;
 use CodeWithKyrian\FilamentDateRange\Tables\Filters\DateRangeFilter;
 
 class ATMReportsTable
@@ -138,12 +139,12 @@ class ATMReportsTable
 
             ->recordActions([
                 ViewAction::make(),
-                EditAction::make()->visible(fn($record) => is_null($record->close_date)),
-                DeleteAction::make()->rateLimit(5)->rateLimitedNotificationTitle('Slow down!')->visible(fn($record) => is_null($record->close_date)),
+                EditAction::make()->visible(fn($record) => is_null($record->close_date))->visible(fn() => Filament::auth()->user()?->role === 'admin'),
+                DeleteAction::make()->rateLimit(5)->rateLimitedNotificationTitle('Slow down!')->visible(fn($record) => is_null($record->close_date))->visible(fn() => Filament::auth()->user()?->role === 'admin'),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()->visible(fn() => Filament::auth()->user()?->role === 'admin'),
                 ]),
             ])->defaultSort('id', 'desc');
     }

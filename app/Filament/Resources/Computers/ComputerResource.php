@@ -29,11 +29,21 @@ use App\Filament\Resources\Computers\Pages\CreateComputer;
 use App\Filament\Resources\Computers\Schemas\ComputerForm;
 use App\Filament\Resources\Computers\Tables\ComputersTable;
 use App\Filament\Resources\Computers\Schemas\ComputerInfolist;
+use Illuminate\Database\Eloquent\Builder;
 
 
 class ComputerResource extends Resource
 {
     protected static ?string $model = Computer::class;
+
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->with('computerModel'); // eager load related model
+    }
+
+
 
     protected static ?string $navigationLabel = 'List of Computers';
 

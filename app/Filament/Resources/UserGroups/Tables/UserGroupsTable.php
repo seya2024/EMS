@@ -10,6 +10,8 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Facades\Filament;
+use Illuminate\Database\Eloquent\Builder;
 
 class UserGroupsTable
 {
@@ -37,14 +39,14 @@ class UserGroupsTable
                     ->label('Filter by User'),
             ])
             ->recordActions([
-                ViewAction::make(),
-                EditAction::make(),
+                ViewAction::make()->visible(fn() => Filament::auth()->user()?->role === 'admin'),
+                EditAction::make()->visible(fn() => Filament::auth()->user()?->role === 'admin'),
                 DeleteAction::make()->rateLimit(5)->rateLimitedNotificationTitle('Slow down!')
             ])
 
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(), // Bulk delete
+                    DeleteBulkAction::make()->visible(fn() => Filament::auth()->user()?->role === 'admin'),
                 ]),
             ])
             ->defaultSort('id', 'desc');

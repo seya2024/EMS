@@ -29,6 +29,8 @@ class User extends Authenticatable
 //class User extends Authenticatable implements FilamentUser, HasEmailAuthentication, MustVerifyEmail
 {
 
+
+
     //implements FilamentUser
 
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -40,19 +42,45 @@ class User extends Authenticatable
      * @var list<string>
      */
 
+    const ROLE_ADMIN = 'admin';
+    const ROLE_BRANCH = 'branch';
+    const ROLE_HEAD = 'head'; // example limited user
+    const ROLE_STOCKER = 'stocker'; // example limited user
+
     protected $fillable = [
+        'name',            // optional if you generate full name
         'fname',
         'mname',
         'lname',
         'email',
         'phone',
         'address',
-        'working_unit',
+        'branch_id',
+        'isActive',
         'role',
+        'has_email_authentication',
+        'email_verified_at',
         'password',
     ];
 
+    public function isAdmin(): bool
+    {
+        return $this->role === self::ROLE_ADMIN;
+    }
 
+    public function isBranch(): bool
+    {
+        return $this->role === self::ROLE_BRANCH;
+    }
+
+    public function isHead(): bool
+    {
+        return $this->role === self::ROLE_HEAD;
+    }
+    public function isStocker(): bool
+    {
+        return $this->role === self::ROLE_STOCKER;
+    }
 
     // ...
 
@@ -73,6 +101,12 @@ class User extends Authenticatable
 
 
     // ...
+
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = bcrypt($value);
+    }
+
 
     public function canAccessPanel(Panel $panel): bool
     {
@@ -168,10 +202,40 @@ class User extends Authenticatable
     //     }
     // }
 
+    // public function userGroups()
+    // {
+    //     return $this->belongsToMany(UserGroup::class);
+    // }
+
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class);
+    }
+
+    // public function group()
+    // {
+    //     return $this->belongsTo(UserGroup::class);
+    // }
+
+    // public function hasPermission(string $permissionName): bool
+    // {
+    //     return $this->group?->permissions?->contains('name', $permissionName) ?? false;
+    // }
+
+
     public function userGroups()
     {
-        return $this->belongsToMany(UserGroup::class);
+        return $this->belongsToMany(UserGroup::class, 'user_user_group', 'user_id', 'user_group_id')
+            ->using(UserUserGroup::class)
+            ->withTimestamps();
     }
+
+
+    // public function groups()
+    // {
+    //     return $this->belongsToMany(UserGroup::class, 'user_user_group')
+    //         ->using(UserUserGroup::class);
+    // }
 }
 
 

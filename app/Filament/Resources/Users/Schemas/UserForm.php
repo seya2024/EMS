@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Users\Schemas;
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Table;
+use Filament\Support\Icons\Heroicon;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\TextInput;
@@ -19,6 +20,8 @@ class UserForm
 
 
                 #TextInput::make('name')->required()->columnSpan(3),
+
+                TextInput::make('name')->label('Domain')->required(),
 
                 TextInput::make('fname')->label('First Name')->required(),
                 TextInput::make('mname')->label('Father Name')->required(),
@@ -40,14 +43,16 @@ class UserForm
 
                 Toggle::make('isActive')
                     ->label('Active Account')
-                    ->default(true),
-
+                    ->default(false)->onIcon(Heroicon::Star),
 
                 Select::make('role')->options([
-                    'admin'   => 'System administrator',
+                    'admin' => 'Super Admin',
+                    'uadmin' > 'System administrator',
+                    'branch' => 'Branch',
                     'head' => 'Head',
-                    'stock-keeper'    => 'Stoke Keeper',
-                ])->required(),
+                    'stocker' => 'Stocker',
+                ]),
+
             ]);
     }
 }

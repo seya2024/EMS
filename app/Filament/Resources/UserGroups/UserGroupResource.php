@@ -22,11 +22,10 @@ class UserGroupResource extends Resource
 {
     protected static ?string $model = UserGroup::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUserGroup;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedChevronRight;
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static ?string $navigationLabel = 'User Groups';
 
     protected static string|UnitEnum|null $navigationGroup = 'User Account';
 
@@ -52,13 +51,15 @@ class UserGroupResource extends Resource
 
 
 
-
-                TextColumn::make('users.name')
-                    ->label('List of Users under this group')
-                    ->listWithLineBreaks()   // vertical list of user names
-                    ->limit(30)               // first 3 users
-                    ->wrap(),                // wrap text to prevent overflow
-
+                TextColumn::make('users')
+                    ->label('Users in this group')
+                    ->getStateUsing(
+                        fn($record) =>
+                        $record->users->map(fn($user) => "{$user->fname} {$user->mname} {$user->lname}")->toArray()
+                    )
+                    ->listWithLineBreaks()   // vertical list
+                    ->limit(30)              // show first 30 users
+                    ->wrap(),
 
 
 
@@ -97,8 +98,8 @@ class UserGroupResource extends Resource
     {
         return [
             'index'  => ListUserGroups::route('/'),
-            'create' => CreateUserGroup::route('/create'),
-            'edit'   => EditUserGroup::route('/{record}/edit'),
+            // 'create' => CreateUserGroup::route('/create'),
+            // 'edit'   => EditUserGroup::route('/{record}/edit'),
         ];
     }
 }

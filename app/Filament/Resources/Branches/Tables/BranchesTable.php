@@ -2,13 +2,14 @@
 
 namespace App\Filament\Resources\Branches\Tables;
 
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\DeleteBulkAction;
+use Filament\Tables\Table;
+use Filament\Facades\Filament;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Table;
 
 class BranchesTable
 {
@@ -60,13 +61,13 @@ class BranchesTable
             ])
 
             ->recordActions([
-                ViewAction::make(), //->button()->outlined(),
-                EditAction::make(), //->button()->outlined(),
-                DeleteAction::make()
+                ViewAction::make(),
+                EditAction::make()->visible(fn() => Filament::auth()->user()?->role === 'admin'),
+                DeleteAction::make()->visible(fn() => Filament::auth()->user()?->role === 'admin'),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()->visible(fn() => Filament::auth()->user()?->role === 'admin'),
                 ]),
             ])->defaultSort('id', 'desc');
     }

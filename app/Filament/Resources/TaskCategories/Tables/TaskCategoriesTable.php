@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\TaskCategories\Tables;
 
 use Filament\Tables\Table;
+use Filament\Facades\Filament;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Actions\DeleteAction;
@@ -23,13 +24,13 @@ class TaskCategoriesTable
                 //
             ])
             ->recordActions([
-                ViewAction::make(),   // View single task category
-                EditAction::make(),   // Edit task category
-                DeleteAction::make(), // Delete task category
+                ViewAction::make(),
+                EditAction::make()->visible(fn() => Filament::auth()->user()?->role === 'admin'),
+                DeleteAction::make()->visible(fn() => Filament::auth()->user()?->role === 'admin'),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(), // Bulk delete
+                    DeleteBulkAction::make()->visible(fn() => Filament::auth()->user()?->role === 'admin'),
                 ]),
             ])
             ->defaultSort('id', 'desc');

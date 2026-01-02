@@ -34,6 +34,7 @@ class UserResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'User';
 
+
     public static function form(Schema $schema): Schema
     {
         return UserForm::configure($schema);
@@ -45,6 +46,17 @@ class UserResource extends Resource
         return User::count();
     }
 
+
+
+    // public static function shouldRegisterNavigation(): bool | \Closure
+    // {
+    //     return auth()->check() && auth()->user()->role === 'admin';
+    // }
+
+    // protected static function shouldRegisterNavigation(): bool
+    // {
+    //     return auth()->user()->isAdmin();
+    // }
 
     public static function infolist(Schema $schema): Schema
     {

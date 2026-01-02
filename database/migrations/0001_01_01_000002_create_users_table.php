@@ -37,6 +37,9 @@ return new class extends Migration
             $table->boolean('isActive')->default(true); // toggleable account
             // Authorization
             $table->string('role');
+
+            // $table->foreignId('user_group_id')->constrained()->cascadeOnDelete();
+
             $table->boolean('has_email_authentication')->default(false);
 
             $table->timestamp('email_verified_at')->nullable();
