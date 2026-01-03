@@ -48,9 +48,6 @@ class UserGroupResource extends Resource
                 TextColumn::make('name')->label('Name of group')
                     ->searchable()
                     ->sortable(),
-
-
-
                 TextColumn::make('users')
                     ->label('Users in this group')
                     ->getStateUsing(
@@ -60,16 +57,12 @@ class UserGroupResource extends Resource
                     ->listWithLineBreaks()   // vertical list
                     ->limit(30)              // show first 30 users
                     ->wrap(),
-
-
-
                 TextColumn::make('users_count')
                     ->label('No of users')
                     ->counts('users')
                     ->sortable(),
 
             ])
-
             ->recordActions([
                 ViewAction::make(),  // default view page
                 EditAction::make(),

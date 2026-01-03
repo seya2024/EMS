@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\UserGroups\Schemas;
 
+use App\Models\User;
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -21,12 +22,23 @@ class UserGroupForm
                     ->label('Description')
                     ->maxLength(255),
 
+                // Select::make('users')
+                //     ->label('Assign Users')
+                //     ->multiple()
+                //     ->relationship('users', 'name') // assumes User model has 'name'
+                //     ->searchable()
+                //     ->preload(),
+
+
                 Select::make('users')
                     ->label('Assign Users')
-                    ->multiple()
-                    ->relationship('users', 'name') // assumes User model has 'name'
+                    ->multiple()->relationship('users', 'id')  // store ID in pivot
+                    ->options(
+                        User::all()->pluck('full_name', 'id')->toArray() // id => full_name
+                    )
                     ->searchable()
                     ->preload(),
+
             ]);
     }
 }

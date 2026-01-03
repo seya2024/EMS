@@ -38,6 +38,9 @@ return new class extends Migration
             // Authorization
             $table->string('role');
 
+            $table->string('employee_id')->nullable();
+
+
             // $table->foreignId('user_group_id')->constrained()->cascadeOnDelete();
 
             $table->boolean('has_email_authentication')->default(false);

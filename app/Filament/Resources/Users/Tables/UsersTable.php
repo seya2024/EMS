@@ -34,10 +34,10 @@ class UsersTable
                     ->circular()->grow(false)->getStateUsing(fn($record) => $record && $record->close_date
                         ? asset('images/photo.webp') : asset('images/photo.webp')),
 
-                // TextColumn::make('serial')
-                //     ->label('#')
-                //     ->getStateUsing(fn($record, $column) => $column->getTable()->getRecords()->search($record) + 1)
-                //     ->sortable(false),
+                TextColumn::make('serial')
+                    ->label('#')
+                    ->getStateUsing(fn($record, $column) => $column->getTable()->getRecords()->search($record) + 1)
+                    ->sortable(false),
 
                 TextColumn::make('full_name')->label('Full Name')
                     ->getStateUsing(fn($record) => trim("{$record->fname} {$record->mname} {$record->lname}"))
@@ -54,20 +54,13 @@ class UsersTable
                 TextColumn::make('branch.name')->label('Working Unit'),
                 TextColumn::make('role')->label('Role'),
 
-                // // Add the isActive column as a toggle
-                // ToggleColumn::make('isActive')
-                //     ->label('Active Account')
-                //     ->trueLabel('Active')
-                //     ->falseLabel('Inactive')
-                //     ->sortable()
-                //     ->toggleable(),
-
-
-
                 ToggleColumn::make('isActive')
-                    ->label('Active Account')
-                    ->sortable()
-                    ->toggleable(), // makes it clickable in the table
+                    ->label('Account Status')
+                    ->onIcon('heroicon-o-check-circle')
+                    ->offIcon('heroicon-o-x-circle')
+                    ->onColor('success')
+                    ->offColor('danger')
+                    ->sortable(),
 
                 TextColumn::make('email_verified_at')->dateTime()->sortable(),
                 TextColumn::make('created_at')->dateTime()->sortable()->toggleable(isToggledHiddenByDefault: true),

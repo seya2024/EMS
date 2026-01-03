@@ -36,6 +36,8 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, HasRoles;
 
+    protected $appends = ['full_name'];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -58,6 +60,7 @@ class User extends Authenticatable
         'branch_id',
         'isActive',
         'role',
+        'employee_id',
         'has_email_authentication',
         'email_verified_at',
         'password',
@@ -175,6 +178,13 @@ class User extends Authenticatable
     }
 
 
+
+
+    public function getFullNameAttribute(): string
+    {
+        return "{$this->fname} {$this->mname} {$this->lname}";
+    }
+
     public function canAccessFilament(): bool
     {
         return true;
@@ -211,6 +221,15 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Branch::class);
     }
+
+
+    // public function userGroup()
+    // {
+    //     return $this->belongsTo(UserGroup::class);
+    // }
+
+
+
 
     // public function group()
     // {

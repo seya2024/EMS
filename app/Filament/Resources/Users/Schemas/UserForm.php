@@ -10,6 +10,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Hidden;
 
 class UserForm
 {
@@ -39,19 +40,35 @@ class UserForm
                 Select::make('branch_id')
                     ->label('Working Unit / Department')
                     ->required() //->searchable(true)
-                    ->relationship('branch', 'name'),
+                    ->relationship('branch', 'name')->searchable()
+                    ->preload(),
 
+                // Select::make('role')
+                //     ->options([
+                //         'admin' => 'Super Admin',
+                //         'uadmin' => 'System administrator',
+                //         'branch' => 'Branch',
+                //         'head' => 'Head',
+                //         'stocker' => 'Stocker',
+                //     ])
+                //     ->nullable() // allows leaving empty
+                //     ->placeholder('Select a role'),
+
+                Hidden::make('role')->default('admin'),
+
+                TextInput::make('employee_id')->label('Employee ID')->nullable()->placeholder('DB/17357/24'),
                 Toggle::make('isActive')
                     ->label('Active Account')
                     ->default(false)->onIcon(Heroicon::Star),
 
-                Select::make('role')->options([
-                    'admin' => 'Super Admin',
-                    'uadmin' > 'System administrator',
-                    'branch' => 'Branch',
-                    'head' => 'Head',
-                    'stocker' => 'Stocker',
-                ]),
+
+
+                // Select::make('user_group_id')
+                //     ->label('User group')
+                //     ->required() //->searchable(true)
+                //     ->relationship('userGroups', 'description'),
+
+
 
             ]);
     }

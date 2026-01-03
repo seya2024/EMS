@@ -12,20 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('group_permission', function (Blueprint $table) {
-            $table->id();
-            // $table->foreignId('group_id')->constrained()->cascadeOnDelete();
-            // $table->foreignId('permission_id')->constrained()->cascadeOnDelete();
-
 
             $table->unsignedBigInteger('group_id');
             $table->unsignedBigInteger('permission_id');
 
-            $table->timestamps();
-
-            // Correct foreign keys
             $table->foreign('group_id')
                 ->references('id')
-                ->on('user_groups') // <-- not 'groups'
+                ->on('user_groups')
                 ->cascadeOnDelete();
 
             $table->foreign('permission_id')
@@ -33,19 +26,7 @@ return new class extends Migration
                 ->on('permissions')
                 ->cascadeOnDelete();
 
-
-            // // Foreign keys
-            // $table->foreign('group_id')
-            //     ->references('id')
-            //     ->on('user_groups')  // NOT 'groups'
-            //     ->cascadeOnDelete();
-
-            // $table->foreign('permission_id')
-            //     ->references('id')
-            //     ->on('permissions')
-            //     ->cascadeOnDelete();
-
-            $table->timestamps();
+            $table->primary(['group_id', 'permission_id']);
         });
     }
 
