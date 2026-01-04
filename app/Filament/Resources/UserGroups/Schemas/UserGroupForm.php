@@ -6,6 +6,7 @@ use App\Models\User;
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\CheckboxList;
 
 class UserGroupForm
 {
@@ -34,10 +35,24 @@ class UserGroupForm
                     ->label('Assign Users')
                     ->multiple()->relationship('users', 'id')  // store ID in pivot
                     ->options(
-                        User::all()->pluck('full_name', 'id')->toArray() // id => full_name
+                        User::all()->pluck('full_name', 'id')->toArray()
                     )
                     ->searchable()
                     ->preload(),
+
+                // Assign permissions
+                // Select::make('permissions')
+                //     ->label('Assign Permissions')
+                //     ->multiple()
+                //     ->relationship('permissions', 'name') // shows permission name
+                //     ->preload()
+                //     ->searchable(),
+
+
+                CheckboxList::make('permissions')
+                    ->relationship('permissions', 'name')
+                    ->columns(2), // adjust columns as needed
+
 
             ]);
     }

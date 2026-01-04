@@ -105,6 +105,7 @@ class AdminPanelProvider extends PanelProvider
             ->brandLogo(asset('images/logo.jpg'))
             ->brandLogoHeight('4rem')
 
+            ->colors(['success' => '#16a34a',])
             //->brandName('Inventory-Managment-System ')
             ->login()->colors([
                 'primary' => Color::Blue,

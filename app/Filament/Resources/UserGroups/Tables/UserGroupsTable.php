@@ -19,10 +19,11 @@ class UserGroupsTable
     {
         return $table
             ->columns([
-                TextColumn::make('name')
-                    ->label('Group Name')
-                    ->sortable()
-                    ->searchable(),
+
+                // TextColumn::make('description')
+                //     ->label('Group Name')
+                //     ->sortable()
+                //     ->searchable(),
 
                 TextColumn::make('description')
                     ->label('Description')
@@ -32,6 +33,14 @@ class UserGroupsTable
                     ->label('Users')
                     ->counts('users')
                     ->sortable(),
+
+
+                // TextColumn::make('permissions')
+                //     ->label('Permissions')
+                //     ->formatStateUsing(fn($record) => $record->permissions->pluck('name')->implode(', '))
+                //     ->wrap() // optional, wraps text if long
+                //     ->limit(50),
+
             ])
             ->filters([
                 SelectFilter::make('users')
@@ -39,9 +48,33 @@ class UserGroupsTable
                     ->label('Filter by User'),
             ])
             ->recordActions([
-                ViewAction::make()->visible(fn() => Filament::auth()->user()?->role === 'admin'),
-                EditAction::make()->visible(fn() => Filament::auth()->user()?->role === 'admin'),
-                DeleteAction::make()->rateLimit(5)->rateLimitedNotificationTitle('Slow down!')
+
+                // ViewAction::make('viewUsers')
+                //     ->label('Users')
+                //     ->icon('heroicon-o-user')
+                //     ->modalHeading(fn($record) => "Users in {$record->name}")
+                //     ->modalContent(
+                //         fn($record) =>
+                //         \Illuminate\Support\Str::of(
+                //             $record->users->pluck('full_name')->implode('<br>')
+                //         )->toHtml()
+                //     ),
+
+                // ViewAction::make('viewPermissions')
+                //     ->label('Permissions')
+                //     ->icon('heroicon-o-shield-check')
+                //     ->modalHeading(fn($record) => "Permissions for {$record->name}")
+                //     ->modalContent(
+                //         fn($record) =>
+                //         \Illuminate\Support\Str::of(
+                //             $record->permissions->pluck('name')->implode('<br>')
+                //         )->toHtml()
+                //     ),
+
+
+                // ViewAction::make()->visible(fn() => Filament::auth()->user()?->role === 'admin'),
+                // EditAction::make()->visible(fn() => Filament::auth()->user()?->role === 'admin'),
+                // DeleteAction::make()->rateLimit(5)->rateLimitedNotificationTitle('Slow down!')
             ])
 
             ->toolbarActions([

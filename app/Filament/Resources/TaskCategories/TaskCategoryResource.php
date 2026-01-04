@@ -19,7 +19,7 @@ class TaskCategoryResource extends Resource
 {
     protected static ?string $model = TaskCategory::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedChevronRight;
 
     protected static ?string $recordTitleAttribute = 'Task Category';
     protected static string | UnitEnum | null $navigationGroup = 'Settings';

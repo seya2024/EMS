@@ -51,7 +51,8 @@ class StatsOverview extends StatsOverviewWidget
         $users = cache()->remember('users.count', 300, fn() => User::count());
         $branches = cache()->remember('branches.count', 300, fn() => Branch::count());
         $districts = cache()->remember('districts.count', 300, fn() => District::count());
-        $computers = cache()->remember('users.count', 300, fn() => Computer::count());
+        $computers = cache()->remember('computers.count', 300, fn() => Computer::count());
+
 
 
         return [
@@ -59,15 +60,15 @@ class StatsOverview extends StatsOverviewWidget
             Stat::make('Users', $users . '-' . 'Staff')->color('primary')->description('Total Users')->descriptionIcon('heroicon-s-users'),
             Stat::make('Districts + HQ', $districts . '-' . 'Districts')->description('Total District')->descriptionIcon('heroicon-s-map')->color('primary'),
             Stat::make('Branches + Outlets', $branches . '-' . 'Branches')->description('Total Branches')->descriptionIcon('heroicon-s-building-office')->color('primary'),
-            Stat::make('Computers', $computers . '-' . 'Computers')->description('Total Computers')->descriptionIcon('heroicon-s-computer-desktop')->color('primary'),
-            Stat::make('Upgrading', 'Windows 10')->description('Operating System')->descriptionIcon('heroicon-s-computer-desktop')
+            Stat::make($computers, 'Computers')->description('Total Computers')->descriptionIcon('heroicon-s-computer-desktop')->color('primary'),
+            Stat::make('2,357', 'Windows 10')->description('Operating System')->descriptionIcon('heroicon-s-computer-desktop')
 
                 ->chart([17, 2, 10, 3, 15, 4, 3])
 
 
                 ->color('warning'),
 
-            Stat::make('Upgraded', 'Windows 11')->description('Operating System')->descriptionIcon('heroicon-s-computer-desktop')      //     ->chart([7, 2, 10, 3, 15, 4, 17])
+            Stat::make('100', 'Windows 11')->description('Operating System')->descriptionIcon('heroicon-s-computer-desktop')      //     ->chart([7, 2, 10, 3, 15, 4, 17])
 
                 ->chart([15, 20, 25, 30, 50, 75, 90])
                 ->color('success'),

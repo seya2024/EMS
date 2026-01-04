@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\ComputerModel;
 use App\Models\OrganizationUnit;
 use App\Models\OtherAsset;
 use App\Models\User;
@@ -33,6 +34,9 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             HQSeeder::class,     //  2nd order // 3rd order  // 4th order
             OutletSeeder::class,  // 5th order
+            HardwareAndComputerSeeder::class,
+            // HardwareTypeSeeder::class,
+            // ComputerModelSeeder::class,
             ComputerSeeder::class, // 6th order
             DowntimeReasonsSeeder::class,
             ATMsSeeder::class,
@@ -41,6 +45,7 @@ class DatabaseSeeder extends Seeder
             TaskSeeder::class,
             OtherAssetSeeder::class,
             PermissionSeeder::class,
+
         ]);
     }
 }

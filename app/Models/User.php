@@ -19,6 +19,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Filament\Auth\MultiFactor\Email\Contracts\HasEmailAuthentication;
 
+use Illuminate\Auth\Access\Authorizable; // 
+
+
 
 
 //class User extends Authenticatable implements FilamentUser
@@ -44,10 +47,10 @@ class User extends Authenticatable
      * @var list<string>
      */
 
-    const ROLE_ADMIN = 'admin';
-    const ROLE_BRANCH = 'branch';
-    const ROLE_HEAD = 'head'; // example limited user
-    const ROLE_STOCKER = 'stocker'; // example limited user
+    // const ROLE_ADMIN = 'admin';
+    // const ROLE_BRANCH = 'branch';
+    // const ROLE_HEAD = 'head'; // example limited user
+    // const ROLE_STOCKER = 'stocker'; // example limited user
 
     protected $fillable = [
         'name',            // optional if you generate full name
@@ -66,23 +69,32 @@ class User extends Authenticatable
         'password',
     ];
 
-    public function isAdmin(): bool
-    {
-        return $this->role === self::ROLE_ADMIN;
-    }
+    // public function isAdmin(): bool
+    // {
+    //     return $this->role === self::ROLE_ADMIN;
+    // }
 
-    public function isBranch(): bool
-    {
-        return $this->role === self::ROLE_BRANCH;
-    }
+    // public function isBranch(): bool
+    // {
+    //     return $this->role === self::ROLE_BRANCH;
+    // }
 
-    public function isHead(): bool
+    // public function isHead(): bool
+    // {
+    //     return $this->role === self::ROLE_HEAD;
+    // }
+    // public function isStocker(): bool
+    // {
+    //     return $this->role === self::ROLE_STOCKER;
+    // }
+
+    public function canAccessFilament(): bool
     {
-        return $this->role === self::ROLE_HEAD;
-    }
-    public function isStocker(): bool
-    {
-        return $this->role === self::ROLE_STOCKER;
+        //return true;
+
+        //  return $this->hasRole(['admin', 'head', 'om', 'sm', 'stocker']);
+
+        return $this->role === 'Uadmin'; // or your logic
     }
 
     // ...
@@ -105,10 +117,29 @@ class User extends Authenticatable
 
     // ...
 
+    public function hasGroupPermission($model, $action)
+    {
+        // Convert model class to lowercase name
+        $modelName = strtolower(class_basename($model));
+
+        foreach ($this->groups as $group) {
+            if ($group->permissions()
+                ->where('model', $modelName)
+                ->where('action', $action)
+                ->exists()
+            ) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = bcrypt($value);
     }
+
 
 
     public function canAccessPanel(Panel $panel): bool
@@ -179,17 +210,25 @@ class User extends Authenticatable
 
 
 
+    public function hasPermission($permissionName)
+    {
+        return $this->groups()
+            ->with('permissions')
+            ->get()
+            ->pluck('permissions')
+            ->flatten()
+            ->pluck('name')
+            ->contains($permissionName);
+    }
+
+
 
     public function getFullNameAttribute(): string
     {
         return "{$this->fname} {$this->mname} {$this->lname}";
     }
 
-    public function canAccessFilament(): bool
-    {
-        return true;
-        //return $this->role === 'Admin'; // or your logic
-    }
+
 
     /**
      * Get the attributes that should be cast.

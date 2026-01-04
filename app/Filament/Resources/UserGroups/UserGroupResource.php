@@ -7,16 +7,23 @@ use BackedEnum;
 use App\Models\UserGroup;
 use Filament\Tables\Table;
 use Filament\Schemas\Schema;
+use Filament\Facades\Filament;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Resources\Resource;
+use Filament\Actions\DeleteAction;
+use Illuminate\Support\HtmlString;
 use Filament\Support\Icons\Heroicon;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
 use Filament\Tables\Columns\TextColumn;
 use App\Filament\Resources\UserGroups\Pages\EditUserGroup;
 use App\Filament\Resources\UserGroups\Pages\ListUserGroups;
+use App\Models\User;
 use App\Filament\Resources\UserGroups\Pages\CreateUserGroup;
 use App\Filament\Resources\UserGroups\Schemas\UserGroupForm;
 use App\Filament\Resources\UserGroups\Tables\UserGroupsTable;
+
 
 class UserGroupResource extends Resource
 {
@@ -24,14 +31,16 @@ class UserGroupResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedChevronRight;
 
+
     protected static ?string $recordTitleAttribute = 'name';
 
 
     protected static string|UnitEnum|null $navigationGroup = 'User Account';
 
+
     public static function form(Schema $schema): Schema
     {
-        return UserGroupForm::configure($schema);
+        return UserGroupForm::configure($schema)->authorize(fn(User $user, $record) => $user->can('update', 'create', $record));
     }
 
     public static function getNavigationBadge(): ?string
@@ -45,7 +54,14 @@ class UserGroupResource extends Resource
 
         return $table
             ->columns([
-                TextColumn::make('name')->label('Name of group')
+
+
+                TextColumn::make('serial')
+                    ->label('#')
+                    ->getStateUsing(fn($record, $column) => $column->getTable()->getRecords()->search($record) + 1)
+                    ->sortable(false),
+
+                TextColumn::make('description')->label('Name of group')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('users')
@@ -64,20 +80,60 @@ class UserGroupResource extends Resource
 
             ])
             ->recordActions([
-                ViewAction::make(),  // default view page
-                EditAction::make(),
 
-                ViewAction::make('view_users')
+                ViewAction::make('viewUsers')
                     ->label('View Users')
                     ->icon('heroicon-o-users')
-                    ->action(function ($record, $data, $livewire) {
-                        $users = $record->users; // get related users
-                        $userNames = $users->pluck('name')->join(', ');
+                    ->modalHeading(fn($record) => "List of Users in {$record->name} group")
+                    ->modalContent(fn($record) => new HtmlString(
+                        '<ul>' .
+                            $record->users->pluck('full_name')
+                            ->map(fn($name) => "<li> -<strong>{$name}</strong></li>")
+                            ->implode('') .
+                            '</ul>'
+                    )),
 
-                        // simple alert popup (quick demo)
-                        $livewire->notify('info', "Users: {$userNames}");
-                    }),
-            ]);
+                // View Permissions button
+                ViewAction::make('viewPermissions')
+                    ->label('Permissions')
+                    ->icon('heroicon-o-shield-check')
+                    ->modalHeading(fn($record) => "Permissions for {$record->name}")
+                    ->modalContent(fn($record) => new HtmlString(
+                        $record->permissions->pluck('name')->implode('<br>')
+                    )),
+
+
+
+                // if (auth()->user()?->role?->name === 'admin') {
+
+
+                // }
+
+
+
+
+                //  ViewAction::make()->visible(fn() => Filament::auth()->user()?->role === 'admin'),
+                EditAction::make()->visible(fn() => Filament::auth()->user()?->role === 'admin'),
+                DeleteAction::make()->rateLimit(5)->rateLimitedNotificationTitle('Slow down!'),
+
+            ])
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make()->visible(fn() => Filament::auth()->user()?->role === 'admin'),
+                ]),
+            ])->defaultSort('id', 'desc');
+
+        // ViewAction::make('view_users')
+        //     ->label('View Users')
+        //     ->icon('heroicon-o-users')
+        //     ->action(function ($record, $data, $livewire) {
+        //         $users = $record->users; // get related users
+        //         $userNames = $users->pluck('name')->join(', ');
+
+        //         // simple alert popup (quick demo)
+        //         $livewire->notify('info', "Users: {$userNames}");
+        //     }),
+
     }
 
     public static function getRelations(): array

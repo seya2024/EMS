@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Computers\Schemas;
 
 use App\Models\Branch;
 use App\Models\ComputerModel;
+use App\Models\HardwareType;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Forms\Components\Select;
@@ -22,21 +23,38 @@ class ComputerForm
                 // --------------------
                 Step::make('Hardware Information')
                     ->schema([
-                        Select::make('hardwareType')
-                            ->label('Hardware Type')
-                            ->options([
-                                'Desktop' => 'Desktop',
-                                'Laptop' => 'Laptop',
-                                'Server' => 'Server',
-                            ])
-                            ->required(),
+                        // Select::make('hardwareType')
+                        //     ->label('Hardware Type')
+                        //     ->options([
+                        //         'Desktop' => 'Desktop',
+                        //         'Laptop' => 'Laptop',
+                        //         'Server' => 'Server',
+                        //     ])
+                        //     ->required(),
 
+
+                        Select::make('hardware_type_id')
+                            ->label('Hardware Type')
+                            ->options(HardwareType::all()->pluck('name', 'id'))
+                            ->searchable()
+                            ->reactive() // important for dependency
+                            ->required(),
 
                         Select::make('computer_model_id')
-                            ->label('Computer  Model')
-                            ->options(ComputerModel::all()->pluck('name', 'id')) // id => name
+                            ->label('Computer Model')
+                            ->options(function ($get) {
+                                $hardwareTypeId = $get('hardware_type_id');
+
+                                if (!$hardwareTypeId) {
+                                    return ComputerModel::pluck('name', 'id'); // all models if nothing selected
+                                }
+
+                                return ComputerModel::where('hardware_type_id', $hardwareTypeId)
+                                    ->pluck('name', 'id');
+                            })
                             ->searchable()
                             ->required(),
+
 
                         TextInput::make('tagNo')
                             ->label('Tag Number')->placeholder('such as DB/JDO/4.1/4546')
@@ -70,6 +88,8 @@ class ComputerForm
                             ->options([
                                 '500GB' => '500  Giga Byte(GB)',
                                 '1TB' => '1 Tera Byte(TB)',
+                                '250GB' => '250  Giga Byte(GB)',
+                                '750GB' => '750 Giga Byte(GB)',
 
                             ])->searchable()->required(),
 

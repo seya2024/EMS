@@ -19,7 +19,7 @@ class DeliverableResource extends Resource
 {
     protected static ?string $model = Deliverable::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedChevronRight;
 
     protected static ?string $recordTitleAttribute = 'Task Outcome or Deliverable';
     protected static string | UnitEnum | null $navigationGroup = 'Settings';

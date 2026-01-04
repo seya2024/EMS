@@ -4,12 +4,14 @@ namespace App\Filament\Resources\Users\Tables;
 
 use Filament\Tables\Table;
 use Filament\Actions\Action;
+use Filament\Facades\Filament;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Support\Enums\Size;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Support\Colors\Color;
+use Illuminate\Foundation\Auth\User;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Support\Enums\FontWeight;
@@ -18,7 +20,6 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\Layout\Split;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Support\Facades\FilamentColor;
-use Filament\Facades\Filament;
 
 
 class UsersTable
@@ -72,11 +73,17 @@ class UsersTable
             ])
 
 
+            //->authorize(fn ($record) => auth()->user()->can('update', $record)),
+            //->authorize(fn ($record) => auth()->user()->can('delete', $record)),
+
+
             ->recordActions([
 
                 ActionGroup::make([
                     ViewAction::make()->visible(fn() => Filament::auth()->user()?->role === 'admin'),
-                    EditAction::make()->visible(fn() => Filament::auth()->user()?->role === 'admin'),
+                    EditAction::make(), //->authorize(fn() => auth()->user()->hasGroupPermission($this->getRecord(), 'update')),
+
+                    //->visible(fn() => Filament::auth()->user()?->role === 'admin'),
                     DeleteAction::make()->rateLimit(5)->rateLimitedNotificationTitle('Slow down!')
                 ])->label('More actions')->icon('heroicon-m-ellipsis-vertical')->size(Size::Small)->color('info')->button()
             ])

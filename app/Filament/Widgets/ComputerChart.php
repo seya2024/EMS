@@ -8,11 +8,11 @@ class ComputerChart extends ChartWidget
 {
     //protected ?string $heading = 'Computer Operating System Version - Window 11 per district';
 
-    protected ?string $heading = 'Window 11 Upgrading';
+    protected ?string $heading = 'Digital Inventory Classification';
     protected static ?int $navigationSort = 15;
 
 
-    protected ?string $description = 'Number of Computers upgraded to Window 11 per district';
+    protected ?string $description = 'Number of digital inventory as bank';
     protected function getType(): string
     {
         return 'pie';
@@ -22,14 +22,14 @@ class ComputerChart extends ChartWidget
     {
         // Adjusted example data
         $data = [
-            'Jimma District' => 120,
-            'Hawasa District' => 80,
-            'Adama District' => 60,
-            'Bahir Dar District' => 45,
+            'Computers' => 520,
+            'Pos Machine' => 100,
+            'DOB Machine' => 6,
+            'ATM Machine' => 45,
             'Mekele District' => 70,
-            'South West District' => 30,
-            'Nekemete District' => 55,
-            'Dessie District' => 40,
+            'Dongle 4G' => 30,
+            // 'Nekemete District' => 55,
+            // 'Dessie District' => 40,
         ];
 
         return [

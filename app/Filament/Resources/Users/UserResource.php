@@ -2,24 +2,31 @@
 
 namespace App\Filament\Resources\Users;
 
-use App\Filament\Resources\Users\Pages\CreateUser;
-use App\Filament\Resources\Users\Pages\EditUser;
-use App\Filament\Resources\Users\Pages\ListUsers;
-use App\Filament\Resources\Users\Pages\ViewUser;
-use App\Filament\Resources\Users\Schemas\UserForm;
-use App\Filament\Resources\Users\Schemas\UserInfolist;
-use App\Filament\Resources\Users\Tables\UsersTable;
-use App\Models\User;
+use UnitEnum;
 use BackedEnum;
-use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
+use App\Models\User;
 use Filament\Tables\Table;
-use Filament\Forms\Components\DatePicker;
+use Filament\Schemas\Schema;
+use Filament\Facades\Filament;
+use Filament\Resources\Resource;
 use Filament\Tables\Filters\Filter;
+use Filament\Support\Icons\Heroicon;
+use Illuminate\Support\Facades\Hash;
+use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\DatePicker;
 use Illuminate\Database\Eloquent\Builder;
 
-use UnitEnum;
+
+use App\Filament\Resources\Users\Pages\EditUser;
+use App\Filament\Resources\Users\Pages\ViewUser;
+use App\Filament\Resources\Users\Pages\ListUsers;
+use App\Filament\Resources\Users\Pages\CreateUser;
+use App\Filament\Resources\Users\Schemas\UserForm;
+use App\Filament\Resources\Users\Tables\UsersTable;
+use App\Filament\Resources\Users\Schemas\UserInfolist;
 
 class UserResource extends Resource
 {
@@ -34,11 +41,33 @@ class UserResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'User';
 
-
     public static function form(Schema $schema): Schema
     {
-        return UserForm::configure($schema);
+        // Get the existing schema from UserForm
+        $formSchema = UserForm::configure($schema);
+
+        // Add hidden password field
+        $formSchema->schema([
+
+            TextInput::make('name')->label('Domain')->required()->unique(ignoreRecord: true),
+
+            TextInput::make('fname')->label('First Name')->required(),
+            TextInput::make('mname')->label('Father Name')->required(),
+            TextInput::make('lname')->label('Last Name')->required(),
+            TextInput::make('email')->label('Email address')->email()->required()->unique(ignoreRecord: true),
+            TextInput::make('phone')->tel()->required(),
+            TextInput::make('address')->maxLength(255),
+            Select::make('branch_id')->label('Working Unit / Department')->required(true)->relationship('branch', 'name')->searchable()->preload(),
+            Hidden::make('role')->default('admin'),
+            TextInput::make('employee_id')->label('Employee ID')->required()->placeholder('DB/17357/24')->unique(ignoreRecord: true),
+            Toggle::make('isActive')->label('Active Account')->default(false)->onIcon(Heroicon::Star),
+
+            TextInput::make('password')->password()->hidden()->mutateFormDataBeforeCreate(), // hidden field
+        ]);
+
+        return $formSchema;
     }
+
 
     public static function getNavigationBadge(): ?string
     {
@@ -47,6 +76,18 @@ class UserResource extends Resource
     }
 
 
+    protected function mutateFormDataBeforeCreate(array $data): array
+    {
+        if (empty($data['password'])) {
+            $data['password'] = Hash::make('123'); // default password
+        }
+
+        if (!isset($data['isActive'])) {
+            $data['isActive'] = 1; // ensure user can login
+        }
+
+        return $data;
+    }
 
     // public static function shouldRegisterNavigation(): bool | \Closure
     // {

@@ -19,7 +19,7 @@ class AssetClassResource extends Resource
 {
     protected static ?string $model = AssetClass::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedChevronRight;
 
     protected static ?string $recordTitleAttribute = 'Asset Class';
 

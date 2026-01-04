@@ -2,13 +2,18 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\User;
+use App\Models\UserGroup;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
     public function run(): void
     {
+
+        $adminRole = UserGroup::where('name', 'admin')->first();
+
         $users = [
             [
                 'id' => 1,
@@ -21,12 +26,13 @@ class UserSeeder extends Seeder
                 'address' => 'Jimma',
                 'branch_id' => 1,
                 'role' => 'admin',
+                //'role' => $adminRole->id, // correct assignment
                 'employee_id' => 1,
-                'isActive' => false,
-                'email_verified_at' => '2025-12-10 19:39:42',
-                'password' => '$2y$12$hY15g4IXQCvTkUa42iXiQ.k5h2xovUfms2qIrQBZTsM26SBFhAuRG',
-                'created_at' => '2025-12-09 19:39:53',
-                'updated_at' => '2025-12-23 19:40:00',
+                'isActive' => true,
+                'email_verified_at' => now(),
+                'password'  => Hash::make('123'),
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
 
 

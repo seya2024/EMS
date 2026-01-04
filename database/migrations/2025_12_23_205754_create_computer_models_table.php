@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('computer_models', function (Blueprint $table) {
             $table->id();
             $table->string('name'); // PC model name
+            $table->foreignId('hardware_type_id')->constrained()->cascadeOnDelete()->nulllable();
             $table->text('description')->nullable(); // optional description
             $table->timestamps();
         });

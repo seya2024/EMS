@@ -6,8 +6,6 @@ use App\Providers\RouteServiceProvider;
 use App\Providers\FortifyServiceProvider;
 
 
-
-
 return [
 
 

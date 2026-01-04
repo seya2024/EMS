@@ -19,7 +19,7 @@ class ComputerModelResource extends Resource
 {
     protected static ?string $model = ComputerModel::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedChevronRight;
 
     protected static ?string $recordTitleAttribute = 'Computer Model';
     protected static string | UnitEnum | null $navigationGroup = 'Settings';

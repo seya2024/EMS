@@ -30,6 +30,7 @@ class PermissionSeeder extends Seeder
             'failed_import_rows',
             'failed_jobs',
             'fixed_lines',
+            'group_permission',
             'h_q_s',
             'imports',
             'jobs',
@@ -56,14 +57,30 @@ class PermissionSeeder extends Seeder
             'user_user_group',
         ];
 
-        // Standard actions for each table
-
-        $actions = ['view', 'create', 'update', 'delete'];
+        // Standard and extended actions
+        $actions = [
+            'viewAny',
+            'view',
+            'create',
+            'update',
+            'delete',
+            'restore',
+            'forceDelete',
+            'export',
+            'import',
+            'approve',
+            'reject',
+            'archive',
+            'unarchive',
+            'publish',
+            'unpublish',
+            'assign'
+        ];
 
         foreach ($tables as $table) {
             foreach ($actions as $action) {
                 Permission::firstOrCreate([
-                    'name' => strtolower($table) . '.' . strtolower($action), // e.g., activity_reports.browse
+                    'name'  => strtolower($table) . '.' . strtolower($action),
                     'model' => $table,
                     'action' => $action,
                 ]);

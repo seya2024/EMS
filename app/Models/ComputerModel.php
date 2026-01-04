@@ -32,4 +32,9 @@ class ComputerModel extends Model
     {
         return $this->hasMany(Computer::class);
     }
+
+    public function hardwareType()
+    {
+        return $this->belongsTo(HardwareType::class);
+    }
 }
