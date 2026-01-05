@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('computers', function (Blueprint $table) {
             $table->id(); // Primary key, auto-increment
-            $table->string('hardwareType');
-            // $table->unsignedBigInteger('computer_model_id');
-            // $table->foreign('computer_model_id')->references('id')->on('computer_models')->onDelete('cascade');
+            // $table->string('hardwareType');
+
+            $table->foreignId('hardware_type_id')
+                ->constrained()
+                ->cascadeOnDelete();
 
             $table->foreignId('computer_model_id')
                 ->constrained()

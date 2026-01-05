@@ -36,8 +36,8 @@ class ComputerForm
                         Select::make('hardware_type_id')
                             ->label('Hardware Type')
                             ->options(HardwareType::all()->pluck('name', 'id'))
-                            ->searchable()
-                            ->reactive() // important for dependency
+                            // ->searchable()
+                            // ->reactive() // important for dependency
                             ->required(),
 
                         Select::make('computer_model_id')
@@ -139,7 +139,7 @@ class ComputerForm
                             ->required(),
 
                         TextInput::make('hostName')
-                            ->label('Host Name')
+                            ->label('Host Name')->placeholder('such as W-BRN-JDO-4744')
                             ->required(),
                     ])
                     ->columns(2),

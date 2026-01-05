@@ -41,6 +41,13 @@ class TaskCategoryResource extends Resource
         ];
     }
 
+
+    public static function getNavigationBadge(): ?string
+    {
+
+        return TaskCategory::count();
+    }
+
     public static function getPages(): array
     {
         return [

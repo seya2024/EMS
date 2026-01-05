@@ -37,19 +37,6 @@ class ActivityReportsTable
                         'danger' => 'Pending',
                     ]),
 
-                // TextColumn::make('status')
-                //     ->label('Status')
-                //     ->badge() // renders as colored badge
-                //     ->formatStateUsing(fn($state) => match ($state) {
-                //         'pending' => 'Pending',
-                //         'completed' => 'Completed',
-                //         default => $state,
-                //     })
-                //     ->color(fn($state) => match ($state) {
-                //         'pending' => 'primary',
-                //         'completed' => 'success',
-                //         default => 'secondary',
-                //     }),
 
                 TextColumn::make('report_date')->date(),
                 // TextColumn::make('created_at')->dateTime(),

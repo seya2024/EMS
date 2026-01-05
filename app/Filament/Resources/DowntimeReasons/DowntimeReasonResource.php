@@ -45,6 +45,12 @@ class DowntimeReasonResource extends Resource
         ];
     }
 
+    public static function getNavigationBadge(): ?string
+    {
+
+        return DowntimeReason::count();
+    }
+
     public static function getPages(): array
     {
         return [

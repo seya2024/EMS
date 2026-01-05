@@ -42,6 +42,14 @@ class HardwareTypeResource extends Resource
         ];
     }
 
+
+    public static function getNavigationBadge(): ?string
+    {
+
+        return HardwareType::count();
+    }
+
+
     public static function getPages(): array
     {
         return [

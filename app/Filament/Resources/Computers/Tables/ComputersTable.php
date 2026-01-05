@@ -26,38 +26,19 @@ class ComputersTable
     {
         return $table
             ->columns([
-                TextColumn::make('hardwareType')->label('Type')->searchable()->sortable(),
-                //  TextColumn::make('pcModel')->label('PC Model')->searchable()->sortable(),
-                TextColumn::make('computerModel.name')
-                    ->label('Computer Model')
-                    ->sortable()
-                    ->searchable(),
+                TextColumn::make('hardwareType.name')->label('Type')->searchable()->sortable(),
+                TextColumn::make('computerModel.name')->label('Model')->sortable()->searchable(),
                 TextColumn::make('tagNo')->label('Tag Number')->searchable()->sortable(),
                 TextColumn::make('serialNo')->label('Serial Number'),
                 TextColumn::make('harddiskSize')->label('Hard Disk Size'),
                 TextColumn::make('ramSize')->label('RAM Size'),
                 TextColumn::make('speed')->label('Processor Speed'),
                 TextColumn::make('os')->label('Operating System')->searchable()->sortable(),
-
-                //  TextColumn::make('quantity')->label('Quantity'),
-                //  TextColumn::make('unit')->label('Unit'),
-                //  TextColumn::make('price')->label('Asset Price')->money('ETB', true),
-
-                // TextColumn::make('isActivated')
-                //     ->label('Activated')
-                //     ->formatStateUsing(fn($state) => $state ? 'Yes' : 'No'),
-                TextColumn::make('branch')
-                    ->label('Ownership')  //District - Branch
-                    ->getStateUsing(
-                        fn($record) =>
-                        "{$record->branch?->name} - {$record->branch?->district?->name}"
-                    ),
-
+                TextColumn::make('branch')->label('Ownership')->getStateUsing(
+                    fn($record) => "{$record->branch?->name} - {$record->branch?->district?->name}"
+                ),
                 TextColumn::make('hostName')->label('Host Name'),
-                // TextColumn::make('owner')->label('Working Unit')->searchable()->sortable(),
                 TextColumn::make('status')->label('Status')->searchable()->sortable(),
-                // TextColumn::make('created_at')->label('Created At')->dateTime(),
-                // TextColumn::make('updated_at')->label('Updated At')->dateTime(),
             ])->defaultSort('id', 'desc')
 
             //->sortable()->searchable(isIndividual: true, isGlobal: false),

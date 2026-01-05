@@ -52,6 +52,13 @@ class OutletResource extends Resource
         ];
     }
 
+
+    public static function getNavigationBadge(): ?string
+    {
+
+        return Outlet::count();
+    }
+
     public static function getPages(): array
     {
         return [

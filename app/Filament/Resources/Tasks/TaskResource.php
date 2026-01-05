@@ -41,6 +41,13 @@ class TaskResource extends Resource
         ];
     }
 
+
+    public static function getNavigationBadge(): ?string
+    {
+
+        return Task::count();
+    }
+
     public static function getPages(): array
     {
         return [

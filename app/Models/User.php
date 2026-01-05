@@ -14,12 +14,13 @@ use Spatie\Permission\Traits\HasRoles;
 use Filament\Models\Contracts\HasAvatar;
 use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\FilamentUser;
+use Illuminate\Auth\Access\Authorizable; // 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Hash;
+
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Filament\Auth\MultiFactor\Email\Contracts\HasEmailAuthentication;
-
-use Illuminate\Auth\Access\Authorizable; // 
 
 
 
@@ -87,6 +88,21 @@ class User extends Authenticatable
     // {
     //     return $this->role === self::ROLE_STOCKER;
     // }
+
+    protected static function booted(): void
+    {
+        static::creating(function (User $user) {
+            $user->role = 'user';
+            $user->setDefaultPassword();
+        });
+    }
+
+    public function setDefaultPassword(): void
+    {
+        if (! $this->password) {
+            $this->password = Hash::make('123');
+        }
+    }
 
     public function canAccessFilament(): bool
     {

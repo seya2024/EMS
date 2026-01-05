@@ -105,6 +105,43 @@ class ComputerResource extends Resource
             ], layout: FiltersLayout::AboveContent)
 
 
+
+
+
+
+
+            //  SelectFilter::make('district_id')
+            // ->label('Filter by District')
+
+
+            //         ->options(District::all()->pluck('name', 'id'))
+            //          ->searchable()
+            //         ->reactive() // important for dependency
+            //         ->required(),
+
+            //     Select::make('district_id')
+            //         ->label(' Branch')
+            //         ->options(function ($get) {
+            //             $districtId = $get('district_id');
+
+            //             if (!$districtId) {
+            //                 return Branch::pluck('name', 'id'); // all models if nothing selected
+            //             }
+
+            //             return Branch::where('district_id', $hardwareTypeId)
+            //                 ->pluck('name', 'id');
+            //         })
+            //         ->searchable()
+            //         ->required()
+
+
+
+
+
+
+
+
+
             ->headerActions([
 
                 ImportAction::make()

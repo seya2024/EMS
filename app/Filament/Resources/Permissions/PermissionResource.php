@@ -45,6 +45,14 @@ class PermissionResource extends Resource
         ];
     }
 
+
+
+    public static function getNavigationBadge(): ?string
+    {
+
+        return Permission::count();
+    }
+
     public static function getPages(): array
     {
         return [

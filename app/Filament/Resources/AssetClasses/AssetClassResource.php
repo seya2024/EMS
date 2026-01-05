@@ -29,6 +29,13 @@ class AssetClassResource extends Resource
 
 
 
+    public static function getNavigationBadge(): ?string
+    {
+
+        return AssetClass::count();
+    }
+
+
     public static function form(Schema $schema): Schema
     {
         return AssetClassForm::configure($schema);

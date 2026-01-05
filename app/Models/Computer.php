@@ -15,8 +15,7 @@ class Computer extends Model
     // Fillable fields for mass assignment
     protected $fillable = [
 
-        'hardwareType',
-        // 'pcModel',
+        'hardware_type_id',
         'computer_model_id', // foreign key
         'tagNo',
         'serialNo',
@@ -62,6 +61,12 @@ class Computer extends Model
     {
         return $this->belongsTo(Branch::class);
     }
+
+    public function hardwareType()
+    {
+        return $this->belongsTo(HardwareType::class);
+    }
+
 
     public function computerModel()
     {

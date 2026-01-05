@@ -58,11 +58,11 @@ class UserResource extends Resource
             TextInput::make('phone')->tel()->required(),
             TextInput::make('address')->maxLength(255),
             Select::make('branch_id')->label('Working Unit / Department')->required(true)->relationship('branch', 'name')->searchable()->preload(),
-            Hidden::make('role')->default('admin'),
+            //   Hidden::make('role')->default('admin'),
             TextInput::make('employee_id')->label('Employee ID')->required()->placeholder('DB/17357/24')->unique(ignoreRecord: true),
             Toggle::make('isActive')->label('Active Account')->default(false)->onIcon(Heroicon::Star),
 
-            TextInput::make('password')->password()->hidden()->mutateFormDataBeforeCreate(), // hidden field
+            // TextInput::make('password')->password()->hidden(), // hidden field
         ]);
 
         return $formSchema;

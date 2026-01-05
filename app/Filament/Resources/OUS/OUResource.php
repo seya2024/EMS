@@ -44,6 +44,13 @@ class OUResource extends Resource
         ];
     }
 
+
+    public static function getNavigationBadge(): ?string
+    {
+
+        return OU::count();
+    }
+
     public static function getPages(): array
     {
         return [

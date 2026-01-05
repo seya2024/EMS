@@ -25,7 +25,6 @@ class WeeklyReport extends Page
     protected string $view = 'filament.pages.weekly-report';
     // protected string $view = 'filament.pages.monthly-report';
 
-
     protected function getViewData(): array
     {
         $startOfWeek = Carbon::now()->startOfWeek();
@@ -33,7 +32,6 @@ class WeeklyReport extends Page
 
         return [
             'usersCount' => User::count(),
-
             'tasksThisWeek' => Task::whereBetween('created_at', [
                 $startOfWeek,
                 $endOfWeek,
@@ -42,7 +40,8 @@ class WeeklyReport extends Page
             'transactionsTotal' => ATMReport::whereBetween('created_at', [
                 $startOfWeek,
                 $endOfWeek,
-            ])->sum('amount'),
+                // ])->sum('amount'),
+            ])->count(),
         ];
     }
 

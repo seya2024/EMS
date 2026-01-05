@@ -23,4 +23,9 @@ class HardwareType extends Model
     {
         return $this->hasMany(ComputerModel::class);
     }
+
+    public function computers()
+    {
+        return $this->hasMany(Computer::class);
+    }
 }
