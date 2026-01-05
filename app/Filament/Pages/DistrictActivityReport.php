@@ -26,6 +26,7 @@ class DistrictActivityReport extends Page implements HasTable
     use InteractsWithTable;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedChevronRight;
+    protected static string|UnitEnum|null $navigationGroup = 'Head Reports';
 
     protected static ?string $navigationLabel = 'District Activity Report';
     protected string $view = 'filament.pages.district-activity-report';
@@ -33,7 +34,7 @@ class DistrictActivityReport extends Page implements HasTable
     protected static ?string $title = 'District Activity Report';
 
 
-    protected static string|UnitEnum|null $navigationGroup = 'Head Reports';
+
 
 
     public $districts;

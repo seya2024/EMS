@@ -19,7 +19,6 @@ class MonthlyReport extends Page
 
     protected static string|UnitEnum|null $navigationGroup = 'Reportings';
 
-
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedChevronRight;
 
     //protected static string $view = 'filament.pages.monthly-report';

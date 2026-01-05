@@ -2,12 +2,14 @@
 
 namespace Database\Seeders;
 
-use App\Models\ComputerModel;
-use App\Models\OrganizationUnit;
-use App\Models\OtherAsset;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Quarter;
+use App\Models\OtherAsset;
+use App\Models\ComputerModel;
 use Illuminate\Database\Seeder;
+use App\Models\OrganizationUnit;
+use Database\Seeders\QuarterSeeder as SeedersQuarterSeeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class DatabaseSeeder extends Seeder
 {
@@ -45,6 +47,9 @@ class DatabaseSeeder extends Seeder
             TaskSeeder::class,
             OtherAssetSeeder::class,
             PermissionSeeder::class,
+            QuarterSeeder::class,
+
+
 
         ]);
     }

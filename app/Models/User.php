@@ -9,6 +9,8 @@ use App\Models\DataVPN;
 use App\Models\ATMReport;
 use App\Models\FixedLine;
 use App\Models\UserGroup;
+use Filament\Facades\Filament;
+use Illuminate\Support\Facades\Hash;
 use Filament\Models\Contracts\HasName;
 use Spatie\Permission\Traits\HasRoles;
 use Filament\Models\Contracts\HasAvatar;
@@ -16,9 +18,8 @@ use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Auth\Access\Authorizable; // 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Support\Facades\Hash;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Filament\Auth\MultiFactor\Email\Contracts\HasEmailAuthentication;
 
@@ -94,14 +95,45 @@ class User extends Authenticatable
         static::creating(function (User $user) {
             $user->role = 'user';
             $user->setDefaultPassword();
+            $user->setPasswordChange();
+            $user->isPasswordExpired();
         });
     }
+
+
+
 
     public function setDefaultPassword(): void
     {
         if (! $this->password) {
             $this->password = Hash::make('123');
         }
+    }
+
+
+    // update When  user changing his/her password
+    public function setPasswordChange(): void
+    {
+        if (!$this->password_changed_at) {
+
+            $this->password_changed_at = now();
+            $this->force_password_change = true;
+        }
+    }
+
+    public function isPasswordExpired(): bool
+    {
+        if ($this->force_password_change) {
+            return true;
+        }
+
+        if (! $this->password_changed_at) {
+            return true;
+        }
+
+        return $this->password_changed_at
+            ->addDays(config('security.password_expiry_days'))
+            ->isPast();
     }
 
     public function canAccessFilament(): bool
@@ -112,6 +144,7 @@ class User extends Authenticatable
 
         return $this->role === 'Uadmin'; // or your logic
     }
+
 
     // ...
 

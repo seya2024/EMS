@@ -29,6 +29,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
 
+
+
+
         // Custom validation rule
         // Validator::extend('uppercase', function ($attribute, $value) {
         //     return strtoupper($value) === $value;

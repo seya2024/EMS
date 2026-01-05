@@ -23,21 +23,12 @@ class ComputerForm
                 // --------------------
                 Step::make('Hardware Information')
                     ->schema([
-                        // Select::make('hardwareType')
-                        //     ->label('Hardware Type')
-                        //     ->options([
-                        //         'Desktop' => 'Desktop',
-                        //         'Laptop' => 'Laptop',
-                        //         'Server' => 'Server',
-                        //     ])
-                        //     ->required(),
-
 
                         Select::make('hardware_type_id')
                             ->label('Hardware Type')
                             ->options(HardwareType::all()->pluck('name', 'id'))
-                            // ->searchable()
-                            // ->reactive() // important for dependency
+                            ->searchable()
+                            ->reactive() // important for dependency
                             ->required(),
 
                         Select::make('computer_model_id')

@@ -40,14 +40,12 @@ return new class extends Migration
 
             $table->string('employee_id')->nullable();
 
-
-            // $table->foreignId('user_group_id')->constrained()->cascadeOnDelete();
-
             $table->boolean('has_email_authentication')->default(false);
 
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->timestamp('password_changed_at')->nullable();
+            $table->boolean('force_password_change')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });
