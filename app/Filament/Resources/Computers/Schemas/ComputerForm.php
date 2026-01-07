@@ -49,7 +49,7 @@ class ComputerForm
 
                         TextInput::make('tagNo')
                             ->label('Tag Number')->placeholder('such as DB/JDO/4.1/4546')
-                            ->required(),
+                            ->required()->unique(table: 'computers', column: 'tagNo', ignoreRecord: true),
 
                         // TextInput::make('quantity')
                         //     ->label('Quantity')
@@ -70,7 +70,7 @@ class ComputerForm
 
                         TextInput::make('serialNo')
                             ->label('Serial Number')
-                            ->required(),
+                            ->required()->unique(table: 'computers', column: 'serialNo', ignoreRecord: true),
 
 
 
@@ -127,11 +127,11 @@ class ComputerForm
 
                         TextInput::make('IpAddress')
                             ->label('IP Address')
-                            ->required(),
+                            ->required()->unique(table: 'computers', column: 'IpAddress', ignoreRecord: true),
 
                         TextInput::make('hostName')
                             ->label('Host Name')->placeholder('such as W-BRN-JDO-4744')
-                            ->required(),
+                            ->required()->unique(table: 'computers', column: 'hostName', ignoreRecord: true),
                     ])
                     ->columns(2),
 

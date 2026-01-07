@@ -71,6 +71,18 @@ class ComputerResource extends Resource
     }
 
 
+    public static function getFormValidationMessages(): array
+    {
+        return [
+            'tagNo.unique'     => 'The tag number has already been used.',
+            'serialNo.unique'  => 'The serial number must be unique.',
+            'IpAddress.unique' => 'This IP address is already assigned.',
+            'hostName.unique'  => 'This host name is already taken.',
+        ];
+    }
+
+
+
     public static function configure(Schema $schema): Schema
     {
         return $schema->schema([
