@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\OtherAssets\Schemas;
 
+use App\Models\Branch;
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -27,10 +28,10 @@ class OtherAssetForm
 
                 Select::make('branch_id')
                     ->label('Branch')
-                    ->relationship('branch', 'name')
+                    ->options(Branch::all()->pluck('name', 'id'))
                     ->searchable()
-                    ->preload()
                     ->required(),
+
 
                 TextInput::make('cost_center')
                     ->label('Cost Center')

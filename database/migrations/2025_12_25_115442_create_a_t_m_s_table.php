@@ -18,8 +18,7 @@ return new class extends Migration
             $table->string('type');
             $table->string('location');
             $table->string('design');
-            //  $table->string('custodian')->nullable();
-            $table->foreignId('custodian')->constrained('branches')->onDelete('cascade');
+            $table->foreignId('branch_id')->constrained()->cascadeOnDelete();
             $table->text('remark')->nullable();
             $table->timestamps();
         });

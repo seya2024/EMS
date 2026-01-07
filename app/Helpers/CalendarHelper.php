@@ -96,7 +96,6 @@ class CalendarHelper
         return $dates;
     }
 
-
     /**
      * Get all Gregorian dates in the current quarter
      *

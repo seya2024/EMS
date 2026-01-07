@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('lANIp');
             $table->string('wanIp')->nullable();
             $table->string('account');
-            $table->foreignId('branch_id')->constrained('branches')->onDelete('cascade');
+            $table->foreignId('branch_id')->constrained()->cascadeOnDelete();
             $table->string('media')->nullable();
             $table->string('bandwidth')->nullable();
             $table->string('linkType')->nullable();

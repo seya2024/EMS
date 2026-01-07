@@ -41,6 +41,11 @@ class DongleForm
                     ->required()
                     ->maxLength(50),
 
+                Select::make('branch_id')
+                    ->label('Branch')
+                    ->options(Branch::all()->pluck('name', 'id'))
+                    ->searchable()
+                    ->required(),
 
 
                 // TextInput::make('quantity')

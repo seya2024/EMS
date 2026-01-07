@@ -56,7 +56,7 @@ class ATMForm
                     ->required(),
 
 
-                Select::make('custodian')
+                Select::make('branch_id')
                     ->label('Custodian / Branch')
                     ->options(Branch::all()->pluck('name', 'id'))
                     ->searchable()

@@ -2,11 +2,12 @@
 
 namespace App\Filament\Resources\FixedLines\Schemas;
 
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Textarea;
+use App\Models\Branch;
+use Filament\Schemas\Schema;
 use Filament\Forms\Components\Select;
 
-use Filament\Schemas\Schema;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 
 class FixedLineForm
 {
@@ -30,12 +31,12 @@ class FixedLineForm
                     ->searchable()
                     ->required(),
 
-
-                Select::make('branch')
+                Select::make('branch_id')
                     ->label('Branch')
-                    ->options(\App\Models\Branch::all()->pluck('name', 'id'))
+                    ->options(Branch::all()->pluck('name', 'id'))
                     ->searchable()
                     ->required(),
+
 
                 Select::make('media')
                     ->label('Media')

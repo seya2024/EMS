@@ -23,7 +23,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Filament\Auth\MultiFactor\Email\Contracts\HasEmailAuthentication;
 
-
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 
 //class User extends Authenticatable implements FilamentUser
@@ -34,6 +35,15 @@ class User extends Authenticatable
 //class User extends Authenticatable implements FilamentUser, HasEmailAuthentication, MustVerifyEmail
 {
 
+    use HasFactory, Notifiable, LogsActivity;
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logAll() // log all attributes
+            ->logOnlyDirty() // optional, only log changed fields
+            ->useLogName('User'); // optional, name of the log
+    }
 
 
     //implements FilamentUser
@@ -257,6 +267,10 @@ class User extends Authenticatable
         return "{$this->fname} {$this->mname}";
     }
 
+    public function getFullNameAttribute(): string
+    {
+        return trim("{$this->fname} {$this->mname} {$this->lname}");
+    }
 
 
     public function hasPermission($permissionName)
@@ -270,12 +284,6 @@ class User extends Authenticatable
             ->contains($permissionName);
     }
 
-
-
-    public function getFullNameAttribute(): string
-    {
-        return "{$this->fname} {$this->mname} {$this->lname}";
-    }
 
 
 
@@ -336,6 +344,13 @@ class User extends Authenticatable
             ->using(UserUserGroup::class)
             ->withTimestamps();
     }
+
+    public function assetMaintenances()
+    {
+        return $this->hasMany(AssetMaintenance::class);
+    }
+
+
 
 
     // public function groups()

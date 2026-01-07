@@ -21,6 +21,9 @@ return new class extends Migration
             // $table->string('quantity')->default('0');
             // $table->string('unit')->default('pcs');  //pcs, meter, kg
 
+            $table->foreignId('branch_id')->constrained()->cascadeOnDelete();
+
+
             $table->string('network_type');
             $table->string('status');
             //  $table->morphs('owner');

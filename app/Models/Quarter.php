@@ -2,15 +2,26 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
-
 use App\Helpers\CalendarHelper;
+use Spatie\Activitylog\LogOptions;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+
+use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Quarter extends Model
 {
-    use HasFactory;
+    use HasFactory, Notifiable, LogsActivity;
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logAll() // log all attributes
+            ->logOnlyDirty() // optional, only log changed fields
+            ->useLogName('Quarter'); // optional, name of the log
+    }
 
     protected $fillable = [
         'name',        // "Q1", "Q2", etc.
@@ -64,18 +75,7 @@ class Quarter extends Model
         // $ecDate = Quarter::gcToEc('2026-01-05'); 
         //echo $ecDate; // e.g., 2018-04-27
     }
-//$ec = Quarter::gcToEc('2026-01-05');
- //function gcToEc($date) { /* code */ }
- //$ec = gcToEc('2026-01-05');
- //$ec = Quarter::gcToEc('2026-01-05');
 
-//CalendarHelper::gcToEc();
-
-//  use App\Helpers\CalendarHelper;
-
-// $ecDate = CalendarHelper::gcToEc('2026-01-05'); 
-// echo $ecDate; // e.g., 2018-04-27 (EC)
-//function gcToEc($date) { }/* code */ }
 
 //curser ide for ai support
     /**

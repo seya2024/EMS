@@ -2,9 +2,10 @@
 
 namespace App\Filament\Resources\Printers\Schemas;
 
+use App\Models\Branch;
 use Filament\Schemas\Schema;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 
 class PrinterForm
 {
@@ -22,6 +23,11 @@ class PrinterForm
                     ->required()
                     ->maxLength(100),
 
+                Select::make('branch_id')
+                    ->label('Branch')
+                    ->options(Branch::all()->pluck('name', 'id'))
+                    ->searchable()
+                    ->required(),
 
                 // TextInput::make('quantity')
                 //     ->label('Quantity')

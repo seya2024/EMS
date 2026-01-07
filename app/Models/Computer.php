@@ -7,10 +7,23 @@ use App\Models\PCModel as ModelsPCModel;
 use App\Models\PCModel as AppModelsPCModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class Computer extends Model
 {
-    use HasFactory;
+
+
+
+    use HasFactory, LogsActivity;
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logAll() // log all attributes
+            ->logOnlyDirty() // optional, only log changed fields
+            ->useLogName('Computer'); // optional, name of the log
+    }
 
     // Fillable fields for mass assignment
     protected $fillable = [
@@ -72,6 +85,28 @@ class Computer extends Model
     {
 
         return $this->belongsTo(ComputerModel::class);
+    }
+
+
+
+    public function model(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(ComputerModel::class, 'computer_model_id');
+    }
+
+    public function getDisplayNameAttribute(): string
+    {
+        return "{$this->model->name} | {$this->tagNo}";
+    }
+
+    public function maintenances()
+    {
+        return $this->morphMany(AssetMaintenance::class, 'assetable');
+    }
+
+    public function transfers()
+    {
+        return $this->morphMany(AssetTransfer::class, 'assetable');
     }
 
     // $computer->owner; // returns HeadOffice OR DistrictOffice OR BranchOffice

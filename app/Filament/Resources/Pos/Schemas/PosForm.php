@@ -2,9 +2,10 @@
 
 namespace App\Filament\Resources\Pos\Schemas;
 
+use App\Models\Branch;
 use Filament\Schemas\Schema;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 
 class PosForm
 {
@@ -27,6 +28,11 @@ class PosForm
                     ->required()
                     ->maxLength(100),
 
+                Select::make('branch_id')
+                    ->label('Branch')
+                    ->options(Branch::all()->pluck('name', 'id'))
+                    ->searchable()
+                    ->required(),
 
                 // TextInput::make('quantity')
                 //     ->label('Quantity')

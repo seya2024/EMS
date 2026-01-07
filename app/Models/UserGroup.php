@@ -4,14 +4,25 @@
 namespace App\Models;
 
 use App\Models\Permission;
-use Illuminate\Container\Attributes\Auth;
+use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Container\Attributes\Auth;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class UserGroup extends Model
 {
-    use HasFactory;
+    use HasFactory, Notifiable, LogsActivity;
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logAll() // log all attributes
+            ->logOnlyDirty() // optional, only log changed fields
+            ->useLogName('User_group'); // optional, name of the log
+    }
 
     protected $fillable = ['name', 'description'];
 

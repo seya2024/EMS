@@ -20,6 +20,7 @@ return new class extends Migration
             // $table->string('quantity')->default('0');
             // $table->string('unit')->default('pcs');  //pcs, meter, kg
             //  $table->morphs('owner');
+            $table->foreignId('branch_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

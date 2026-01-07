@@ -14,13 +14,17 @@ use Filament\Actions\CreateAction;
 use Filament\Actions\ExportAction;
 use Filament\Actions\ImportAction;
 use Filament\Support\Icons\Heroicon;
+use Filament\Schemas\Components\Section;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\SelectFilter;
+use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Exports\ComputerExporter;
 use App\Filament\Imports\ComputerImporter;
 use Filament\Actions\Exports\ExportColumn;
 use Filament\Actions\Exports\Models\Export;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Actions\Exports\Enums\ExportFormat;
+use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Pages\Dashboard\Actions\FilterAction;
 use App\Filament\Resources\Computers\Pages\EditComputer;
 use App\Filament\Resources\Computers\Pages\ViewComputer;
@@ -29,7 +33,6 @@ use App\Filament\Resources\Computers\Pages\CreateComputer;
 use App\Filament\Resources\Computers\Schemas\ComputerForm;
 use App\Filament\Resources\Computers\Tables\ComputersTable;
 use App\Filament\Resources\Computers\Schemas\ComputerInfolist;
-use Illuminate\Database\Eloquent\Builder;
 
 
 class ComputerResource extends Resource
@@ -66,14 +69,148 @@ class ComputerResource extends Resource
         return Computer::count();
     }
 
-    // public static function infolist(Schema $schema): Schema
-    // {
-    //     return ComputerInfolist::configure($schema);
-    // }
 
+    public static function configure(Schema $schema): Schema
+    {
+        return $schema->schema([
 
+            /* ========= Branch ========= */
+            Section::make('Branch Information')
+                ->schema([
+                    TextEntry::make('name'),
+                    TextEntry::make('code'),
+                    TextEntry::make('region'),
+                    TextEntry::make('district'),
+                    TextEntry::make('status'),
+                ])
+                ->columns(3),
 
+            /* ========= Computers ========= */
+            Section::make('Computers')
+                ->schema([
+                    RepeatableEntry::make('computers')
+                        ->schema([
+                            TextEntry::make('tagNo'),
+                            TextEntry::make('serialNo'),
+                            TextEntry::make('os'),
+                            TextEntry::make('ramSize'),
+                            TextEntry::make('status'),
+                        ])
+                        ->columns(5),
+                ])
+                ->collapsed(),
 
+            /* ========= Printers ========= */
+            Section::make('Printers')
+                ->schema([
+                    RepeatableEntry::make('printers')
+                        ->schema([
+                            TextEntry::make('model'),
+                            TextEntry::make('tag'),
+                            TextEntry::make('status'),
+                        ])
+                        ->columns(3),
+                ])
+                ->collapsed(),
+
+            /* ========= POS ========= */
+            Section::make('POS Devices')
+                ->schema([
+                    RepeatableEntry::make('posDevices')
+                        ->schema([
+                            TextEntry::make('model'),
+                            TextEntry::make('tag'),
+                            TextEntry::make('serial'),
+                            TextEntry::make('merchant'),
+                        ])
+                        ->columns(4),
+                ])
+                ->collapsed(),
+
+            /* ========= ATMs ========= */
+            Section::make('ATMs')
+                ->schema([
+                    RepeatableEntry::make('atms')
+                        ->schema([
+                            TextEntry::make('terminal'),
+                            TextEntry::make('os'),
+                            TextEntry::make('type'),
+                            TextEntry::make('location'),
+                        ])
+                        ->columns(4),
+                ])
+                ->collapsed(),
+
+            /* ========= Data VPN ========= */
+            Section::make('Data VPN')
+                ->schema([
+                    RepeatableEntry::make('dataVpns')
+                        ->schema([
+                            TextEntry::make('serviceNo'),
+                            TextEntry::make('lANIp'),
+                            TextEntry::make('wanIp'),
+                            TextEntry::make('bandwidth'),
+                        ])
+                        ->columns(4),
+                ])
+                ->collapsed(),
+
+            /* ========= Dongles ========= */
+            Section::make('Dongles')
+                ->schema([
+                    RepeatableEntry::make('dongles')
+                        ->schema([
+                            TextEntry::make('model'),
+                            TextEntry::make('serial'),
+                            TextEntry::make('imei'),
+                            TextEntry::make('status'),
+                        ])
+                        ->columns(4),
+                ])
+                ->collapsed(),
+
+            /* ========= DOB ========= */
+            Section::make('DOBs')
+                ->schema([
+                    RepeatableEntry::make('dobs')
+                        ->schema([
+                            TextEntry::make('model'),
+                            TextEntry::make('serial'),
+                            TextEntry::make('service_no'),
+                            TextEntry::make('status'),
+                        ])
+                        ->columns(4),
+                ])
+                ->collapsed(),
+
+            /* ========= Fixed Lines ========= */
+            Section::make('Fixed Lines')
+                ->schema([
+                    RepeatableEntry::make('fixedLines')
+                        ->schema([
+                            TextEntry::make('serviceNo'),
+                            TextEntry::make('account'),
+                            TextEntry::make('media'),
+                        ])
+                        ->columns(3),
+                ])
+                ->collapsed(),
+
+            /* ========= Other Assets ========= */
+            Section::make('Other Assets')
+                ->schema([
+                    RepeatableEntry::make('otherAssets')
+                        ->schema([
+                            TextEntry::make('asset_number'),
+                            TextEntry::make('asset_cost'),
+                            TextEntry::make('assigned_to'),
+                        ])
+                        ->columns(3),
+                ])
+                ->collapsed(),
+
+        ]);
+    }
 
 
     public static function table(Table $table): Table
@@ -105,43 +242,6 @@ class ComputerResource extends Resource
             ], layout: FiltersLayout::AboveContent)
 
 
-
-
-
-
-
-            //  SelectFilter::make('district_id')
-            // ->label('Filter by District')
-
-
-            //         ->options(District::all()->pluck('name', 'id'))
-            //          ->searchable()
-            //         ->reactive() // important for dependency
-            //         ->required(),
-
-            //     Select::make('district_id')
-            //         ->label(' Branch')
-            //         ->options(function ($get) {
-            //             $districtId = $get('district_id');
-
-            //             if (!$districtId) {
-            //                 return Branch::pluck('name', 'id'); // all models if nothing selected
-            //             }
-
-            //             return Branch::where('district_id', $hardwareTypeId)
-            //                 ->pluck('name', 'id');
-            //         })
-            //         ->searchable()
-            //         ->required()
-
-
-
-
-
-
-
-
-
             ->headerActions([
 
                 ImportAction::make()
@@ -159,34 +259,27 @@ class ComputerResource extends Resource
                     ])->fileName(fn(Export $export): string => "Computer Inventory-{$export->getKey()}"),
 
 
-                // CreateAction::make()
-                //     ->label('Add Computer')
-                //     ->color('primary')
-                //     ->icon(Heroicon::Plus),
-
-
-
-
-
-                // FilterAction::make('filter')   // just a button to toggle filters
-                //     ->label('Filter Data')
-                //     ->color('success')
-                //     ->icon(Heroicon::Funnel),
-
-
 
             ]);
     }
 
 
 
-
-
-
     public static function getRelations(): array
     {
         return [
-            //
+            // AtmsRelationManager::class,
+            // ComputersRelationManager::class,
+            // DataVpnsRelationManager::class,
+            // DonglesRelationManager::class,
+            // DobsRelationManager::class,
+            // FixedLinesRelationManager::class,
+            // OtherAssetsRelationManager::class,
+            // OutletsRelationManager::class,
+            // PhotocopiesRelationManager::class,
+            // PosRelationManager::class,
+            // PrintersRelationManager::class,
+            // ScannersRelationManager::class,
         ];
     }
 

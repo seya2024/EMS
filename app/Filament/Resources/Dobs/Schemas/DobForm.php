@@ -2,9 +2,10 @@
 
 namespace App\Filament\Resources\Dobs\Schemas;
 
+use App\Models\Branch;
 use Filament\Schemas\Schema;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 
 class DobForm
 {
@@ -36,6 +37,13 @@ class DobForm
                     ->label('Value')
                     ->required()
                     ->numeric(),
+
+                Select::make('branch_id')
+                    ->label('Branch')
+                    ->options(Branch::all()->pluck('name', 'id'))
+                    ->searchable()
+                    ->required(),
+
 
 
                 // TextInput::make('quantity')

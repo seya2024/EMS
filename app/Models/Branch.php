@@ -6,13 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 
 class Branch extends Model
 {
     //
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, LogsActivity;
 
     /**
      * The attributes that are mass assignable.
@@ -20,6 +22,16 @@ class Branch extends Model
      * @var list<string>
      */
 
+
+
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logAll() // log all attributes
+            ->logOnlyDirty() // optional, only log changed fields
+            ->useLogName('Branch'); // optional, name of the log
+    }
 
     protected $fillable = [
         'code',
@@ -31,7 +43,6 @@ class Branch extends Model
         'tag',
 
     ];
-
 
 
     public function outlets()
@@ -50,10 +61,8 @@ class Branch extends Model
 
     public function fixedLines()
     {
-        return $this->hasMany(FixedLine::class, 'branch_id');
+        return $this->hasMany(FixedLine::class);
     }
-
-
 
     public function computers()
     {
@@ -74,5 +83,45 @@ class Branch extends Model
     public function district()
     {
         return $this->belongsTo(District::class);
+    }
+
+    public function dataVpns()
+    {
+        return $this->hasMany(DataVPN::class);
+    }
+
+    public function dongles()
+    {
+        return $this->hasMany(Dongle::class);
+    }
+
+    public function dobs()
+    {
+        return $this->hasMany(DOB::class);
+    }
+
+    public function photocopies()
+    {
+        return $this->hasMany(Photocopy::class);
+    }
+
+    public function posDevices()
+    {
+        return $this->hasMany(Pos::class);
+    }
+
+    public function printers()
+    {
+        return $this->hasMany(Printer::class);
+    }
+
+    public function scanners()
+    {
+        return $this->hasMany(Scanner::class);
+    }
+
+    public function assetMaintenances()
+    {
+        return $this->hasMany(AssetMaintenance::class);
     }
 }

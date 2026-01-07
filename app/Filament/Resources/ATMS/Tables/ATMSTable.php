@@ -22,7 +22,7 @@ class ATMSTable
                     ->label('#')
                     ->sortable(),
 
-                TextColumn::make('custodian.name')
+                TextColumn::make('branch.name')
                     ->label('Custodian')
                     ->sortable()
                     ->searchable(),

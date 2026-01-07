@@ -160,7 +160,7 @@ class ComputerForm
                             ->label('Status')
                             ->options([
                                 'Functional' => 'Functional',
-                                'Non-Functional' => 'Non-Functional',
+                                'Non Functional' => 'Non Functional',
                                 'Decommissioned' => 'Decommissioned',
                             ])
                             ->default('Functional')

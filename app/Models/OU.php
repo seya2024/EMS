@@ -2,11 +2,23 @@
 
 namespace App\Models;
 
+use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class OU extends Model
 {
 
+    use HasFactory, LogsActivity;
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logAll() // log all attributes
+            ->logOnlyDirty() // optional, only log changed fields
+            ->useLogName('Organizational_unit'); // optional, name of the log
+    }
 
     protected $fillable = [
         'id',
@@ -23,6 +35,12 @@ class OU extends Model
 
     public function activityReports()
     {
-        return $this->hasMany(ActivityReport::class, 'task_giver_id');
+        return $this->hasMany(ActivityReport::class);
+    }
+
+
+    public function assetMaintenances()
+    {
+        return $this->hasMany(AssetMaintenance::class);
     }
 }

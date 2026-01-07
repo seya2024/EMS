@@ -55,13 +55,11 @@ class BranchesTable
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
-
             ->filters([
                 //
             ])
-
             ->recordActions([
-                ViewAction::make(),
+                ViewAction::make()->label('Fixed Assets')->modalWidth('full'),
                 EditAction::make()->visible(fn() => Filament::auth()->user()?->role === 'admin'),
                 DeleteAction::make()->visible(fn() => Filament::auth()->user()?->role === 'admin'),
             ])

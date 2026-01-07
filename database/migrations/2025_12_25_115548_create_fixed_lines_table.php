@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('serviceNo');
             $table->string('account');
-            $table->string('branch');
+            $table->foreignId('branch_id')->constrained()->cascadeOnDelete();
             $table->string('media')->nullable();
             $table->text('remark')->nullable();
             $table->timestamps();
