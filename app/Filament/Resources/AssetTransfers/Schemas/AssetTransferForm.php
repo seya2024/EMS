@@ -13,14 +13,16 @@ use App\Models\Scanner;
 use App\Models\Computer;
 use App\Models\Photocopy;
 use App\Models\OtherAsset;
+use App\Models\AssetTransfer;
 use Filament\Schemas\Schema;
 use Filament\Facades\Filament;
+use Filament\Forms;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Get;
+use Illuminate\Support\Facades\DB;
 
 class AssetTransferForm
 {
@@ -28,31 +30,8 @@ class AssetTransferForm
     {
         return $schema
             ->components([
-
                 // Asset Type
-                // Select::make('asset_type')
-                //     ->label('Asset Type')
-                //     ->options([
-                //         'Computer' => 'Computer',
-                //         'atm' => 'ATM',
-                //         'Printer' => 'Printer',
-                //         'scanner' => 'Scanner',
-                //         'dongle' => 'Dongle',
-                //         'dob' => 'DOB',
-                //         'photocopy' => 'Photocopy',
-                //         'pos' => 'POS',
-                //         'non_digital_asset' => 'Other Asset',
-                //     ])
-                //     ->required(),
-
-                // // Asset ID
-                // TextInput::make('asset_id')
-                //     ->label('Asset ID')
-                //     ->numeric()
-                //     ->required(),
-
-
-                Select::make('assetable_type')  //App\Models\ModelName
+                Select::make('assetable_type')
                     ->label('Asset Type')
                     ->options([
                         Computer::class   => 'Computer',
@@ -64,82 +43,74 @@ class AssetTransferForm
                         Photocopy::class  => 'Photocopy',
                         Pos::class        => 'POS',
                         OtherAsset::class => 'Other Asset',
-                    ])->reactive()->afterStateUpdated(fn($set) => $set('assetable_id', null))->required(),
+                    ])
+                    ->reactive()
+                    ->afterStateUpdated(fn($set) => $set('assetable_id', null))
+                    ->required(),
+
+                // Asset Selection
                 Select::make('assetable_id')
                     ->label('Asset')
                     ->options(fn(callable $get) => match ($get('assetable_type')) {
-                        Computer::class => Computer::with('model')->get()->mapWithKeys(fn($c) => [
-                            $c->id => $c->display_name, // accessor works here
-                        ]),
-                        ATM::class      => ATM::all()->mapWithKeys(fn($a) => [
-                            $a->id => $a->display_name,
-                        ]),
-                        Printer::class  => Printer::all()->mapWithKeys(fn($p) => [
-                            $p->id => $p->display_name,
-                        ]),
-                        Scanner::class  => Scanner::all()->mapWithKeys(fn($s) => [
-                            $s->id => $s->display_name,
-                        ]),
-                        Dongle::class   => Dongle::all()->mapWithKeys(fn($d) => [
-                            $d->id => $d->display_name,
-                        ]),
-                        DOB::class      => DOB::all()->mapWithKeys(fn($d) => [
-                            $d->id => $d->display_name,
-                        ]),
-                        Photocopy::class => Photocopy::all()->mapWithKeys(fn($p) => [
-                            $p->id => $p->display_name,
-                        ]),
-                        Pos::class      => Pos::all()->mapWithKeys(fn($p) => [
-                            $p->id => $p->display_name,
-                        ]),
-                        OtherAsset::class => OtherAsset::all()->mapWithKeys(fn($o) => [
-                            $o->id => $o->display_name,
-                        ]),
+                        Computer::class => Computer::with('model')->get()->mapWithKeys(fn($c) => [$c->id => $c->display_name]),
+                        ATM::class      => ATM::all()->mapWithKeys(fn($a) => [$a->id => $a->display_name]),
+                        Printer::class  => Printer::all()->mapWithKeys(fn($p) => [$p->id => $p->display_name]),
+                        Scanner::class  => Scanner::all()->mapWithKeys(fn($s) => [$s->id => $s->display_name]),
+                        Dongle::class   => Dongle::all()->mapWithKeys(fn($d) => [$d->id => $d->display_name]),
+                        DOB::class      => DOB::all()->mapWithKeys(fn($d) => [$d->id => $d->display_name]),
+                        Photocopy::class => Photocopy::all()->mapWithKeys(fn($p) => [$p->id => $p->display_name]),
+                        Pos::class      => Pos::all()->mapWithKeys(fn($p) => [$p->id => $p->display_name]),
+                        OtherAsset::class => OtherAsset::all()->mapWithKeys(fn($o) => [$o->id => $o->display_name]),
                         default => [],
-                    })->searchable()
+                    })
+                    ->searchable()
                     ->reactive()
-                    ->required()->preload(),
+                    ->preload()
+                    ->required()->afterStateUpdated(function ($state, callable $set, callable $get) {
+                        if ($get('assetable_type') && $state) {
+                            $asset = $get('assetable_type')::find($state);
+                            $set('from_branch_id', $asset->branch_id); // ✅ FK will be valid
+                        }
+                    })
+                    ->required(),
 
-
-                // From Branch
-                Select::make('from_branch_id')
-                    ->label('From Branch')
-                    ->options(Branch::pluck('name', 'id'))
-                    ->required()
+                // Hidden From Branch
+                Hidden::make('from_branch_id')
                     ->reactive()
-                    ->afterStateUpdated(fn($state, callable $set) => $set('to_branch_id', null)),
+                    ->dehydrated()
+                    ->required(),
 
-                // To Branch
                 Select::make('to_branch_id')
                     ->label('To Branch')
                     ->options(
-                        fn(callable $get) =>
-                        Branch::where('id', '!=', $get('from_branch_id'))
-                            ->pluck('name', 'id')
+                        fn(callable $get) => ($asset = ($get('assetable_type') && $get('assetable_id')
+                            ? $get('assetable_type')::find($get('assetable_id'))
+                            : null))
+                            ? Branch::where('id', '!=', $asset->branch_id)->pluck('name', 'id')
+                            : Branch::pluck('name', 'id')
                     )
                     ->required(),
-
 
                 // Action Type
                 Select::make('action')
                     ->label('Action')
                     ->options([
-                        'handover' => 'Handover',
-                        'takeover' => 'Takeover',
-                        'transfer' => 'Transfer',
-                        'disposal' => 'Disposal',
+                        'Handover' => 'Handover',
+                        'Takeover' => 'Takeover',
+                        'Transfer' => 'Transfer',
+                        'Disposal' => 'Disposal',
                     ])
                     ->required(),
 
-
+                // Performed by
                 Hidden::make('performed_by')
                     ->default(fn() => Filament::auth()->user()?->id),
-                // Problem description
 
-
+                // Performed at
                 Hidden::make('performed_at')
                     ->default(fn() => now())
                     ->required(),
+
                 // Remarks
                 Textarea::make('remarks')
                     ->label('Remarks')

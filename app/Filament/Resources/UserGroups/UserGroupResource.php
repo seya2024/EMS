@@ -40,7 +40,7 @@ class UserGroupResource extends Resource
 
     public static function form(Schema $schema): Schema
     {
-        return UserGroupForm::configure($schema)->authorize(fn(User $user, $record) => $user->can('update', 'create', $record));
+        return UserGroupForm::configure($schema); //->authorize(fn(User $user, $record) => $user->can('update', 'create', $record));
     }
 
     public static function getNavigationBadge(): ?string
@@ -103,18 +103,9 @@ class UserGroupResource extends Resource
                     )),
 
 
-
-                // if (auth()->user()?->role?->name === 'admin') {
-
-
-                // }
-
-
-
-
                 //  ViewAction::make()->visible(fn() => Filament::auth()->user()?->role === 'admin'),
-                EditAction::make()->visible(fn() => Filament::auth()->user()?->role === 'admin'),
-                DeleteAction::make()->rateLimit(5)->rateLimitedNotificationTitle('Slow down!'),
+                EditAction::make(), //->visible(fn() => Filament::auth()->user()?->role === 'admin'),
+                DeleteAction::make(), //->rateLimit(5)->rateLimitedNotificationTitle('Slow down!'),
 
             ])
             ->toolbarActions([
@@ -122,18 +113,6 @@ class UserGroupResource extends Resource
                     DeleteBulkAction::make()->visible(fn() => Filament::auth()->user()?->role === 'admin'),
                 ]),
             ])->defaultSort('id', 'desc');
-
-        // ViewAction::make('view_users')
-        //     ->label('View Users')
-        //     ->icon('heroicon-o-users')
-        //     ->action(function ($record, $data, $livewire) {
-        //         $users = $record->users; // get related users
-        //         $userNames = $users->pluck('name')->join(', ');
-
-        //         // simple alert popup (quick demo)
-        //         $livewire->notify('info', "Users: {$userNames}");
-        //     }),
-
     }
 
     public static function getRelations(): array
@@ -142,6 +121,8 @@ class UserGroupResource extends Resource
             //
         ];
     }
+
+
 
     public static function getPages(): array
     {

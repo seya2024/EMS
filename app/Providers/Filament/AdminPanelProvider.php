@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use Filament\Panel;
+use Pages\Auth\Register;
 use Filament\PanelProvider;
 use App\Filament\Pages\Home;
 use Filament\Actions\Action;
@@ -18,8 +19,8 @@ use Illuminate\Support\Facades\Hash;
 use App\Filament\Widgets\ComputerChart;
 use App\Filament\Widgets\StatsOverview;
 use Filament\Navigation\NavigationItem;
-use Filament\Navigation\NavigationGroup;
 //use Dotenv\Exception\ValidationException;
+use Filament\Navigation\NavigationGroup;
 use Filament\Widgets\FilamentInfoWidget;
 use Filament\Http\Middleware\Authenticate;
 use Illuminate\Validation\ValidationException;
@@ -53,8 +54,10 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->passwordReset()
-            ->registration()
+
             ->login()
+            // ->registration(Pages\Auth\Register::class),
+            // ->registration()
             ->profile(isSimple: false)
             //->authGuard('web')
             //->revealablePasswords(false)

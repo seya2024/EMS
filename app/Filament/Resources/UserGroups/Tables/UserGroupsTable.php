@@ -18,58 +18,13 @@ class UserGroupsTable
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([
-
-                // TextColumn::make('description')
-                //     ->label('Group Name')
-                //     ->sortable()
-                //     ->searchable(),
-
-                TextColumn::make('description')
-                    ->label('Description')
-                    ->limit(50),
-
-                TextColumn::make('users_count')
-                    ->label('Users')
-                    ->counts('users')
-                    ->sortable(),
-
-
-                // TextColumn::make('permissions')
-                //     ->label('Permissions')
-                //     ->formatStateUsing(fn($record) => $record->permissions->pluck('name')->implode(', '))
-                //     ->wrap() // optional, wraps text if long
-                //     ->limit(50),
-
-            ])
+            ->columns([])
             ->filters([
                 SelectFilter::make('users')
                     ->relationship('users', 'name')
                     ->label('Filter by User'),
             ])
             ->recordActions([
-
-                // ViewAction::make('viewUsers')
-                //     ->label('Users')
-                //     ->icon('heroicon-o-user')
-                //     ->modalHeading(fn($record) => "Users in {$record->name}")
-                //     ->modalContent(
-                //         fn($record) =>
-                //         \Illuminate\Support\Str::of(
-                //             $record->users->pluck('full_name')->implode('<br>')
-                //         )->toHtml()
-                //     ),
-
-                // ViewAction::make('viewPermissions')
-                //     ->label('Permissions')
-                //     ->icon('heroicon-o-shield-check')
-                //     ->modalHeading(fn($record) => "Permissions for {$record->name}")
-                //     ->modalContent(
-                //         fn($record) =>
-                //         \Illuminate\Support\Str::of(
-                //             $record->permissions->pluck('name')->implode('<br>')
-                //         )->toHtml()
-                //     ),
 
 
                 // ViewAction::make()->visible(fn() => Filament::auth()->user()?->role === 'admin'),

@@ -46,6 +46,7 @@ class Computer extends Model
         'updated_at',
 
 
+
     ];
 
 
@@ -60,16 +61,6 @@ class Computer extends Model
         return $this->morphTo();
     }
 
-    // public function district()
-    // {
-    //     return $this->belongsTo(District::class);
-    // }
-
-    // Optional: Define table name if different
-    // protected $table = 'computers';
-
-    // Optional: relationships
-    // e.g., if workingUnit links to Branch
     public function branch()
     {
         return $this->belongsTo(Branch::class);

@@ -12,8 +12,11 @@ use Filament\Tables\Columns\BadgeColumn;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Notifications\Notification;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Collection;
 use App\Models\Branch;
 use App\Models\AssetTransfer;
+use Filament\Facades\Filament;
 
 class AssetTransfersTable
 {
@@ -22,119 +25,164 @@ class AssetTransfersTable
         return $table
             ->columns([
                 TextColumn::make('assetable_type')
-                    ->label('Asset Tag')
-                    ->formatStateUsing(fn($state, $record) => $record->assetable?->display_name ?? '-')
+                    ->label('Asset')
+                    ->formatStateUsing(
+                        fn($state, $record) =>
+                        $record->assetable?->display_name ?? '-'
+                    )
                     ->sortable(),
 
-                TextColumn::make('fromBranch.name')->label('From Branch')->sortable()->searchable(),
-                TextColumn::make('toBranch.name')->label('To Branch')->sortable()->searchable(),
+                TextColumn::make('fromBranch.name')
+                    ->label('From Branch')
+                    ->sortable()
+                    ->searchable(),
+
+                TextColumn::make('toBranch.name')
+                    ->label('To Branch')
+                    ->sortable()
+                    ->searchable(),
+
                 BadgeColumn::make('action')
                     ->label('Action')
                     ->colors([
                         'success' => 'transfer',
                         'warning' => 'handover',
                         'primary' => 'takeover',
-                        'danger' => 'disposal',
+                        'danger'  => 'disposal',
                     ])
                     ->sortable(),
-                TextColumn::make('user.full_name')->label('Performed By')->sortable()->searchable(),
-                TextColumn::make('performed_at')->label('Performed At')->dateTime()->sortable(),
+
+                TextColumn::make('user.full_name')
+                    ->label('Performed By')
+                    ->sortable()
+                    ->searchable(),
+
+                TextColumn::make('performed_at')
+                    ->label('Performed At')
+                    ->dateTime()
+                    ->sortable(),
+
                 TextColumn::make('remarks')->limit(50),
-            ])
-            ->filters([
-                // Optional filters
             ])
             ->recordActions([
                 EditAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
+
                     DeleteBulkAction::make(),
 
-                    /* ================= Bulk Transfer / Handover ================= */
-                    BulkAction::make('handover')
+                    /* ================= BULK TRANSFER ================= */
+                    BulkAction::make('transfer')
                         ->label('Transfer Selected')
-                        ->icon('heroicon-o-hand-raised')
+                        ->icon('heroicon-o-arrow-right-circle')
+                        ->color('warning')
                         ->requiresConfirmation()
                         ->form([
                             Select::make('to_branch_id')
-                                ->label('Select Branch')
-                                ->options(Branch::all()->pluck('name', 'id'))
+                                ->label('Target Branch')
+                                ->options(fn() => Branch::pluck('name', 'id'))
                                 ->required(),
-                            Textarea::make('remarks')->label('Remarks')->maxLength(250),
+
+                            Textarea::make('remarks')
+                                ->maxLength(250),
                         ])
-                        ->action(function (\Illuminate\Support\Collection $records, array $data) {
-                            foreach ($records as $record) {
-                                $asset = $record->asset;
+                        ->action(function (Collection $records, array $data) {
 
-                                if (! $asset) {
-                                    continue; // skip if no related asset
+                            DB::transaction(function () use ($records, $data) {
+
+                                foreach ($records as $record) {
+
+                                    $asset = $record->assetable;
+
+                                    if (! $asset) {
+                                        continue;
+                                    }
+
+                                    if ($asset->branch_id == $data['to_branch_id']) {
+                                        continue;
+                                    }
+
+                                    $fromBranch = $asset->branch_id;
+
+                                    $asset->update([
+                                        'branch_id' => $data['to_branch_id'],
+                                    ]);
+
+                                    AssetTransfer::create([
+                                        'assetable_type' => get_class($asset),
+                                        'assetable_id'   => $asset->id,
+                                        'from_branch_id' => $fromBranch,
+                                        'to_branch_id'   => $data['to_branch_id'],
+                                        'action'         => 'transfer',
+                                        'performed_by'   => Filament::auth()->id(),
+                                        'performed_at'   => now(),
+                                        'remarks'        => $data['remarks'] ?? null,
+                                    ]);
                                 }
-
-                                $asset->update([
-                                    'branch_id' => $data['to_branch_id'],
-                                ]);
-
-                                AssetTransfer::create([
-                                    'asset_type' => get_class($asset),
-                                    'asset_id' => $asset->id,
-                                    'from_branch_id' => $record->branch_id,
-                                    'to_branch_id' => $data['to_branch_id'],
-                                    'performed_by' => \Filament\Facades\Filament::auth()->id(),
-                                    'performed_at' => now(),
-                                    'remarks' => $data['remarks'] ?? null,
-                                    'action' => 'transfer',
-                                ]);
-                            }
+                            });
                         })
                         ->successNotification(
-                            fn(array $data) => Notification::make()
-                                ->title('Transfer to ' . Branch::find($data['to_branch_id'])->name . ' completed!')
+                            fn(array $data) =>
+                            Notification::make()
                                 ->success()
-                        )
-                        ->color('warning'),
+                                ->title(
+                                    'Transfer completed to ' .
+                                        Branch::find($data['to_branch_id'])?->name
+                                )
+                        ),
 
-                    /* ================= Bulk Disposal ================= */
+                    /* ================= BULK DISPOSAL ================= */
                     BulkAction::make('dispose')
                         ->label('Dispose Selected')
                         ->icon('heroicon-o-trash')
                         ->color('danger')
                         ->requiresConfirmation()
                         ->form([
-                            Textarea::make('reason')->label('Disposal Reason')->required(),
+                            Textarea::make('reason')
+                                ->label('Disposal Reason')
+                                ->required(),
                         ])
-                        ->action(function (\Illuminate\Support\Collection $records, array $data) {
-                            foreach ($records as $record) {
-                                $asset = $record->asset;
+                        ->action(function (Collection $records, array $data) {
 
-                                if (! $asset) {
-                                    continue; // skip if no related asset
+                            DB::transaction(function () use ($records, $data) {
+
+                                foreach ($records as $record) {
+
+                                    $asset = $record->assetable;
+
+                                    if (! $asset) {
+                                        continue;
+                                    }
+
+                                    $fromBranch = $asset->branch_id;
+
+                                    $asset->update([
+                                        'branch_id'        => null,
+                                        'status'           => 'Disposed',
+                                        'disposed_by'      => Filament::auth()->id(),
+                                        'disposed_at'      => now(),
+                                        'disposal_reason'  => $data['reason'],
+                                    ]);
+
+                                    AssetTransfer::create([
+                                        'assetable_type' => get_class($asset),
+                                        'assetable_id'   => $asset->id,
+                                        'from_branch_id' => $fromBranch,
+                                        'to_branch_id'   => null,
+                                        'action'         => 'disposal',
+                                        'performed_by'   => Filament::auth()->id(),
+                                        'performed_at'   => now(),
+                                        'remarks'        => $data['reason'],
+                                    ]);
                                 }
-
-                                $asset->update([
-                                    'branch_id' => null,
-                                    'status' => 'Disposed',
-                                    'disposed_by' => \Filament\Facades\Filament::auth()->id(),
-                                    'disposed_at' => now(),
-                                    'disposal_reason' => $data['reason'],
-                                ]);
-
-                                AssetTransfer::create([
-                                    'asset_type' => get_class($asset),
-                                    'asset_id' => $asset->id,
-                                    'from_branch_id' => $record->branch_id,
-                                    'to_branch_id' => null,
-                                    'performed_by' => \Filament\Facades\Filament::auth()->id(),
-                                    'performed_at' => now(),
-                                    'remarks' => $data['reason'],
-                                    'action' => 'disposal',
-                                ]);
-                            }
+                            });
                         })
                         ->successNotification(
-                            fn() => Notification::make()
-                                ->title('Selected items have been disposed successfully')
+                            fn() =>
+                            Notification::make()
                                 ->success()
+                                ->title('Selected assets transfered successfully')
                         ),
                 ]),
             ]);

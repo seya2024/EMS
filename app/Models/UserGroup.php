@@ -74,6 +74,8 @@ class UserGroup extends Model
 
 
 
+
+
     // public function permissions()
     // {
     //     return $this->belongsToMany(Permission::class, 'group_permission', 'group_id', 'permission_id');
@@ -83,8 +85,14 @@ class UserGroup extends Model
 
     public function permissions()
     {
-        return $this->belongsToMany(Permission::class, 'group_permission');
+        return $this->belongsToMany(
+            Permission::class,
+            'group_permission',  // pivot table
+            'group_id',          // foreign key of this model in pivot
+            'permission_id'      // foreign key of related model in pivot
+        );
     }
+
 
     public function hasPermission(\Illuminate\Database\Eloquent\Model $model, string $permission): bool
     {

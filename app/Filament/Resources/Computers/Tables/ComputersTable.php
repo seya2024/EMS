@@ -30,7 +30,18 @@ class ComputersTable
 {
     public static function configure(Table $table): Table
     {
+
+        // dd(Filament::auth()->user()->branch_id);
+
+        $userDistrictId = Filament::auth()->user()->branch?->district_id;
+
         return $table
+            ->query(fn($query) => Computer::whereHas(
+                'branch',
+                fn($q) =>
+                $q->where('district_id', $userDistrictId)
+            ))
+
             ->columns([
                 TextColumn::make('hardwareType.name')->label('Type')->searchable()->sortable(),
                 TextColumn::make('computerModel.name')->label('Model')->sortable()->searchable(),

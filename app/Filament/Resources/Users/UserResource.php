@@ -60,12 +60,6 @@ class UserResource extends Resource
             Select::make('branch_id')->label('Working Unit / Department')->required(true)->relationship('branch', 'name')->searchable()->preload(),
             //   Hidden::make('role')->default('admin'),
 
-            Select::make('users')
-                ->multiple()->label('Work group')
-                ->relationship('users', 'id')
-                ->getOptionLabelUsing(function ($user) {
-                    return $user->fname . ' ' . $user->lname;
-                }),
 
             TextInput::make('employee_id')->label('Employee ID')->required()->placeholder('DB/17357/24')->unique(ignoreRecord: true),
             Toggle::make('isActive')->label('Active Account')->default(false)->onIcon(Heroicon::Star),

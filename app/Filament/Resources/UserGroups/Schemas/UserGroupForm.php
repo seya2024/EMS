@@ -14,6 +14,9 @@ class UserGroupForm
     {
         return $schema
             ->components([
+
+
+
                 TextInput::make('name')
                     ->label('Group Name')
                     ->required()
@@ -31,14 +34,14 @@ class UserGroupForm
                 //     ->preload(),
 
 
-                Select::make('users')
-                    ->label('Assign Users')
-                    ->multiple()->relationship('users', 'id')  // store ID in pivot
-                    ->options(
-                        User::all()->pluck('full_name', 'id')->toArray()
-                    )
-                    ->searchable()
-                    ->preload(),
+                // Select::make('users')
+                //     ->label('Assign Users')
+                //     ->multiple()->relationship('users', 'id')  // store ID in pivot
+                //     ->options(
+                //         User::all()->pluck('full_name', 'id')->toArray()
+                //     )
+                //     ->searchable()
+                //     ->preload(),
 
                 // Assign permissions
                 // Select::make('permissions')

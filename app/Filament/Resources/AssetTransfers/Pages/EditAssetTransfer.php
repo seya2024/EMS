@@ -2,9 +2,11 @@
 
 namespace App\Filament\Resources\AssetTransfers\Pages;
 
-use App\Filament\Resources\AssetTransfers\AssetTransferResource;
+use App\Models\AssetTransfer;
 use Filament\Actions\DeleteAction;
+use Illuminate\Support\Facades\DB;
 use Filament\Resources\Pages\EditRecord;
+use App\Filament\Resources\AssetTransfers\AssetTransferResource;
 
 class EditAssetTransfer extends EditRecord
 {
@@ -17,11 +19,41 @@ class EditAssetTransfer extends EditRecord
         ];
     }
 
+
+    // Call this when saving transfer
+    public static function edit(array $data)
+    {
+
+
+
+        return DB::transaction(function () use ($data) {
+            $transfer = AssetTransfer::create([
+                'assetable_type' => $data['assetable_type'],
+                'assetable_id'   => $data['assetable_id'],
+                'from_branch_id' => $data['from_branch_id'],
+                'to_branch_id'   => $data['to_branch_id'],
+                'action'         => $data['action'],
+                'performed_by'   => $data['performed_by'],
+                'performed_at'   => $data['performed_at'],
+                'remarks'        => $data['remarks'] ?? null,
+            ]);
+
+            $assetModel = $data['assetable_type']::find($data['assetable_id']);
+            if ($assetModel) {
+                $assetModel->update([
+                    'branch_id' => $data['to_branch_id'],
+                ]);
+            }
+
+
+            return $transfer;
+        });
+    }
+
+
     protected function rules(): array
     {
         return [
-            'data.from_branch_id' => ['required'],
-            'data.to_branch_id'   => ['required', 'different:data.from_branch_id'],
 
 
             'data.assetable_type' => ['required', 'string'],
@@ -43,10 +75,12 @@ class EditAssetTransfer extends EditRecord
         ];
     }
 
-    protected function messages(): array
-    {
-        return [
-            'data.to_branch_id.different'  => 'From Branch and To Branch must be different.',
-        ];
-    }
+
+
+    // protected function messages(): array
+    // {
+    //     return [
+    //         'data.to_branch_id.different'  => 'From Branch and To Branch must be different.',
+    //     ];
+    // }
 }

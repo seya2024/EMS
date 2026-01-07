@@ -2,13 +2,13 @@
 
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+use App\Filament\Pages\Register;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-// Later you try to define this
-Route::get('/home', [HomeController::class, 'index']);
+//Route::get('/admin/register', Register::class)->name('filament.admin.register');
 
 // Route::get('/', function () {
 //     return view('home');

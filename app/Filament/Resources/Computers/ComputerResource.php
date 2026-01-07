@@ -35,6 +35,7 @@ use App\Filament\Resources\Computers\Tables\ComputersTable;
 use App\Filament\Resources\Computers\Schemas\ComputerInfolist;
 
 
+
 class ComputerResource extends Resource
 {
     protected static ?string $model = Computer::class;
@@ -218,10 +219,9 @@ class ComputerResource extends Resource
         return ComputersTable::configure($table)
 
             ->filters([
-
-                // Filter by district (via branch relation)
+                // District filter
                 SelectFilter::make('district_id')
-                    ->label('Filter by District')
+                    ->label('District')
                     ->options(District::pluck('name', 'id')->toArray())
                     ->query(
                         fn($query, $districtId) => $districtId
@@ -229,10 +229,17 @@ class ComputerResource extends Resource
                             : null
                     ),
 
-                // Filter by branch (direct)
+                // Branch filter depending on district
                 SelectFilter::make('branch_id')
-                    ->label('Filter by Branch')
-                    ->options(Branch::pluck('name', 'id')->toArray())
+                    ->label('Branch')
+                    ->options(function (SelectFilter $filter) {
+                        // get current district filter value
+                        $districtId = $filter->getState()['district_id'] ?? null;
+
+                        return Branch::when($districtId, fn($q) => $q->where('district_id', $districtId))
+                            ->pluck('name', 'id')
+                            ->toArray();
+                    })
                     ->query(
                         fn($query, $branchId) => $branchId
                             ? $query->where('branch_id', $branchId)
@@ -240,7 +247,6 @@ class ComputerResource extends Resource
                     ),
 
             ], layout: FiltersLayout::AboveContent)
-
 
             ->headerActions([
 
