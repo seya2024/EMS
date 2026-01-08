@@ -15,27 +15,27 @@ return new class extends Migration
             $table->id(); // Primary key, auto-increment
             // $table->string('hardwareType');
 
-            $table->foreignId('hardware_type_id')
+            $table->foreignId('hardware_type_id')->nullable()
                 ->constrained()
-                ->cascadeOnDelete();
+                ->cascadeOnDelete()->nullable();
 
             $table->foreignId('computer_model_id')
                 ->constrained()
-                ->cascadeOnDelete();
+                ->cascadeOnDelete()->nullable();
 
-            $table->string('tagNo');
-            $table->string('serialNo')->unique();
+            $table->string('tagNo')->nullable();
+            $table->string('serialNo')->unique()->nullable();
             // Store size with units as strings
-            $table->string('harddiskSize'); // e.g., "1 TB"
-            $table->string('ramSize');      // e.g., "4 GB"
-            $table->string('speed');        // CPU details
+            $table->string('harddiskSize')->nullable(); // e.g., "1 TB"
+            $table->string('ramSize')->nullable();      // e.g., "4 GB"
+            $table->string('speed')->nullable();       // CPU details
             $table->string('isActiveAntivirus')->default('Active agent')->nullable(); // pcs, meter, kg
-            $table->string('os');
-            $table->boolean('isActivated')->default(false);
-            $table->string('IpAddress')->nullable();
-            $table->string('hostName')->nullable();
-            $table->enum('status', ['Active', 'Working', 'Not Working', 'Functional'])->default('Active');
-            $table->foreignId('branch_id')->nullable()->constrained('branches')->onDelete('cascade');
+            $table->string('os')->nullable();
+            $table->boolean('isActivated')->default(false)->nullable();
+            $table->string('IpAddress')->nullable()->nullable();
+            $table->string('hostName')->nullable()->nullable();
+            $table->enum('status', ['Active', 'Working', 'Not Working', 'Functional'])->default('Active')->nullable();
+            $table->foreignId('branch_id')->nullable()->constrained('branches')->onDelete('cascade')->nullable();
             $table->timestamps();
         });
     }

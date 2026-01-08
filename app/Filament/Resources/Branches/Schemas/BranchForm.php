@@ -21,7 +21,7 @@ class BranchForm
 
                 TextInput::make('code')->label('Code')->required(),
                 TextInput::make('name')->label('Name')->required(),
-                TextInput::make('grade')->label('Grade')->required(),
+                TextInput::make('grade')->label('Grade'),
                 TextInput::make('tag')->label('Tag'),
 
                 Select::make('district_id')

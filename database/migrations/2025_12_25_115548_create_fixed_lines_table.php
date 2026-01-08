@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('fixed_lines', function (Blueprint $table) {
             $table->id();
-            $table->string('serviceNo');
-            $table->string('account');
-            $table->foreignId('branch_id')->constrained()->cascadeOnDelete();
+            $table->string('serviceNo')->nullable();
+            $table->string('account')->nullable();
+            $table->foreignId('branch_id')->constrained()->cascadeOnDelete()->nullable();
             $table->string('media')->nullable();
             $table->text('remark')->nullable();
             $table->timestamps();

@@ -13,14 +13,11 @@ return new class extends Migration
     {
         Schema::create('printers', function (Blueprint $table) {
             $table->id();
-            $table->string('model');
-            $table->string('value');
-            $table->string('tag')->unique();
-            $table->string('status');
-            // $table->string('quantity')->default('0');
-            // $table->string('unit')->default('pcs');  //pcs, meter, kg
-            //  $table->morphs('owner');
-            $table->foreignId('branch_id')->constrained()->cascadeOnDelete();
+            $table->string('model')->nullable();
+            $table->string('value')->nullable();
+            $table->string('tag')->unique()->nullable();
+            $table->string('status')->nullable();
+            $table->foreignId('branch_id')->constrained()->cascadeOnDelete()->nullable();
             $table->timestamps();
         });
     }

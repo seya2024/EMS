@@ -13,17 +13,17 @@ return new class extends Migration
     {
         Schema::create('dongles', function (Blueprint $table) {
             $table->id();
-            $table->string('model');
-            $table->string('value');
-            $table->string('serial')->unique();
-            $table->string('imei')->unique();
-            $table->string('iccid')->unique();
-            $table->string('service_no');
-            $table->string('network_type');
+            $table->string('model')->nullable();
+            $table->string('value')->nullable();
+            $table->string('serial')->unique()->nullable();
+            $table->string('imei')->unique()->nullable();
+            $table->string('iccid')->unique()->nullable();
+            $table->string('service_no')->nullable();
+            $table->string('network_type')->nullable();
             // $table->string('quantity')->default('0');
             // $table->string('unit')->default('pcs');  //pcs, meter, kg
-            $table->foreignId('branch_id')->constrained()->cascadeOnDelete();
-            $table->string('status');
+            $table->foreignId('branch_id')->constrained()->cascadeOnDelete()->nullable();
+            $table->string('status')->nullable();
             // $table->morphs('owner')
             $table->timestamps();
         });

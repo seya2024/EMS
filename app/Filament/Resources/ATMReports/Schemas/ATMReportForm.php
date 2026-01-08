@@ -7,6 +7,7 @@ use Filament\Forms;
 use App\Models\User;
 use App\Models\Branch;
 use Filament\Schemas\Schema;
+use Filament\Facades\Filament;
 use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -61,12 +62,12 @@ class ATMReportForm
                 TextInput::make('down_time_in_days')
                     ->label('Down Time (Days)')
                     ->numeric()
-                    ->nullable(),
+                    ->step(0.01)  // allows decimal input
+                    ->required(),
 
                 // Open and Close Dates
                 DatePicker::make('open_date')
-                    ->label('Open Date')
-                    ->nullable(),
+                    ->label('Open Date')->required(),
 
                 DatePicker::make('close_date')
                     ->label('Close Date')
@@ -76,20 +77,25 @@ class ATMReportForm
                 TextInput::make('call_ID')
                     ->label('Call ID')
                     ->maxLength(255)
-                    ->nullable(),
+                    ->nullable()->placeholder('11256'),
 
                 // TT
                 TextInput::make('TT')
                     ->label('TT')
                     ->maxLength(255)
-                    ->nullable(),
+                    ->nullable()->placeholder('CCT2026-MM-DD-524915570'),
 
                 // Optional: Display creator (read-only)
+
                 Select::make('created_by')
-                    ->label('Created By')
-                    ->options(User::all()->pluck('name', 'id'))
-                    ->default(Auth::id())
-                    ->disabled(), // read-only
+                    ->label('Sender')
+                    ->options(function () {
+                        $user = Filament::auth()->user();
+                        return $user ? [$user->id => $user->full_name] : [];
+                    })
+                    ->default(Filament::auth()->id())
+                    ->disabled(),
+
             ]);
     }
 }

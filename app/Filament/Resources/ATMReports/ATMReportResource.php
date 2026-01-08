@@ -39,7 +39,9 @@ class ATMReportResource extends Resource
 
     public static function table(Table $table): Table
     {
-        return ATMReportsTable::configure($table);
+
+        // return ATMReportsTable::configure($table)->groups([Group::make('created_at')->date(), ]);
+        return ATMReportsTable::configure($table)->defaultGroup('custodian.district.name');
     }
 
     public static function getRelations(): array

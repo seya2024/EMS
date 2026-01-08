@@ -11,7 +11,7 @@ return new class extends Migration
         // 1️⃣ Create the main user_groups table
         Schema::create('user_groups', function (Blueprint $table) {
             $table->id(); // BIGINT UNSIGNED
-            $table->string('name')->unique();
+            $table->string('name')->unique()->nullable();
             $table->string('description')->nullable();
             $table->timestamps();
         });

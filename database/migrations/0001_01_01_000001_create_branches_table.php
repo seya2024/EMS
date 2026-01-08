@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('branches', function (Blueprint $table) {
             $table->id(); // primary key
-            $table->string('code')->unique();
-            $table->string('name');
-            $table->string('grade');
+            $table->string('code')->unique()->nullable();
+            $table->string('name')->nullable();
+            $table->string('grade')->nullable();
             $table->string('tag')->unique()->nullable();
 
             // Foreign key for district

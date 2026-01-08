@@ -21,31 +21,31 @@ return new class extends Migration
 
             $table->string('name')->nullable();
             // Name parts
-            $table->string('fname');
-            $table->string('mname');
-            $table->string('lname');
+            $table->string('fname')->nullable();
+            $table->string('mname')->nullable();
+            $table->string('lname')->nullable();
 
             // Contact & identity
-            $table->string('email')->unique();
-            $table->string('phone');
+            $table->string('email')->unique()->nullable();
+            $table->string('phone')->nullable();
             $table->string('address')->nullable();
 
             // Organization
             //  $table->string('working_unit');
 
-            $table->foreignId('branch_id')->constrained()->cascadeOnDelete();
-            $table->boolean('isActive')->default(true); // toggleable account
+            $table->foreignId('branch_id')->constrained()->cascadeOnDelete()->nullable();
+            $table->boolean('isActive')->default(true)->nullable(); // toggleable account
             // Authorization
-            $table->string('role');
+            $table->string('role')->nullable();
 
-            $table->string('employee_id')->nullable();
+            $table->string('employee_id')->nullable()->nullable();
 
-            $table->boolean('has_email_authentication')->default(false);
+            $table->boolean('has_email_authentication')->default(false)->nullable();
 
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->timestamp('email_verified_at')->nullable()->nullable();
+            $table->string('password')->nullable();
             $table->timestamp('password_changed_at')->nullable();
-            $table->boolean('force_password_change')->default(false);
+            $table->boolean('force_password_change')->default(false)->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

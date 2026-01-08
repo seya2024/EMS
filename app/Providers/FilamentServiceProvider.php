@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Illuminate\Validation\ValidationException;
 
+// Add this import for your chatbox
+use App\Http\Livewire\ChatBox;
+
 class FilamentServiceProvider extends ServiceProvider
 {
     /**
@@ -24,7 +27,6 @@ class FilamentServiceProvider extends ServiceProvider
     /**
      * Bootstrap services.
      */
-
     public function pages(): array
     {
         return [
@@ -34,26 +36,5 @@ class FilamentServiceProvider extends ServiceProvider
 
 
 
-    public function boot(): void
-    {
-        // Filament::authenticateUsing(function ($request) {
-        //     $user = User::where('email', $request->email)->first();
-
-        //     if ($user) {
-        //         if (!Hash::check($request->password, $user->password)) {
-        //             return null; // wrong password
-        //         }
-
-        //         if (!$user->isActive) {
-        //             throw ValidationException::withMessages([
-        //                 'email' => 'Your account is inactive. Contact System administrator.',
-        //             ]);
-        //         }
-
-        //         return $user;
-        //     }
-
-        //     return null;
-        // });
-    }
+    public function boot(): void {}
 }

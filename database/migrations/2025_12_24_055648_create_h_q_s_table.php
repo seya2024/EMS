@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('h_q_s', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('slogan');
+            $table->string('name')->nullable();
+            $table->string('slogan')->nullable();
             $table->timestamps();
         });
     }

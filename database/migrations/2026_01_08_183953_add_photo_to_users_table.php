@@ -11,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('hardware_types', function (Blueprint $table) {
-            $table->id();
-            $table->string('name')->lable('name')->nullable();
-            $table->text('description')->nullable()->nullable();
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('photo')->nullable();
         });
     }
 
@@ -24,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('hardware_types');
+        Schema::table('users', function (Blueprint $table) {
+            //
+        });
     }
 };

@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('a_t_m_s', function (Blueprint $table) {
             $table->id();
-            $table->string('terminal');
-            $table->string('os');
-            $table->string('type');
-            $table->string('location');
-            $table->string('design');
-            $table->foreignId('branch_id')->constrained()->cascadeOnDelete();
+            $table->string('terminal')->nullable();
+            $table->string('os')->nullable();
+            $table->string('type')->nullable();
+            $table->string('location')->nullable();
+            $table->string('design')->nullable();
+            $table->foreignId('branch_id')->constrained()->cascadeOnDelete()->nullable();
             $table->text('remark')->nullable();
             $table->timestamps();
         });

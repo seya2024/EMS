@@ -15,13 +15,12 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')
                 ->nullable()
-                ->constrained()
+                ->constrained('users')
                 ->nullOnDelete();
 
-            $table->string('file_name');
-            $table->string('file_path');
-            $table->string('importer');
-
+            $table->string('file_name')->nullable();
+            $table->string('file_path')->nullable();
+            $table->string('importer')->nullable();
             $table->unsignedInteger('total_rows')->nullable();
             $table->unsignedInteger('processed_rows')->default(0);
             $table->unsignedInteger('successful_rows')->default(0);

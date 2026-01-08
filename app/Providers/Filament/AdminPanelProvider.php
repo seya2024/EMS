@@ -10,6 +10,7 @@ use Filament\Actions\Action;
 use Filament\Pages\Settings;
 use Laravel\Fortify\Fortify;
 use Filament\Pages\Dashboard;
+use Filament\Facades\Filament;
 use Filament\Support\Colors\Color;
 use Filament\Widgets\AccountWidget;
 use Filament\Auth\Pages\EditProfile;
@@ -18,8 +19,8 @@ use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Hash;
 use App\Filament\Widgets\ComputerChart;
 use App\Filament\Widgets\StatsOverview;
-use Filament\Navigation\NavigationItem;
 //use Dotenv\Exception\ValidationException;
+use Filament\Navigation\NavigationItem;
 use Filament\Navigation\NavigationGroup;
 use Filament\Widgets\FilamentInfoWidget;
 use Filament\Http\Middleware\Authenticate;
@@ -38,24 +39,22 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Filament\Navigation\Concerns\HasExtraSidebarAttributes;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
-
-
+use App\Filament\AvatarProviders\BoringAvatarsProvider;
 
 class AdminPanelProvider extends PanelProvider
 {
-
-
-
     public function panel(Panel $panel): Panel
     {
+
         return $panel
             ->default()
             ->topNavigation()
             ->id('admin')
             ->path('admin')
+            // ->defaultAvatarProvider(BoringAvatarsProvider::class)
             ->passwordReset()
-
             ->login()
+
             // ->registration(Pages\Auth\Register::class),
             // ->registration()
             ->profile(isSimple: false)
@@ -153,20 +152,5 @@ class AdminPanelProvider extends PanelProvider
             Home::class,
         ];
     }
-    public function boot(): void
-    {
-        // // Custom login for Filament
-        // Fortify::authenticateUsing(function ($request) {
-        //     $user = User::where('email', $request->email)->first();
-
-        //     if ($user && Hash::check($request->password, $user->password)) {
-        //         if (!$user->isActive) {
-        //             throw ValidationException::withMessages([
-        //                 'email' => ['Your account is inactive.'], // <-- array here
-        //             ]);
-        //         }
-        //         return $user;
-        //     }
-        // });
-    }
+    public function boot(): void {}
 }

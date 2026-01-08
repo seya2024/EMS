@@ -54,12 +54,6 @@ class AppServiceProvider extends ServiceProvider
 
 
 
-        // Custom validation rule
-        // Validator::extend('uppercase', function ($attribute, $value) {
-        //     return strtoupper($value) === $value;
-        // });
-
-
         $this->app->bind(BaseNotification::class, CustomNotification::class);
     }
 }

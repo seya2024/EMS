@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('asset_disposals', function (Blueprint $table) {
             $table->id();
-            $table->string('asset_type');      // computer, printer, scanner, etc.
-            $table->unsignedBigInteger('asset_id');
-            $table->foreignId('branch_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignId('disposed_by')->constrained('users');
-            $table->timestamp('disposed_at');
-            $table->string('status')->default('disposed');
-            $table->text('reason');
+            $table->string('asset_type')->nullable();     // computer, printer, scanner, etc.
+            $table->unsignedBigInteger('asset_id')->nullable();
+            $table->foreignId('branch_id')->nullable()->constrained()->nullOnDelete()->nullable();
+            $table->foreignId('disposed_by')->constrained('users')->nullable();
+            $table->timestamp('disposed_at')->nullable();
+            $table->string('status')->default('disposed')->nullable();
+            $table->text('reason')->nullable();
             $table->timestamps();
             $table->index(['asset_type', 'asset_id']);
         });

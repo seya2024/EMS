@@ -20,6 +20,7 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\Layout\Split;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Support\Facades\FilamentColor;
+use Illuminate\Support\Facades\Storage;
 
 
 class UsersTable
@@ -31,9 +32,19 @@ class UsersTable
             ->columns([
 
 
-                ImageColumn::make('avatar')->label('Photo')
-                    ->circular()->grow(false)->getStateUsing(fn($record) => $record && $record->close_date
-                        ? asset('images/photo.webp') : asset('images/photo.webp')),
+                // ImageColumn::make('photo')->label('Photo')
+
+
+                ImageColumn::make('photo')
+                    ->label('Photo')
+                    ->circular()
+                    ->size(40)
+                    ->getStateUsing(
+                        fn($record) =>
+                        $record->photo
+                            ? asset('storage/' . $record->photo)  // uploaded photo
+                            : asset('images/photo.webp')          // default avatar
+                    ),
 
                 TextColumn::make('serial')
                     ->label('#')

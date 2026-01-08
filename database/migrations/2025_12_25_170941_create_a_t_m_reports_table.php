@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('a_t_m_reports', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('custodian')->constrained('branches')->onDelete('cascade');
-            $table->foreignId('atm_id')->constrained('a_t_m_s')->onDelete('cascade');
+            $table->foreignId('custodian')->constrained('branches')->onDelete('cascade')->nullable();
+            $table->foreignId('atm_id')->constrained('a_t_m_s')->onDelete('cascade')->nullable();
             $table->foreignId('downtime_reason_id')->constrained('downtime_reasons')->onDelete('cascade')->nullable();
             $table->string('action_taken')->nullable();
             $table->decimal('down_time_in_days', 5, 2)->nullable();

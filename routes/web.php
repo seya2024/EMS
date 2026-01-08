@@ -1,8 +1,9 @@
 <?php
 
+use App\Filament\Pages\Register;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
-use App\Filament\Pages\Register;
+use App\Http\Controllers\ChatController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -22,3 +23,9 @@ Route::get('/', function () {
 
 //     return 'Email sent (check your inbox/spam).';
 // });
+
+Route::middleware('auth')->group(function () {
+    Route::post('/chat/send', [ChatController::class, 'send']);
+    Route::get('/chat/history/{user}', [ChatController::class, 'history']);
+    Route::post('/chat/read/{message}', [ChatController::class, 'markRead']);
+});

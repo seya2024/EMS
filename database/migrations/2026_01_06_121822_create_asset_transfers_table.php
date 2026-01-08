@@ -15,9 +15,8 @@ return new class extends Migration
             $table->id();
             // Computer, Printer, ATM, etc.
             $table->morphs('assetable'); // assetable_id, assetable_type
-            //  $table->unsignedBigInteger('asset_id');
-            $table->foreignId('from_branch_id')->constrained('branches')->cascadeOnDelete();
-            $table->foreignId('to_branch_id')->constrained('branches')->cascadeOnDelete();
+            $table->foreignId('from_branch_id')->constrained('branches')->cascadeOnDelete()->nullable();
+            $table->foreignId('to_branch_id')->constrained('branches')->cascadeOnDelete()->nullable();
 
 
             $table->enum('action', [

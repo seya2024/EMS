@@ -15,7 +15,7 @@ return new class extends Migration
 
             $table->enum('approval_status', ['PENDING', 'ACCEPTED', 'REJECTED'])
                 ->default('PENDING')
-                ->after('status');
+                ->after('status')->nullable();
         });
     }
 

@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('quarters', function (Blueprint $table) {
             $table->id();
-            $table->string('name'); // e.g., Q1 2026
-            $table->date('start_date');
-            $table->date('end_date');
+            $table->string('name')->nullable(); // e.g., Q1 2026
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
             $table->text('description')->nullable();
             $table->timestamps();
         });

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('task_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->string('name')->unique()->nullable();
             $table->text('description')->nullable();
             $table->timestamps();
         });

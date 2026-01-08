@@ -13,18 +13,18 @@ return new class extends Migration
     {
         Schema::create('group_permission', function (Blueprint $table) {
 
-            $table->unsignedBigInteger('group_id');
-            $table->unsignedBigInteger('permission_id');
+            $table->unsignedBigInteger('group_id')->nullable();
+            $table->unsignedBigInteger('permission_id')->nullable();
 
             $table->foreign('group_id')
                 ->references('id')
                 ->on('user_groups')
-                ->cascadeOnDelete();
+                ->cascadeOnDelete()->nullable();
 
             $table->foreign('permission_id')
                 ->references('id')
                 ->on('permissions')
-                ->cascadeOnDelete();
+                ->cascadeOnDelete()->nullable();
 
             $table->primary(['group_id', 'permission_id']);
         });

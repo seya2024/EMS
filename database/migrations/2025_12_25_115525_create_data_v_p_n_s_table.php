@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('data_v_p_n_s', function (Blueprint $table) {
             $table->id();
-            $table->string('serviceNo');
-            $table->string('lANIp');
+            $table->string('serviceNo')->nullable();
+            $table->string('lANIp')->nullable();
             $table->string('wanIp')->nullable();
-            $table->string('account');
-            $table->foreignId('branch_id')->constrained()->cascadeOnDelete();
+            $table->string('account')->nullable();
+            $table->foreignId('branch_id')->constrained()->cascadeOnDelete()->nullable();
             $table->string('media')->nullable();
             $table->string('bandwidth')->nullable();
             $table->string('linkType')->nullable();

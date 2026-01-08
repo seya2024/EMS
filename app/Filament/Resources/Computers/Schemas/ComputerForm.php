@@ -11,6 +11,7 @@ use Filament\Forms\Components\Select;
 use Filament\Schemas\Components\Wizard;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Wizard\Step;
+use Illuminate\Validation\Rule;
 
 class ComputerForm
 {
@@ -43,18 +44,16 @@ class ComputerForm
                                 return ComputerModel::where('hardware_type_id', $hardwareTypeId)
                                     ->pluck('name', 'id');
                             })
-                            ->searchable()
-                            ->required(),
-
+                            ->searchable(),
 
                         TextInput::make('tagNo')
-                            ->label('Tag Number')->placeholder('such as DB/JDO/4.1/4546')
-                            ->required()->unique(table: 'computers', column: 'tagNo', ignoreRecord: true),
-
-                        // TextInput::make('quantity')
-                        //     ->label('Quantity')
-                        //     ->numeric()
-                        //     ->required(),
+                            ->label('Tag Number')
+                            ->placeholder('DB/JDO/4.1/4546')
+                            ->required()
+                            ->rules(fn($record) => [
+                                'regex:/^DB\/.+$/',
+                                Rule::unique('computers', 'tagNo')->ignore($record?->id),
+                            ]),
 
                         Select::make('isActiveAntivirus')
                             ->label('Is Antivirus Active ?')
@@ -127,7 +126,11 @@ class ComputerForm
 
                         TextInput::make('IpAddress')
                             ->label('IP Address')
-                            ->required()->unique(table: 'computers', column: 'IpAddress', ignoreRecord: true),
+                            ->required()
+                            ->rules(fn($record) => [
+                                'ip',
+                                Rule::unique('computers', 'IpAddress')->ignore($record?->id),
+                            ]),
 
                         TextInput::make('hostName')
                             ->label('Host Name')->placeholder('such as W-BRN-JDO-4744')

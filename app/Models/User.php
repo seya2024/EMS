@@ -18,18 +18,18 @@ use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Auth\Access\Authorizable; // 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Filament\Auth\MultiFactor\Email\Contracts\HasEmailAuthentication;
 
 use Spatie\Activitylog\Traits\LogsActivity;
-use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\LogOptions;    // For Filament Avatar
 
 
 //class User extends Authenticatable implements FilamentUser
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasAvatar
 
 
 //class User extends Authenticatable implements FilamentUser, HasEmailAuthentication, MustVerifyEmail
@@ -79,6 +79,7 @@ class User extends Authenticatable
         'has_email_authentication',
         'email_verified_at',
         'password',
+        'photo',
     ];
 
     // public function isAdmin(): bool
@@ -119,6 +120,9 @@ class User extends Authenticatable
             $this->password = Hash::make('123');
         }
     }
+
+
+
 
 
     // update When  user changing his/her password
@@ -206,10 +210,6 @@ class User extends Authenticatable
         return str_ends_with($this->email, '@yourdomain.com') && $this->hasVerifiedEmail();
     }
 
-    public function getFilamentAvatarUrl(): ?string
-    {
-        return $this->avatar_url;
-    }
 
     /**
      * The attributes that should be hidden for serialization.
@@ -267,10 +267,24 @@ class User extends Authenticatable
         return "{$this->fname} {$this->mname}";
     }
 
+
     public function getFullNameAttribute(): string
     {
         return trim("{$this->fname} {$this->mname} {$this->lname}");
     }
+
+    public function getFilamentAvatarUrl(): ?string
+    {
+        // If a photo is uploaded, return the public storage URL
+        if ($this->photo) {
+            // Make sure $this->photo stores relative path like 'users/file.jpg'
+            return asset('storage/' . $this->photo);
+        }
+
+        // Fallback avatar
+        return asset('images/photo.webp');
+    }
+
 
 
     public function hasPermission($permissionName)

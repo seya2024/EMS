@@ -15,18 +15,18 @@ return new class extends Migration
             $table->id();
             $table->foreignId('asset_class_id')
                 ->constrained('asset_classes')
-                ->cascadeOnDelete();
+                ->cascadeOnDelete()->nullable();
 
-            $table->string('asset_number')->unique();
+            $table->string('asset_number')->unique()->nullable();
             $table->text('description')->nullable();
             $table->string('cost_center')->nullable();
 
             $table->foreignId('branch_id')
                 ->constrained()
-                ->cascadeOnDelete();
+                ->cascadeOnDelete()->nullable();
 
-            $table->decimal('asset_cost', 15, 2)->default(0);
-            $table->decimal('depreciation_current_year', 15, 2)->default(0);
+            $table->decimal('asset_cost', 15, 2)->default(0)->nullable();
+            $table->decimal('depreciation_current_year', 15, 2)->default(0)->nullable();
 
             $table->string('assigned_to')->nullable();
             $table->timestamps();

@@ -13,17 +13,17 @@ return new class extends Migration
     {
         Schema::create('pos', function (Blueprint $table) {
             $table->id();
-            $table->string('model');
-            $table->string('value');
-            $table->string('tag')->unique();
-            $table->string('serial')->unique();
-            $table->string('service_no');
-            $table->string('type');
-            $table->string('merchant');
+            $table->string('model')->nullable();
+            $table->string('value')->nullable();
+            $table->string('tag')->unique()->nullable();
+            $table->string('serial')->unique()->nullable();
+            $table->string('service_no')->nullable();
+            $table->string('type')->nullable();
+            $table->string('merchant')->nullable();
             // $table->string('quantity')->default('0');
             // $table->string('unit')->default('pcs');  //pcs, meter, kg
             //   $table->morphs('owner');
-            $table->foreignId('branch_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('branch_id')->constrained()->cascadeOnDelete()->nullable();
             $table->timestamps();
         });
     }

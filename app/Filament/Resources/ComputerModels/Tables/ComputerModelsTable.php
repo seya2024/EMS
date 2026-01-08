@@ -17,17 +17,20 @@ class ComputerModelsTable
     {
         return $table
             ->columns([
-                TextColumn::make('name')
+                TextColumn::make('name')->label('Model')
                     ->searchable()
                     ->sortable(),
 
-                TextColumn::make('description')
+
+                TextColumn::make('hardwareType.name')
                     ->limit(40)
                     ->wrap(),
+
 
                 TextColumn::make('computers_count')
                     ->counts('computers')
                     ->label('Computers'),
+
 
                 TextColumn::make('created_at')
                     ->dateTime()

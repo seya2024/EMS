@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('asset_maintenances', function (Blueprint $table) {
             $table->id();
             $table->morphs('assetable'); // assetable_id, assetable_type
-            $table->foreignId('branch_id')->constrained('branches')->cascadeOnDelete();
-            $table->foreignId('ou_id')->constrained('o_u_s')->cascadeOnDelete();
+            $table->foreignId('branch_id')->constrained('branches')->cascadeOnDelete()->nullable();
+            $table->foreignId('ou_id')->constrained('o_u_s')->cascadeOnDelete()->nullable();
 
             // $table->unsignedBigInteger('ou_id');
             // $table->foreign('ou_id')->references('id')->on('o_u_s')->onDelete('cascade');
@@ -23,10 +23,10 @@ return new class extends Migration
             // $table->unsignedBigInteger('branch_id');
             // $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
 
-            $table->text('problem')->nullable();
-            $table->date('sent_date');
+            $table->text('problem')->nullable()->nullable();
+            $table->date('sent_date')->nullable();
             $table->date('return_date')->nullable();
-            $table->enum('status', ['SENT', 'RECEIVED', 'IN_PROGRESS', 'CLOSED']);
+            $table->enum('status', ['SENT', 'RECEIVED', 'IN_PROGRESS', 'CLOSED'])->nullable();
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
             $table->timestamps();
         });

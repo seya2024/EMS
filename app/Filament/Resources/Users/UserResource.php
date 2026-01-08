@@ -17,9 +17,10 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\FileUpload;
+
+
 use Illuminate\Database\Eloquent\Builder;
-
-
 use App\Filament\Resources\Users\Pages\EditUser;
 use App\Filament\Resources\Users\Pages\ViewUser;
 use App\Filament\Resources\Users\Pages\ListUsers;
@@ -49,13 +50,14 @@ class UserResource extends Resource
         // Add hidden password field
         $formSchema->schema([
 
-            TextInput::make('name')->label('Domain')->required()->unique(ignoreRecord: true),
+            TextInput::make('name')->label('Domain')->required()->unique(ignoreRecord: true)->prefixIcon(Heroicon::GlobeAlt)
+                ->suffixIcon(Heroicon::CheckCircle),
 
             TextInput::make('fname')->label('First Name')->required(),
             TextInput::make('mname')->label('Father Name')->required(),
             TextInput::make('lname')->label('Last Name')->required(),
             TextInput::make('email')->label('Email address')->email()->required()->unique(ignoreRecord: true),
-            TextInput::make('phone')->tel()->required(),
+            TextInput::make('phone')->tel()->required()->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/'),
             TextInput::make('address')->maxLength(255),
             Select::make('branch_id')->label('Working Unit / Department')->required(true)->relationship('branch', 'name')->searchable()->preload(),
             //   Hidden::make('role')->default('admin'),
@@ -63,6 +65,21 @@ class UserResource extends Resource
 
             TextInput::make('employee_id')->label('Employee ID')->required()->placeholder('DB/17357/24')->unique(ignoreRecord: true),
             Toggle::make('isActive')->label('Active Account')->default(false)->onIcon(Heroicon::Star),
+
+
+            FileUpload::make('photo')->label('Profile Photo')->image()->imageEditor()->disk('public')->directory('users')->visibility('public')
+                ->maxSize(2048)->columnSpanFull()->acceptedFileTypes(['image/jpeg', 'image/png']),
+
+
+            // FileUpload::make('avatar_url') // Field name matches model attribute
+            //     ->avatar() // Makes it circular and handles upload well
+            //     ->image() // Restricts to images
+            //     ->directory('avatars') // Optional: customize storage path
+            //     ->preserveFilenames() // Optional: keep original filename
+            //     ->disk('public'), // Optional: specify disk (default is 'public')
+
+
+
 
             // TextInput::make('password')->password()->hidden(), // hidden field
         ]);

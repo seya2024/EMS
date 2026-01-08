@@ -13,19 +13,17 @@ return new class extends Migration
     {
         Schema::create('d_o_b_s', function (Blueprint $table) {
             $table->id();
-            $table->string('model');
-            $table->string('value');
-            $table->string('service_no')->unique();
-            $table->string('serial')->unique();
-            $table->string('iccid')->unique();
+            $table->string('model')->nullable();
+            $table->string('value')->nullable();
+            $table->string('service_no')->unique()->nullable();
+            $table->string('serial')->unique()->nullable();
+            $table->string('iccid')->unique()->nullable();
             // $table->string('quantity')->default('0');
             // $table->string('unit')->default('pcs');  //pcs, meter, kg
 
-            $table->foreignId('branch_id')->constrained()->cascadeOnDelete();
-
-
-            $table->string('network_type');
-            $table->string('status');
+            $table->foreignId('branch_id')->constrained()->cascadeOnDelete()->nullable();
+            $table->string('network_type')->nullable();
+            $table->string('status')->nullable();
             //  $table->morphs('owner');
             $table->timestamps();
         });

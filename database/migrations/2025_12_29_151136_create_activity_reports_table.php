@@ -15,19 +15,19 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('task_id')
-                ->constrained();
+                ->constrained()->nullable();
 
             $table->foreignId('deliverable_id')
-                ->constrained();
+                ->constrained()->nullable();
 
             $table->foreignId('task_giver_id')->constrained('o_u_s')->onDelete('cascade');
 
             $table->foreignId('district_id')
-                ->constrained();
+                ->constrained()->nullable();
 
-            $table->string('status');
-            $table->text('description')->nullable();
-            $table->date('report_date');
+            $table->string('status')->nullable();
+            $table->text('description')->nullable()->nullable();
+            $table->date('report_date')->nullable();
 
             $table->timestamps();
         });
