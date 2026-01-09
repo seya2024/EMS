@@ -27,16 +27,20 @@ class ATMSTable
                     ->sortable()
                     ->searchable(),
 
+                TextColumn::make('name')
+                    ->label('Name')
+                    ->sortable(),
+
 
                 TextColumn::make('terminal')
                     ->label('Terminal')
                     ->sortable()
                     ->searchable(),
 
-                TextColumn::make('os')
-                    ->label('OS')
-                    ->sortable()
-                    ->searchable(),
+                // TextColumn::make('os')
+                //     ->label('OS')
+                //     ->sortable()
+                //     ->searchable(),
 
                 TextColumn::make('type')
                     ->label('Type')
@@ -53,11 +57,17 @@ class ATMSTable
                     ->sortable()
                     ->searchable(),
 
+                TextColumn::make('ipAddress')
+                    ->label('Ip Address'),
+
 
 
                 TextColumn::make('remark')
                     ->label('Remark')
                     ->limit(50), // show first 50 chars
+
+                // TextColumn::make('networkType')->label('Remark')
+
 
                 // TextColumn::make('created_at')
                 //     ->label('Created')

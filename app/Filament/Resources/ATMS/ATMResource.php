@@ -2,18 +2,21 @@
 
 namespace App\Filament\Resources\ATMS;
 
-use App\Filament\Resources\ATMS\Pages\CreateATM;
+use UnitEnum;
+use BackedEnum;
+use App\Models\ATM;
+use Filament\Tables\Table;
+use Filament\Schemas\Schema;
+use Filament\Resources\Resource;
+use Filament\Tables\Grouping\Group;
+use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\Summarizers\Sum;
 use App\Filament\Resources\ATMS\Pages\EditATM;
 use App\Filament\Resources\ATMS\Pages\ListATMS;
+use App\Filament\Resources\ATMS\Pages\CreateATM;
 use App\Filament\Resources\ATMS\Schemas\ATMForm;
 use App\Filament\Resources\ATMS\Tables\ATMSTable;
-use App\Models\ATM;
-use BackedEnum;
-use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Table;
-use UnitEnum;
 
 class ATMResource extends Resource
 {
@@ -31,7 +34,20 @@ class ATMResource extends Resource
 
     public static function table(Table $table): Table
     {
-        return ATMSTable::configure($table);
+        return ATMSTable::configure($table)->emptyStateDescription('Once you add your first ATM, it will appear here.')
+
+            ->groups([
+                Group::make('branch.district.name')
+                    ->getDescriptionFromRecordUsing(fn(ATM $record): string => $record->status?->getDescription() ?? ' List of ATMs under above district office with respective ranches')->collapsible(),
+                Group::make('branch.name')->collapsible(),
+                Group::make('type')->collapsible(),
+                Group::make('design')->collapsible(),
+
+
+            ])->collapsedGroupsByDefault();
+
+        // You can uncomment below if you want a simpler grouping example:
+        // return $table->groups(['author.name']);
     }
 
     public static function getRelations(): array

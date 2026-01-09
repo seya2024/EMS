@@ -44,6 +44,7 @@ class DatabaseSeeder extends Seeder
             OtherAssetSeeder::class,
             PermissionSeeder::class,
             QuarterSeeder::class,
+            AtmSeeder::class,
 
 
 

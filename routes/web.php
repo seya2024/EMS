@@ -23,9 +23,3 @@ Route::get('/', function () {
 
 //     return 'Email sent (check your inbox/spam).';
 // });
-
-Route::middleware('auth')->group(function () {
-    Route::post('/chat/send', [ChatController::class, 'send']);
-    Route::get('/chat/history/{user}', [ChatController::class, 'history']);
-    Route::post('/chat/read/{message}', [ChatController::class, 'markRead']);
-});

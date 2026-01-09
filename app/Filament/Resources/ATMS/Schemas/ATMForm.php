@@ -21,6 +21,12 @@ class ATMForm
                     ->label('Terminal ID')
                     ->required()
                     ->maxLength(255),
+
+                TextInput::make('name')
+                    ->label('Name')
+                    ->required()
+                    ->maxLength(255),
+
                 Select::make('os')
                     ->label('Operating System')
                     ->options([
@@ -55,12 +61,28 @@ class ATMForm
                     ])
                     ->required(),
 
+                Select::make('networkType')
+                    ->label('Network type')
+                    ->options([
+                        'Broadband' => 'Broadband',
+                        '4G' => '4G',
+                        'SDWAN' => 'SDWAN',
+                    ])
+                    ->required(),
+
+
+
+
+
 
                 Select::make('branch_id')
                     ->label('Custodian / Branch')
                     ->options(Branch::all()->pluck('name', 'id'))
                     ->searchable()
                     ->required(),
+
+                Textarea::make('ipAddress')
+                    ->label('IP Address'),
 
 
 

@@ -2,18 +2,19 @@
 
 namespace App\Filament\Resources\Pos;
 
-use App\Filament\Resources\Pos\Pages\CreatePos;
+use UnitEnum;
+use BackedEnum;
+use App\Models\Pos;
+use Filament\Tables\Table;
+use Filament\Actions\Action;
+use Filament\Schemas\Schema;
+use Filament\Resources\Resource;
+use Filament\Support\Icons\Heroicon;
 use App\Filament\Resources\Pos\Pages\EditPos;
 use App\Filament\Resources\Pos\Pages\ListPos;
+use App\Filament\Resources\Pos\Pages\CreatePos;
 use App\Filament\Resources\Pos\Schemas\PosForm;
 use App\Filament\Resources\Pos\Tables\PosTable;
-use App\Models\Pos;
-use BackedEnum;
-use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Table;
-use UnitEnum;
 
 
 class PosResource extends Resource
@@ -42,7 +43,13 @@ class PosResource extends Resource
 
     public static function table(Table $table): Table
     {
-        return PosTable::configure($table);
+        return PosTable::configure($table)->emptyStateActions([
+            Action::make('create')
+                ->label('Create new record here')
+                ->url('/create')  // Direct URL works in Filament 4
+                ->icon('heroicon-m-plus')
+                ->button(),
+        ]);
     }
 
     public static function getRelations(): array

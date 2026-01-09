@@ -26,7 +26,7 @@ class BranchSeeder extends Seeder
             ['id' => 10, 'code' => 'CHR',  'name' => 'Chora Outlet',            'grade' => 'I',  'tag' => 'CHR',  'district_id' => 1],
             ['id' => 11, 'code' => 'YY',   'name' => 'Yayo Branch',             'grade' => 'I',  'tag' => 'YY',   'district_id' => 1],
             ['id' => 12, 'code' => 'MT',   'name' => 'Mettu Branch',            'grade' => 'I',  'tag' => 'MT',   'district_id' => 1],
-            ['id' => 13, 'code' => 'GH',   'name' => 'Gecha Branch',            'grade' => 'I',  'tag' => 'GH',   'district_id' => 1],
+            ['id' => 13, 'code' => 'GH',   'name' => 'Gechi Branch',            'grade' => 'I',  'tag' => 'GH',   'district_id' => 1],
             ['id' => 14, 'code' => 'MSH',  'name' => 'Masha Branch',            'grade' => 'I',  'tag' => 'MSH',  'district_id' => 1],
             ['id' => 15, 'code' => 'MTI',  'name' => 'Meti Branch',             'grade' => 'I',  'tag' => 'MTI',  'district_id' => 1],
             ['id' => 16, 'code' => 'YR',   'name' => 'Yeri Outlet',             'grade' => 'I',  'tag' => 'YR',   'district_id' => 1],
@@ -61,6 +61,7 @@ class BranchSeeder extends Seeder
             ['id' => 43, 'code' => 'NADO', 'name' => 'North Addis District Office', 'grade' => 'I', 'tag' => 'NADO', 'district_id' => 10],
             ['id' => 44, 'code' => 'EADO', 'name' => 'East Addis District Office', 'grade' => 'I', 'tag' => 'EADO', 'district_id' => 11],
             ['id' => 45, 'code' => 'WADO', 'name' => 'West Addis District Office', 'grade' => 'I', 'tag' => 'WADO', 'district_id' => 12],
+
 
         ];
 

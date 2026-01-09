@@ -34,6 +34,9 @@ class ATM extends Model
         'design',
         'branch_id',
         'remark',
+        'name',
+        'ipAddress',
+        'networkType'
     ];
 
 

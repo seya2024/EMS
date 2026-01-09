@@ -50,22 +50,35 @@ class UserResource extends Resource
         // Add hidden password field
         $formSchema->schema([
 
-            TextInput::make('name')->label('Domain')->required()->unique(ignoreRecord: true)->prefixIcon(Heroicon::GlobeAlt)
-                ->suffixIcon(Heroicon::CheckCircle),
+            TextInput::make('name')->label('Domain')->required()->unique(ignoreRecord: true)->prefixIcon(Heroicon::Key)
+                ->suffixIcon(Heroicon::CheckCircle)->placeholder('seidmoham')->unique(ignoreRecord: true),
 
-            TextInput::make('fname')->label('First Name')->required(),
-            TextInput::make('mname')->label('Father Name')->required(),
-            TextInput::make('lname')->label('Last Name')->required(),
+
+            // TextInput::make('fname')->label('First Name')->required(),
+            // TextInput::make('mname')->label('Father Name')->required(),
+            // TextInput::make('lname')->label('Last Name')->required(),
+
+            TextInput::make('fname')
+                ->label('First Name')
+                ->required()
+                ->rules(['regex:/^[A-Za-z]{3,}$/'])
+                ->validationMessages([
+                    'regex' => 'Only letters allowed, minimum 3 characters.',
+                ]),
+            TextInput::make('mname')->label('Father Name')->required()->rules(['regex:/^[A-Za-z]{3,}$/'])->validationMessages([
+                'regex' => 'Only letters allowed, minimum 3 characters.',
+            ]),
+            TextInput::make('lname')->label('Last Name')->required()->rules(['regex:/^[A-Za-z]{3,}$/'])->validationMessages([
+                'regex' => 'Only letters allowed, minimum 3 characters.',
+            ]),
             TextInput::make('email')->label('Email address')->email()->required()->unique(ignoreRecord: true),
             TextInput::make('phone')->tel()->required()->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/'),
             TextInput::make('address')->maxLength(255),
             Select::make('branch_id')->label('Working Unit / Department')->required(true)->relationship('branch', 'name')->searchable()->preload(),
             //   Hidden::make('role')->default('admin'),
 
-
             TextInput::make('employee_id')->label('Employee ID')->required()->placeholder('DB/17357/24')->unique(ignoreRecord: true),
             Toggle::make('isActive')->label('Active Account')->default(false)->onIcon(Heroicon::Star),
-
 
             FileUpload::make('photo')->label('Profile Photo')->image()->imageEditor()->disk('public')->directory('users')->visibility('public')
                 ->maxSize(2048)->columnSpanFull()->acceptedFileTypes(['image/jpeg', 'image/png']),
@@ -159,7 +172,7 @@ class UserResource extends Resource
         return [
             'index' => ListUsers::route('/'),
             // 'create' => CreateUser::route('/create'),
-            // 'view' => ViewUser::route('/{record}'),
+            'view' => ViewUser::route('/{record}'),
             // 'edit' => EditUser::route('/{record}/edit'),
         ];
     }

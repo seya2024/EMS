@@ -39,7 +39,7 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Filament\Navigation\Concerns\HasExtraSidebarAttributes;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
-use App\Filament\AvatarProviders\BoringAvatarsProvider;
+
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -50,6 +50,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->topNavigation()
             ->id('admin')
+            // ->path('')
             ->path('admin')
             // ->defaultAvatarProvider(BoringAvatarsProvider::class)
             ->passwordReset()
