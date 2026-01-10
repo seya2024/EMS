@@ -25,9 +25,50 @@ class DistrictsTable
 
 
                 TextColumn::make('name')->label('District Name')->searchable(),
-                // TextColumn::make('director')->label('Director'),
-                TextColumn::make('Created_at')->label('Created at'),
-                TextColumn::make('updated_at')->label('Updated at'),
+                TextColumn::make('no_of_branch')
+                    ->label('No of Branches')
+                    ->getStateUsing(fn($record) => $record->branches()->count() - 1),
+
+
+                TextColumn::make('no_of_atms')
+                    ->label('No of ATMs')
+                    ->getStateUsing(function ($record) {
+                        // $record is the District instance
+                        return $record->branches()
+                            ->withCount('atms')
+                            ->get()
+                            ->sum('atms_count');
+                    }),
+
+                // POS count
+                TextColumn::make('pos_count')
+                    ->label('No of POS')
+                    ->getStateUsing(function ($record) {
+                        return $record->branches()
+                            ->withCount('posDevices')
+                            ->get()
+                            ->sum('pos_devices_count');
+                    }),
+
+                // DOB count
+                TextColumn::make('dob_count')
+                    ->label('No of DOBs')
+                    ->getStateUsing(function ($record) {
+                        return $record->branches()
+                            ->withCount('dobs')
+                            ->get()
+                            ->sum('dobs_count');
+                    }),
+
+                // Dongle count
+                TextColumn::make('dongle_count')
+                    ->label('No of Dongles')
+                    ->getStateUsing(function ($record) {
+                        return $record->branches()
+                            ->withCount('dongles')
+                            ->get()
+                            ->sum('dongles_count');
+                    }),
             ])
             ->filters([
                 //
