@@ -34,7 +34,7 @@ return new class extends Migration
             $table->boolean('isActivated')->default(false)->nullable();
             $table->string('IpAddress')->nullable()->nullable();
             $table->string('hostName')->nullable()->nullable();
-            $table->enum('status', ['Active', 'Working', 'Not Working', 'Functional'])->default('Active')->nullable();
+            $table->string('status')->default('Operational')->nullable();
             $table->foreignId('branch_id')->nullable()->constrained('branches')->onDelete('cascade')->nullable();
             $table->timestamps();
         });

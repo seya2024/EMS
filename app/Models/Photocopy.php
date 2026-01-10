@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Spatie\Activitylog\LogOptions;
+use App\Models\Traits\HasAssignments;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Photocopy extends Model
 {
 
-    use HasFactory, Notifiable, LogsActivity;
+    use HasFactory, Notifiable, LogsActivity, HasAssignments;
 
     public function getActivitylogOptions(): LogOptions
     {

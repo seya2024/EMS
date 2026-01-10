@@ -141,7 +141,7 @@ class ComputerForm
                 // --------------------
                 // STEP 3: Owner Information
                 // --------------------
-                Step::make('Owner Information') //->icon(Heroicon::ComputerDesktop)
+                Step::make('Cost Center Info') //->icon(Heroicon::ComputerDesktop)
                     ->schema([
 
 

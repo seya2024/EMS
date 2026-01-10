@@ -33,13 +33,13 @@ use App\Filament\Resources\Computers\Pages\CreateComputer;
 use App\Filament\Resources\Computers\Schemas\ComputerForm;
 use App\Filament\Resources\Computers\Tables\ComputersTable;
 use App\Filament\Resources\Computers\Schemas\ComputerInfolist;
-
+use App\Filament\Resources\Concerns\HasAssignReturnActions;
 
 
 class ComputerResource extends Resource
 {
     protected static ?string $model = Computer::class;
-
+    use HasAssignReturnActions;
 
     public static function getEloquentQuery(): Builder
     {
@@ -230,6 +230,8 @@ class ComputerResource extends Resource
     {
         return ComputersTable::configure($table)
 
+
+
             ->filters([
                 // District filter
                 SelectFilter::make('district_id')
@@ -240,6 +242,9 @@ class ComputerResource extends Resource
                             ? $query->whereHas('branch', fn($q) => $q->where('district_id', $districtId))
                             : null
                     ),
+
+
+
 
                 // Branch filter depending on district
                 SelectFilter::make('branch_id')

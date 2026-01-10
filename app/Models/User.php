@@ -10,21 +10,23 @@ use App\Models\ATMReport;
 use App\Models\FixedLine;
 use App\Models\UserGroup;
 use Filament\Facades\Filament;
+use App\Models\AssetAssignment;
 use Illuminate\Support\Facades\Hash;
 use Filament\Models\Contracts\HasName;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Support\Facades\Storage;
 use Filament\Models\Contracts\HasAvatar;
 use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\FilamentUser;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Auth\Access\Authorizable; // 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Filament\Auth\MultiFactor\Email\Contracts\HasEmailAuthentication;
-
-use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;    // For Filament Avatar
+use Filament\Auth\MultiFactor\Email\Contracts\HasEmailAuthentication;
 
 
 //class User extends Authenticatable implements FilamentUser
@@ -101,6 +103,31 @@ class User extends Authenticatable implements HasAvatar
     //     return $this->role === self::ROLE_STOCKER;
     // }
 
+
+    public function assetAssignments(): HasMany
+    {
+        return $this->hasMany(AssetAssignment::class);
+    }
+
+    public function activeAssetAssignments(): HasMany
+    {
+        return $this->hasMany(AssetAssignment::class)
+            ->whereNull('returned_at');
+    }
+
+    public function assignedAssets(): HasMany
+    {
+        return $this->hasMany(AssetAssignment::class, 'assigned_by');
+    }
+
+    public function returnedAssets(): HasMany
+    {
+        return $this->hasMany(AssetAssignment::class, 'returned_by');
+    }
+
+
+
+
     protected static function booted(): void
     {
         static::creating(function (User $user) {
@@ -120,10 +147,6 @@ class User extends Authenticatable implements HasAvatar
             $this->password = Hash::make('123');
         }
     }
-
-
-
-
 
     // update When  user changing his/her password
     public function setPasswordChange(): void
@@ -160,25 +183,6 @@ class User extends Authenticatable implements HasAvatar
     }
 
 
-    // ...
-
-    // public function hasEmailAuthentication(): bool
-    // {
-    //     // This method should return true if the user has enabled email authentication.
-
-    //     return $this->has_email_authentication;
-    // }
-
-    // public function toggleEmailAuthentication(bool $condition): void
-    // {
-    //     // This method should save whether or not the user has enabled email authentication.
-
-    //     $this->has_email_authentication = $condition;
-    //     $this->save();
-    // }
-
-
-    // ...
 
     public function hasGroupPermission($model, $action)
     {
@@ -252,16 +256,6 @@ class User extends Authenticatable implements HasAvatar
     }
 
 
-    // public function getFilamentName(): string
-    // {
-    //     return trim("{$this->fname} {$this->mname} {$this->lname}");
-    // }
-
-    // public function getFilamentName(): string
-    // {
-    //     return trim("{$this->fname} {$this->mname} {$this->lname}") ?: $this->email;
-    // }
-
     public function getFilamentName(): string
     {
         return "{$this->fname} {$this->mname}";
@@ -285,8 +279,6 @@ class User extends Authenticatable implements HasAvatar
         return asset('images/photo.webp');
     }
 
-
-
     public function hasPermission($permissionName)
     {
         return $this->groups()
@@ -297,9 +289,6 @@ class User extends Authenticatable implements HasAvatar
             ->pluck('name')
             ->contains($permissionName);
     }
-
-
-
 
     /**
      * Get the attributes that should be cast.
@@ -316,41 +305,10 @@ class User extends Authenticatable implements HasAvatar
     }
 
 
-    //     public function userGroups()
-    //     {
-    //         return $this->belongsToMany(UserGroup::class, 'user_user_group');
-    //     }
-    // }
-
-    // public function userGroups()
-    // {
-    //     return $this->belongsToMany(UserGroup::class);
-    // }
-
     public function branch()
     {
         return $this->belongsTo(Branch::class);
     }
-
-
-    // public function userGroup()
-    // {
-    //     return $this->belongsTo(UserGroup::class);
-    // }
-
-
-
-
-    // public function group()
-    // {
-    //     return $this->belongsTo(UserGroup::class);
-    // }
-
-    // public function hasPermission(string $permissionName): bool
-    // {
-    //     return $this->group?->permissions?->contains('name', $permissionName) ?? false;
-    // }
-
 
     public function userGroups()
     {
@@ -363,15 +321,6 @@ class User extends Authenticatable implements HasAvatar
     {
         return $this->hasMany(AssetMaintenance::class);
     }
-
-
-
-
-    // public function groups()
-    // {
-    //     return $this->belongsToMany(UserGroup::class, 'user_user_group')
-    //         ->using(UserUserGroup::class);
-    // }
 }
 
 

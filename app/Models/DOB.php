@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Spatie\Activitylog\LogOptions;
+use App\Models\Traits\HasAssignments;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,7 +16,7 @@ class DOB extends Model
     protected $table = 'd_o_b_s';
 
 
-    use HasFactory, LogsActivity;
+    use HasFactory, LogsActivity, HasAssignments;
 
     public function getActivitylogOptions(): LogOptions
     {

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Spatie\Activitylog\LogOptions;
+use App\Models\Traits\HasAssignments;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -12,7 +13,7 @@ class Pos extends Model
 {
     protected $table = 'pos';
 
-    use HasFactory, Notifiable, LogsActivity;
+    use HasFactory, Notifiable, LogsActivity, HasAssignments;
 
     public function getActivitylogOptions(): LogOptions
     {

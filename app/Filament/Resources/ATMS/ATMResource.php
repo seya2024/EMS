@@ -37,14 +37,13 @@ class ATMResource extends Resource
         return ATMSTable::configure($table)->emptyStateDescription('Once you add your first ATM, it will appear here.')
 
             ->groups([
-                Group::make('branch.district.name')
+                Group::make('branch.district.name')->label('District Office')
                     ->getDescriptionFromRecordUsing(fn(ATM $record): string => $record->status?->getDescription() ?? ' List of ATMs under above district office with respective ranches')->collapsible(),
-                Group::make('branch.name')->collapsible(),
-                Group::make('type')->collapsible(),
-                Group::make('design')->collapsible(),
+                Group::make('branch.name')->label('Castodian Branch')->collapsible(),
+                Group::make('type')->label('ATM Type')->collapsible(),
+                Group::make('design')->label('ATM Design')->collapsible(),
 
-
-            ])->collapsedGroupsByDefault();
+            ]); //->collapsedGroupsByDefault();
 
         // You can uncomment below if you want a simpler grouping example:
         // return $table->groups(['author.name']);

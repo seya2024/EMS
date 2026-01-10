@@ -19,15 +19,19 @@ use Filament\Forms\Components\Select;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
-
-
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Forms\Components\Placeholder;
+use App\Filament\Resources\Concerns\HasAssignReturnActions;
 use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
 
 
 class ComputersTable
 {
+
+    use HasAssignReturnActions;
+
     public static function configure(Table $table): Table
     {
 
@@ -51,11 +55,17 @@ class ComputersTable
                 TextColumn::make('ramSize')->label('RAM Size'),
                 TextColumn::make('speed')->label('Processor Speed'),
                 TextColumn::make('os')->label('Operating System')->searchable()->sortable(),
-                TextColumn::make('branch')->label('Ownership')->getStateUsing(
+                TextColumn::make('branch')->label('Cost Center')->getStateUsing(
                     fn($record) => "{$record->branch?->name} - {$record->branch?->district?->name}"
                 ),
                 TextColumn::make('hostName')->label('Host Name'),
                 TextColumn::make('status')->label('Status')->searchable()->sortable(),
+
+                TextColumn::make('status')
+                    ->label('Status')
+                    ->getStateUsing(fn($record) => $record->isTaken() ? 'Taken' : 'Available')
+                    ->color(fn($record) => $record->isTaken() ? 'danger' : 'success')
+                    ->sortable(),
             ])->defaultSort('id', 'desc')
 
             //->sortable()->searchable(isIndividual: true, isGlobal: false),
@@ -94,6 +104,9 @@ class ComputersTable
                             ->options(\App\Models\Branch::all()->pluck('name', 'id'))
                             ->required(),
                     ])
+
+
+
                     ->action(function (\Illuminate\Support\Collection $records, array $data) {
                         foreach ($records as $records) {
                             $records->update([
@@ -110,6 +123,110 @@ class ComputersTable
                     )
                     ->color('warning'),
 
+
+                /* ================= Bulk Assign ================= */
+
+                BulkAction::make('bulkAssign')
+                    ->label('Assign Selected')
+                    ->icon('heroicon-o-user')
+                    ->color('primary')
+                    ->form([
+                        Select::make('user_id')
+                            ->label('Assign To')
+                            ->options(
+                                fn() =>
+                                \App\Models\User::with('branch')
+                                    ->orderBy('fname')
+                                    ->get()
+                                    ->mapWithKeys(fn($user) => [
+                                        $user->id =>
+                                        trim("{$user->fname} {$user->mname} {$user->lname}") .
+                                            ($user->branch ? " ({$user->branch->name})" : '')
+                                    ])
+                            )
+                            ->searchable()
+                            ->required(),
+
+                        TextInput::make('condition_out')
+                            ->label('Condition Out')
+                            ->required(),
+                    ])
+                    ->action(function (\Illuminate\Support\Collection $records, array $data) {
+
+                        $assigned = 0;
+                        $skipped  = 0;
+
+                        foreach ($records as $record) {
+                            if ($record->currentAssignment) {
+                                $record->assignments()->create([
+                                    'user_id'       => $data['user_id'],
+                                    'assigned_by'   => Filament::auth()->id(),
+                                    'assigned_at'   => now(),
+                                    'condition_out' => $data['condition_out'],
+                                ]);
+                                $assigned++;
+                            } else {
+                                $skipped++;
+                            }
+                        }
+
+                        if ($assigned === 0) {
+                            Notification::make()
+                                ->title('Assignment Failed')
+                                ->body('All selected assets are already assigned.')
+                                ->danger()
+                                ->send();
+                            return;
+                        }
+
+                        Notification::make()
+                            ->title('Assets Assigned')
+                            ->body(
+                                "Assigned: {$assigned} asset(s)." .
+                                    ($skipped ? " Skipped: {$skipped} already assigned." : '')
+                            )
+                            ->success()
+                            ->send();
+                    }),
+                /* ================= Bulk Return ================= */
+                BulkAction::make('bulkReturn')
+                    ->label('Return Selected')
+                    ->icon('heroicon-o-arrow-left')
+                    ->color('info')
+                    ->form([
+                        TextInput::make('condition_in')
+                            ->label('Condition In')
+                            ->required(),
+                    ])
+                    ->action(function (\Illuminate\Support\Collection $records, array $data) {
+                        $returned = 0;
+                        $skipped  = 0;
+
+                        $users = $records->map(
+                            fn($record) =>
+                            optional($record->assignments()->latest('assigned_at')->first()?->user)->full_name ?? 'Not Assigned'
+                        )->unique()->implode(', ');
+                        foreach ($records as $record) {
+                            if ($record->currentAssignment) {
+
+                                $record->currentAssignment->update([
+                                    'returned_at'  => now(),
+                                    'returned_by'  => Filament::auth()->id(),
+                                    'condition_in' => $data['condition_in'] ?? null,
+
+                                ]);
+                                $returned++;
+                            } else {
+                                $skipped++;
+                            }
+                        }
+
+                        Notification::make()
+                            ->title('Assets Returned')
+                            ->body("Returned: {$returned} asset(s). Skipped: {$skipped}. Users affected: {$users}")
+                            ->success()
+                            ->send();
+                    }),
 
                 /* ================= Disposal ================= */
                 BulkAction::make('dispose')

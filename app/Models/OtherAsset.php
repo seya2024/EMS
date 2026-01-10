@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\Activitylog\LogOptions;
+use App\Models\Traits\HasAssignments;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Spatie\Activitylog\LogOptions;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class OtherAsset extends Model
 {
-    use HasFactory, LogsActivity;
+    use HasFactory, LogsActivity, HasAssignments;
 
     public function getActivitylogOptions(): LogOptions
     {
